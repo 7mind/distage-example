@@ -20,19 +20,19 @@ class PostgresUserPersistence[F[+_, +_]: BIO: BIOAsync]
 
   override def upsert(user: models.User): F[CommonFailure, Unit] = {
     pgConnection.query("upserting-new-user")(queries.upsertUser(user))
-      .leftMap(ec => CommonFailure(s"Error while register into DB ${ec.msg}"))
+      .leftMap(ec => CommonFailure(s"Error while register into DB"))
       .void
   }
 
   override def remove(userId: Email): F[CommonFailure, Unit] = {
     pgConnection.query("deleting-user")(queries.deleteuser(userId))
-      .leftMap(ec => CommonFailure(s"error while removing from DB. Reason: ${ec.msg}"))
+      .leftMap(ec => CommonFailure(s"error while removing from DB. Reason:"))
       .void
   }
 
   override def get(userId: Email): F[CommonFailure, models.User] = {
     pgConnection.query("retrieve")(queries.fetchById(userId))
-      .leftMap(ec => CommonFailure(s"error while getting from DB user. reason: ${ec.msg}"))
+      .leftMap(ec => CommonFailure(s"error while getting from DB user. reason"))
   }
 }
 

@@ -4,14 +4,12 @@ import java.util.concurrent._
 
 import cats.Monad
 import cats.effect._
-import com.github.pshirshov.izumi.distage.model.definition.Id
 import com.github.pshirshov.izumi.distage.plugins.PluginDef
 import com.github.pshirshov.izumi.functional.bio.BIORunner.{DefaultHandler, ZIORunnerBase}
 import com.github.pshirshov.izumi.functional.bio._
 import com.github.pshirshov.izumi.logstage.api.IzLogger
+import distage.Id
 import scalaz.zio.IO
-import scalaz.zio.interop.Task
-import scalaz.zio.interop.catz.ioTimer
 
 import scala.concurrent.ExecutionContext
 
@@ -23,10 +21,14 @@ class BIOPlugin extends PluginDef {
   addImplicit[Sync[cats.effect.IO]]
   addImplicit[Effect[cats.effect.IO]]
 
-  make[Task]
-  make[Timer[IO[Throwable, ?]]].from {
-    implicit clock: scalaz.zio.Clock =>
-      ioTimer[Throwable](clock)
+
+  make[ExecutionContext].named("global").from {
+    ExecutionContext.Implicits.global
+  }
+
+  make[ContextShift[cats.effect.IO]].named("global").from {
+    implicit ec: ExecutionContext@Id("global") =>
+      cats.effect.IO.contextShift(ec)
   }
 
   addImplicit[BIO[IO]]
@@ -43,7 +45,7 @@ class BIOPlugin extends PluginDef {
   }
 
   make[BIORunner[IO]].from {
-    (logger: IzLogger, es : ExecutorService @Id("zio-es")) => {
+    (logger: IzLogger, es: ExecutorService@Id("zio-es")) => {
       LoggingZioRunner.apply(es, logger)
     }
   }
