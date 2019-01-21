@@ -11,13 +11,14 @@ import akka.http.scaladsl.server.directives.RouteDirectives
 import akka.stream.ActorMaterializer
 import com.github.pshirshov.izumi.distage.config.annotations.ConfPath
 import com.github.pshirshov.izumi.distage.model.definition.Id
+import com.github.pshirshov.izumi.functional.bio.BIO
 import com.github.ratoshniuk.izumi.distage.sample.http.HttpServerLauncher.HttpConfig
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class HttpServerLauncher
+class HttpServerLauncher[F[+_, +_] : BIO]
 (
-  routes: Set[RouterSet]
+  routes: Set[RouterSet[F]]
 , httpCfg: HttpConfig @ConfPath("http")
 )
 (implicit as: ActorSystem, mat: ActorMaterializer, ec: ExecutionContext@Id("akka-ec")) extends AutoCloseable {

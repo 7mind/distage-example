@@ -20,19 +20,19 @@ class PostgresUserPersistence[F[+_, +_]: BIO: BIOAsync]
 
   override def upsert(user: models.User): F[CommonFailure, Unit] = {
     pgConnection.query("upserting-new-user")(queries.upsertUser(user))
-      .leftMap(ec => CommonFailure(s"Error while register into DB"))
+      .leftMap(ec => CommonFailure(s"Error while register into DB ${ec.msg}"))
       .void
   }
 
   override def remove(userId: Email): F[CommonFailure, Unit] = {
     pgConnection.query("deleting-user")(queries.deleteuser(userId))
-      .leftMap(ec => CommonFailure(s"error while removing from DB. Reason:"))
+      .leftMap(ec => CommonFailure(s"error while removing from DB. Reason: ${ec.msg}"))
       .void
   }
 
   override def get(userId: Email): F[CommonFailure, models.User] = {
     pgConnection.query("retrieve")(queries.fetchById(userId))
-      .leftMap(ec => CommonFailure(s"error while getting from DB user. reason"))
+      .leftMap(ec => CommonFailure(s"error while getting from DB user. reason: ${ec.msg}"))
   }
 }
 
@@ -40,18 +40,16 @@ object PostgresUserPersistence {
   object queries {
     implicit def stringToConst(str: String): Fragment = const(str)
 
-    private[this] val usersTable = "public.distage_sample"
-
     def upsertUser(user: User): doobie.ConnectionIO[Int] = {
       sql"""
-           |insert into $usersTable (email_id, id, first_name, second_name) values (${user.id}, ${user.data.id}, ${user.data.firstName}, ${user.data.secondName})
+           |insert into public.distage_sample (email_id, id, first_name, second_name) values (${user.id}, ${user.data.id}, ${user.data.firstName}, ${user.data.secondName})
            | on conflict (email_id) do update
            | set id = excluded.id, first_name = excluded.first_name, second_name = excluded.second_name;
        """.stripMargin.update.run
     }
 
     def fetchById(userId: Email): doobie.ConnectionIO[User] = {
-      sql"""select id, first_name, second_name from $usersTable where email_id = $userId;"""
+      sql"""select id, first_name, second_name from public.distage_sample where email_id = $userId;"""
         .stripMargin
         .query[UserData]
         .map(User(userId, _))
@@ -59,12 +57,12 @@ object PostgresUserPersistence {
     }
 
     def cleanupTable(): doobie.ConnectionIO[Int] = {
-      sql"truncate table $usersTable;".update.run
+      sql"truncate table public.distage_sample;".update.run
     }
 
 
     def deleteuser(email: Email): doobie.ConnectionIO[Int] = {
-      sql"delete from $usersTable where email_id = $email;".update.run
+      sql"delete from public.distage_sample where email_id = $email;".update.run
     }
 
   }

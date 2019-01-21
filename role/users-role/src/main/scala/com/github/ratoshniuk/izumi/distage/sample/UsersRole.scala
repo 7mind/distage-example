@@ -9,7 +9,7 @@ import com.github.ratoshniuk.izumi.distage.sample.http.HttpComponent
 @RoleId("users")
 class UsersRole[F[+ _, + _] : BIO : BIORunner]
 (
-  http: HttpComponent
+  http: HttpComponent[F]
   , logger: IzLogger
 ) extends RoleService {
 

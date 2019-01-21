@@ -12,13 +12,13 @@ import com.github.ratoshniuk.izumi.distage.sample.Models
 import com.github.ratoshniuk.izumi.distage.sample.Models.CommonFailure
 import com.github.ratoshniuk.izumi.distage.sample.users.services.models.UserData
 import com.github.ratoshniuk.izumi.distage.sample.users.services.{UserThirdParty, models}
-import io.circe.Json
 import io.circe.parser.parse
+import io.circe.{DecodingFailure, Json}
+
 import scala.concurrent.duration.{Duration, _}
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.language.postfixOps
-import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
-import io.circe.generic.auto._
+
 class ProductionUserThirdparty[F[+ _, + _] : BIO : BIOAsync]
 ()
 (
@@ -31,18 +31,21 @@ class ProductionUserThirdparty[F[+ _, + _] : BIO : BIOAsync]
       response => {
         response.entity.dataBytes.runFold(ByteString(""))(_ ++ _)
           .map(_.utf8String)
-          .map(str => BIO[F].fromEither(parse(str)))
+          .map(str => {
+            BIO[F].fromEither(parse(str))
+          })
       }
     }
-
-    val a = BIOOps.fromFutureF[F, Throwable, Json](put, 20 seconds)
+    BIOOps.fromFutureF[F, Throwable, Json](put, 20 seconds)
+      .leftMap(thr => CommonFailure(s"error while performing http request. ${thr.getMessage}"))
       .flatMap {
         json =>
-          BIO[F].fromEither(json.as[UserData])
-            .leftMap(f => new Exception(f.getMessage()))
+          val parsing = json.hcursor.downField("data").focus.map(_.as[UserData])
+            .getOrElse(Left(DecodingFailure.apply("Error while parsing", Nil)))
+          BIO[F].fromEither(parsing)
+            .leftMap(f => CommonFailure(s"Erro while fetching user from REST API. ${f.getMessage}"))
       }
 
-    a.leftMap(thr => CommonFailure(s"Erro while fetching user from REST API. ${thr.getMessage}"))
   }
 }
 

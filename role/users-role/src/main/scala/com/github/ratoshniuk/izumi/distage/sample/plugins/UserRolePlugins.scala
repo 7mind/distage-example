@@ -3,6 +3,7 @@ package com.github.ratoshniuk.izumi.distage.sample.plugins
 import com.github.pshirshov.izumi.distage.plugins.PluginDef
 import com.github.pshirshov.izumi.distage.roles.RoleService
 import com.github.ratoshniuk.izumi.distage.sample.UsersRole
+import com.github.ratoshniuk.izumi.distage.sample.http.routes.UserServiceRest
 import com.github.ratoshniuk.izumi.distage.sample.http.{HttpComponent, HttpServerLauncher, RouterSet}
 import com.github.ratoshniuk.izumi.distage.sample.modules.UserPersistenceModules.{UserDummyPersistenceBase, UserProductionPersistenceBase}
 import com.github.ratoshniuk.izumi.distage.sample.modules.UserThirdPartyModules.{UserThirdPartyDummyBase, UserThirdPartyProductionBase}
@@ -26,8 +27,10 @@ class UserRolePlugin extends PluginDef {
   make[RoleService].named("users").from[UsersRole[IO]]
 }
 
-class SS extends PluginDef {
-  many[RouterSet]
-  make[HttpServerLauncher]
-  make[HttpComponent]
+class HttpIOPlugin extends PluginDef {
+  tag("users")
+  many[RouterSet[IO]]
+      .add[UserServiceRest[IO]]
+  make[HttpServerLauncher[IO]]
+  make[HttpComponent[IO]]
 }

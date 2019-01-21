@@ -11,6 +11,8 @@ import doobie.free.connection.ConnectionIO
 import doobie.hikari.HikariTransactor
 import doobie.syntax.connectionio._
 import logstage.IzLogger
+import scalaz.zio.ExitResult.Cause
+import scalaz.zio.FiberFailure
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
@@ -38,20 +40,10 @@ object PostgresConnector {
       for {
         res <- {
           BIO[F].syncThrowable(query.transact(mkTransactor).unsafeRunSync())
-            .sandboxWith(_.catchAll {
-              case Left(errors) =>
-                //                val failure = errors.map(Cause.unchecked).reduceOption(_ ++ _).map(FiberFailure(_))
-                val stackTrace = ""
-                BIO[F].sync(log.error(s"Uncaught defect from doobie: $stackTrace")) *>
-                  BIO[F].fail(Right(QueryException(s"Query $metaName failed due to unhandled defect: $stackTrace")))
-              case Right(exc) =>
-                BIO[F].fail(Right(QueryException(s"Query $metaName failed due to exception: $exc")))
-
-            })
-            .timeout(timeout)
-            .flatMap(f => {
-              BIO[F] fromEither f.toRight(TimeoutException(s"Query $metaName timed out"))
-            })
+            .leftMap(thr => QueryException(thr.getMessage ))
+//            .flatMap(f => {
+//              BIO[F] fromEither f.toRight(TimeoutException(s"Query $metaName timed out"))
+//            })
         }
       } yield res
     }
