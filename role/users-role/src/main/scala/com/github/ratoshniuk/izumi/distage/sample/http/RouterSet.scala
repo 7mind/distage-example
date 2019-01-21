@@ -10,7 +10,7 @@ import com.github.ratoshniuk.izumi.distage.sample.http.RouterSet.ResponseData._
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._
 import io.circe.syntax._
-import io.circe.{Decoder, Encoder, Json}
+import io.circe.{Decoder, Encoder}
 
 abstract class RouterSet[F[+ _, + _] : BIO : BIORunner] {
   def akkaRouter: server.Route

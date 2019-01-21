@@ -2,17 +2,15 @@ package com.github.ratoshniuk.izumi.distage.sample.users.services.production
 
 import cats.effect.{ContextShift, IO => CIO}
 import com.github.pshirshov.izumi.distage.config.annotations.ConfPath
-import com.github.pshirshov.izumi.functional.bio.{BIO, BIOAsync}
 import com.github.pshirshov.izumi.functional.bio.BIO._
-import com.github.ratoshniuk.izumi.distage.sample.users.services.production.PostgresException.{QueryException, TimeoutException}
+import com.github.pshirshov.izumi.functional.bio.{BIO, BIOAsync}
+import com.github.ratoshniuk.izumi.distage.sample.users.services.production.PostgresException.QueryException
 import com.zaxxer.hikari.HikariDataSource
 import distage.Id
 import doobie.free.connection.ConnectionIO
 import doobie.hikari.HikariTransactor
 import doobie.syntax.connectionio._
 import logstage.IzLogger
-import scalaz.zio.ExitResult.Cause
-import scalaz.zio.FiberFailure
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
@@ -41,9 +39,6 @@ object PostgresConnector {
         res <- {
           BIO[F].syncThrowable(query.transact(mkTransactor).unsafeRunSync())
             .leftMap(thr => QueryException(thr.getMessage ))
-//            .flatMap(f => {
-//              BIO[F] fromEither f.toRight(TimeoutException(s"Query $metaName timed out"))
-//            })
         }
       } yield res
     }

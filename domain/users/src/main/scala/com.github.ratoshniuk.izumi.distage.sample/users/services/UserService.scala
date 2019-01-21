@@ -10,8 +10,6 @@ final class UserService[F[+_, +_] : BIO]
 (
   storage: UserPersistence[F]
   , externalStorage: UserThirdParty[F]
-  , logger: IzLogger
-
 ) {
 
   def upsert(userId: Int, email: Email) : F[CommonFailure, Unit] = {

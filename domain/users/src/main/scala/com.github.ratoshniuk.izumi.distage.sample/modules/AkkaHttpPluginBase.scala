@@ -2,7 +2,7 @@ package com.github.ratoshniuk.izumi.distage.sample.modules
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
-import com.github.pshirshov.izumi.distage.model.definition.{Id, ModuleDef}
+import com.github.pshirshov.izumi.distage.model.definition.ModuleDef
 
 import scala.concurrent.ExecutionContext
 

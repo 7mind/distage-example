@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicReference
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
-import akka.http.scaladsl.server.{Directive, Route}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.directives.RouteDirectives
 import akka.stream.ActorMaterializer
@@ -16,10 +15,10 @@ import com.github.ratoshniuk.izumi.distage.sample.http.HttpServerLauncher.HttpCo
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class HttpServerLauncher[F[+_, +_] : BIO]
+class HttpServerLauncher[F[+ _, + _] : BIO]
 (
   routes: Set[RouterSet[F]]
-, httpCfg: HttpConfig @ConfPath("http")
+  , httpCfg: HttpConfig@ConfPath("http")
 )
 (implicit as: ActorSystem, mat: ActorMaterializer, ec: ExecutionContext@Id("akka-ec")) extends AutoCloseable {
 
@@ -42,5 +41,7 @@ class HttpServerLauncher[F[+_, +_] : BIO]
 }
 
 object HttpServerLauncher {
+
   case class HttpConfig(host: String, port: Int)
+
 }

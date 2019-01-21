@@ -4,8 +4,8 @@ import com.github.pshirshov.izumi.distage.plugins.PluginDef
 import com.github.pshirshov.izumi.functional.bio.BIO._
 import com.github.ratoshniuk.izumi.distage.sample.env.UserRandomSpec
 import com.github.ratoshniuk.izumi.distage.sample.services.UserServiceTest.Ctx
-import com.github.ratoshniuk.izumi.distage.sample.users.services.{UserPersistence, UserService}
 import com.github.ratoshniuk.izumi.distage.sample.users.services.production.PostgresCfg
+import com.github.ratoshniuk.izumi.distage.sample.users.services.{UserPersistence, UserService}
 import com.github.ratoshniuk.izumi.distage.sample.{RandomSpec, TestBIO}
 import org.scalatest.Assertion
 import scalaz.zio.IO
