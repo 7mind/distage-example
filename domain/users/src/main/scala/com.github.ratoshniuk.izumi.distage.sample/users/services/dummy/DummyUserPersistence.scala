@@ -11,7 +11,7 @@ class DummyUserPersistence[F[+ _, + _] : BIO] extends UserPersistence[F] {
   private val storage = scala.collection.mutable.HashMap.empty[Email, User]
 
   override def upsert(user: User): F[CommonFailure, Unit] = {
-    syncBIO(storage.update(user.id, user))
+    syncBIO(storage.update(user.email, user))
   }
 
   override def remove(userId: Email): F[CommonFailure, Unit] = {

@@ -42,7 +42,7 @@ object PostgresUserPersistence {
 
     def upsertUser(user: User): doobie.ConnectionIO[Int] = {
       sql"""
-           |insert into public.distage_sample (email_id, id, first_name, second_name) values (${user.id}, ${user.data.id}, ${user.data.firstName}, ${user.data.secondName})
+           |insert into public.distage_sample (email_id, id, first_name, second_name) values (${user.email}, ${user.data.id}, ${user.data.firstName}, ${user.data.secondName})
            | on conflict (email_id) do update
            | set id = excluded.id, first_name = excluded.first_name, second_name = excluded.second_name;
        """.stripMargin.update.run

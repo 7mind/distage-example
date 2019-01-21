@@ -5,7 +5,7 @@ import io.circe.Decoder
 object models {
 
   type Email = String
-  case class User(id: Email, data: UserData)
+  case class User(email: Email, data: UserData)
 
   case class UserData(id: Int, firstName: String, secondName: String) {
     def toUser(email: Email) : User = User(email, this)

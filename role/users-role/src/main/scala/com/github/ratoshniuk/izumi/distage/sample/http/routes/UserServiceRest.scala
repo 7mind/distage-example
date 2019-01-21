@@ -32,7 +32,10 @@ class UserServiceRest[F[+ _, + _] : BIO : BIORunner]
           } ~
             delete {
               userService.delete(email)
-                .asResponse(f => internalF(f.reason), success)
+                .asResponse(
+                  f => internalF(f.reason),
+                  _ => success("Successfully cleaned up")
+                )
             }
         }
       }
@@ -54,4 +57,5 @@ object UserServiceRest {
   type Email = String
 
   case class ExternalUserRequest(email: String, id: Int)
+
 }
