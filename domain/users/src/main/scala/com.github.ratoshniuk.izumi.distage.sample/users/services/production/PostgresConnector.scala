@@ -27,7 +27,7 @@ object PostgresConnector {
 
   final class Impl[F[+_, +_]: BIO: BIOAsync]
   (
-    cfg: PostgresCfg@ConfPath("postgres")
+    @ConfPath("postgres") cfg: PostgresCfg
     , blockingIOExecutionContext: ExecutionContext@Id("blockingIO")
     , log: IzLogger
   )(implicit cs: ContextShift[CIO] @Id("global")) extends AutoCloseable with PostgresConnector[F]  {

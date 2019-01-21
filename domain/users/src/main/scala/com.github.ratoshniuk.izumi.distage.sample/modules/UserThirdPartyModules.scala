@@ -10,12 +10,12 @@ import distage.TagKK
 object UserThirdPartyModules {
 
   class UserThirdPartyDummyBase[F[+ _, + _] : BIO : TagKK] extends ModuleDef {
-    tag("users", "dummy", "test", "thirdparty")
+    tag("users", "dummy", "test", "storage")
     make[UserThirdParty[F]].from[DummyUserThirdParty[F]]
   }
 
   class UserThirdPartyProductionBase[F[+ _, + _] : BIO : TagKK] extends ModuleDef {
-    tag("users", "production", "thirdparty")
+    tag("users", "production", "storage")
     make[UserThirdParty[F]].from[ProductionUserThirdparty[F]]
   }
 }

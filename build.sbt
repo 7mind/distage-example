@@ -25,6 +25,7 @@ val GlobalSettings = new DefaultGlobalSettingsGroup {
       IzumiDeps.T.scalatest,
       Izumi.R.fundamentals_bio,
       Izumi.R.logstage_di
+      , Izumi.R.distage_testkit
     ) ++ IzumiDeps.R.cats_all,
   )
 }

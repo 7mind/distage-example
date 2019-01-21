@@ -20,14 +20,13 @@ class DummyUserPersistence[F[+ _, + _] : BIO] extends UserPersistence[F] {
   }
 
   override def get(userId: Email): F[CommonFailure, User] = {
-    syncBIO {
-      storage.getOrElse(userId, throw new IllegalArgumentException("Can't fetch user by requested id"))
-    }
+   BIO[F].syncThrowable(storage(userId))
+     .leftMap(thr => CommonFailure(thr.getMessage, thr))
   }
 
   private def syncBIO[T](f: T): F[CommonFailure, T] = {
     BIO[F]
       .syncThrowable(synchronized(f))
-      .leftMap(thr => CommonFailure("", thr))
+      .leftMap(thr => CommonFailure(thr.getMessage, thr))
   }
 }
