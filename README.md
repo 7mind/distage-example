@@ -1,17 +1,17 @@
 # distage-sample
 
-preriquisists to install:
+Install requirements:
 - java 11
 - sbt 1.2.7
 - docker
 
-folder *devops* containts postman collection for manual testing 
+*devops* directory contains `postman` requests for manual testing 
 
 installation guide
-- run docker-compose up (it will ddl table for users's storage)
-- make git checkout .idea inside folder in case of running via intellij idea . it will fetch runConfiguration. 
-  first is productin (with postgres and akka http client)
-  seconds is dummy (mocked in-mem storages)
+- run `docker-compose up` (it will ddl table for users's storage)
+- If using Intellij IDEA run `git checkout .idea` to fetch `runConfigurations`:
+  - First configuration will launch the app in production mode (with postgres and akka http client)
+  - Second configuration is dummy (with mock in-memory database)
 
-- to run tests please do follow in root:
-  sbt clean update test
+- to run tests execute the following:
+  `sbt clean update test`
