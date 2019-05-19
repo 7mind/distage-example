@@ -2,7 +2,7 @@ package com.github.ratoshniuk.izumi.distage.sample.storages
 
 import com.github.pshirshov.izumi.distage.plugins.PluginDef
 import com.github.pshirshov.izumi.functional.bio.BIO._
-import com.github.ratoshniuk.izumi.distage.sample.env.UserRandomSpec
+import com.github.ratoshniuk.izumi.distage.sample.env.{UserRandomSpec, ZIOEnvTest}
 import com.github.ratoshniuk.izumi.distage.sample.storages.InternalStorageTest.Ctx
 import com.github.ratoshniuk.izumi.distage.sample.users.services.UserPersistence
 import com.github.ratoshniuk.izumi.distage.sample.users.services.models.User
@@ -24,57 +24,41 @@ class PGPlugin extends PluginDef {
     )
   }
 }
-abstract class InternalStorageTest extends TestBIO
+abstract class InternalStorageTest extends ZIOEnvTest
   with Assertion
   with RandomSpec with UserRandomSpec {
 
   "internal storage" must {
 
-    "upsert correctly" in dio {
-      ctx: Ctx =>
-        import ctx.storage
+    "upsert correctly" in testZIOEnv {
+      val testEmail = random[Email].get
+      val userData1 = random[User].copy(email = testEmail)
 
-        val testEmail = random[Email].get
-        val userData1 = random[User].copy(email = testEmail)
-
-        for {
-          _ <- storage.upsert(userData1)
-          read1 <- storage.get(testEmail)
-          _ = assert(read1 == userData1)
-          userData2 = random[User].copy(email = testEmail)
-          _ <- storage.upsert(userData2)
-          read2 <- storage.get(testEmail)
-          _ = assert(read2 == userData2)
-        } yield {
-        }
-
+      for {
+        _ <- storage.upsert(userData1)
+        read1 <- storage.get(testEmail)
+        _ = assert(read1 == userData1)
+        userData2 = random[User].copy(email = testEmail)
+        _ <- storage.upsert(userData2)
+        read2 <- storage.get(testEmail)
+        _ = assert(read2 == userData2)
+      } yield ()
     }
 
-    "delete correctly" in dio {
-      ctx: Ctx =>
-        import ctx.storage
-
-        val testEmail = random[Email].get
-        val userData = random[User].copy(email = testEmail)
-        for {
-          _ <- storage.upsert(userData)
-          read1 <- storage.get(testEmail).redeemPure(_ => None, Some(_))
-          _ = assert(read1.contains(userData))
-          _ <- storage.remove(testEmail)
-          read2 <- storage.get(testEmail).redeemPure(_ => None, Some(_))
-          _ = assert(read2.isEmpty)
-        } yield ()
-
+    "delete correctly" in testZIOEnv {
+      val testEmail = random[Email].get
+      val userData = random[User].copy(email = testEmail)
+      for {
+        _ <- storage.upsert(userData)
+        read1 <- storage.get(testEmail).redeemPure(_ => None, Some(_))
+        _ = assert(read1.contains(userData))
+        _ <- storage.remove(testEmail)
+        read2 <- storage.get(testEmail).redeemPure(_ => None, Some(_))
+        _ = assert(read2.isEmpty)
+      } yield ()
     }
   }
 }
-
-object InternalStorageTest {
-
-  case class Ctx(storage: UserPersistence[IO])
-
-}
-
 
 final class DummyInternalStorage extends InternalStorageTest {
   override val dummy: Boolean = true

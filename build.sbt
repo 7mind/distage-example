@@ -92,6 +92,11 @@ lazy val common = inLib.as.module
 
 lazy val users = inDomain.as.module
   .depends(common)
+  .settings(
+    libraryDependencies ++= Seq(
+      Izumi.T.distage_static
+    )
+  )
 
 lazy val usersRole = inRoles.as.module
   .depends(users)

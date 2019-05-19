@@ -7,7 +7,7 @@ import org.scalatest.Assertion
 
 trait UserRandomSpec extends RandomSpec {
   this: Assertion =>
-  implicit def randoUserData: Random[UserData] = {
+  implicit def randomUserData: Random[UserData] = {
     () => {
       UserData(implicitly[Random[Int]].perform(), implicitly[Random[String]].perform(), implicitly[Random[String]].perform())
     }
