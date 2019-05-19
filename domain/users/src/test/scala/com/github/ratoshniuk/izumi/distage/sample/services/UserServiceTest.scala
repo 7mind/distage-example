@@ -2,10 +2,11 @@ package com.github.ratoshniuk.izumi.distage.sample.services
 
 import com.github.pshirshov.izumi.distage.plugins.PluginDef
 import com.github.pshirshov.izumi.functional.bio.BIO._
-import com.github.ratoshniuk.izumi.distage.sample.RandomSpec
-import com.github.ratoshniuk.izumi.distage.sample.env.{UserRandomSpec, ZIOEnvTest}
+import com.github.ratoshniuk.izumi.distage.sample.{Models, RandomSpec}
+import com.github.ratoshniuk.izumi.distage.sample.env.{UserPersistenceHandle, UserRandomSpec, UserServiceHandle, ZIOEnvTest}
 import com.github.ratoshniuk.izumi.distage.sample.users.services.production.PostgresDataSource.PostgresCfg
 import org.scalatest.Assertion
+import scalaz.zio.ZIO
 
 import scala.concurrent.duration._
 
@@ -41,15 +42,20 @@ abstract class UserServiceTest extends ZIOEnvTest
 
     "delete correctly" in testZIOEnv {
       val email = random[Email].get
-      for {
-        _ <- userService.upsert(1, email)
-        resFromThirdparty <- userService.retrieve(email).redeemPure(_ => None, Some(_))
-        _ = assert(resFromThirdparty.isDefined)
-        _ <- userService.delete(email)
-        res2 <- userService.retrieve(email).redeemPure(_ => None, Some(_))
-        resFromDb <- storage.get(email).redeemPure(_ => None, Some(_))
-        _ = assert(res2 == resFromDb)
-      } yield ()
+
+      // show the type of R
+      val testCase: ZIO[UserPersistenceHandle with UserServiceHandle, Models.CommonFailure, Unit] =
+        for {
+          _ <- userService.upsert(1, email)
+          resFromThirdparty <- userService.retrieve(email).redeemPure(_ => None, Some(_))
+          _ = assert(resFromThirdparty.isDefined)
+          _ <- userService.delete(email)
+          res2 <- userService.retrieve(email).redeemPure(_ => None, Some(_))
+          resFromDb <- storage.get(email).redeemPure(_ => None, Some(_))
+          _ = assert(res2 == resFromDb)
+        } yield ()
+
+      testCase
     }
   }
 
