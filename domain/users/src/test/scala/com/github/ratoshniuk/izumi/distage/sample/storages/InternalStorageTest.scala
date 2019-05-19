@@ -4,9 +4,9 @@ import com.github.pshirshov.izumi.distage.plugins.PluginDef
 import com.github.pshirshov.izumi.functional.bio.BIO._
 import com.github.ratoshniuk.izumi.distage.sample.env.UserRandomSpec
 import com.github.ratoshniuk.izumi.distage.sample.storages.InternalStorageTest.Ctx
-import com.github.ratoshniuk.izumi.distage.sample.users.services.models.{User, UserData}
-import com.github.ratoshniuk.izumi.distage.sample.users.services.production.PostgresCfg
-import com.github.ratoshniuk.izumi.distage.sample.users.services.{UserPersistence, models}
+import com.github.ratoshniuk.izumi.distage.sample.users.services.UserPersistence
+import com.github.ratoshniuk.izumi.distage.sample.users.services.models.User
+import com.github.ratoshniuk.izumi.distage.sample.users.services.production.PostgresDataSource.PostgresCfg
 import com.github.ratoshniuk.izumi.distage.sample.{RandomSpec, TestBIO}
 import org.scalatest.Assertion
 import scalaz.zio.IO
@@ -15,9 +15,12 @@ import scala.concurrent.duration._
 
 class PGPlugin extends PluginDef {
   make[PostgresCfg].from {
-    PostgresCfg("org.postgresql.Driver"
-      , "jdbc:postgresql://localhost/distage"
-      , "distage", "distage", 20.seconds
+    PostgresCfg(
+      jdbcDriver = "org.postgresql.Driver"
+    , url = "jdbc:postgresql://localhost/distage"
+    , user = "distage"
+    , password = "distage"
+    , defTimeout = 20.seconds
     )
   }
 }
@@ -27,7 +30,7 @@ abstract class InternalStorageTest extends TestBIO
 
   "internal storage" must {
 
-    "upsert correctly" in testBIO {
+    "upsert correctly" in dio {
       ctx: Ctx =>
         import ctx.storage
 
@@ -47,9 +50,10 @@ abstract class InternalStorageTest extends TestBIO
 
     }
 
-    "delete correctly" in testBIO {
+    "delete correctly" in dio {
       ctx: Ctx =>
         import ctx.storage
+
         val testEmail = random[Email].get
         val userData = random[User].copy(email = testEmail)
         for {
@@ -76,6 +80,6 @@ final class DummyInternalStorage extends InternalStorageTest {
   override val dummy: Boolean = true
 }
 
-final class ProdutctionInternalStorage extends InternalStorageTest {
+final class ProductionInternalStorage extends InternalStorageTest {
   override val dummy: Boolean = false
 }

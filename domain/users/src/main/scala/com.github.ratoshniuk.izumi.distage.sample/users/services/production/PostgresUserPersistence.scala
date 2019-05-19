@@ -6,16 +6,11 @@ import com.github.ratoshniuk.izumi.distage.sample.Models.CommonFailure
 import com.github.ratoshniuk.izumi.distage.sample.users.services.models.{Email, User, UserData}
 import com.github.ratoshniuk.izumi.distage.sample.users.services.production.PostgresUserPersistence.queries
 import com.github.ratoshniuk.izumi.distage.sample.users.services.{UserPersistence, models}
-import doobie.Fragment
-import doobie.Fragment.const
 import doobie.implicits._
 
-import scala.language.implicitConversions
-
-class PostgresUserPersistence[F[+_, +_]: BIO: BIOAsync]
+final class PostgresUserPersistence[F[+_, +_]: BIO: BIOAsync]
 (
   pgConnection: PostgresConnector[F]
-
 ) extends UserPersistence[F] {
 
   override def upsert(user: models.User): F[CommonFailure, Unit] = {
@@ -38,8 +33,6 @@ class PostgresUserPersistence[F[+_, +_]: BIO: BIOAsync]
 
 object PostgresUserPersistence {
   object queries {
-    implicit def stringToConst(str: String): Fragment = const(str)
-
     def upsertUser(user: User): doobie.ConnectionIO[Int] = {
       sql"""
            |insert into public.distage_sample (email_id, id, first_name, second_name) values (${user.email}, ${user.data.id}, ${user.data.firstName}, ${user.data.secondName})

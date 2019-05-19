@@ -13,7 +13,7 @@ final class DummyUserThirdParty[F[+_, +_]: BIO] extends UserThirdParty[F] {
 
   override def fetchUser(userId: Int): F[CommonFailure, models.UserData] = {
     idsAllowed.find(_ == userId).map(UserData(_, "firstName", "secondName"))
-      .map(data => BIO[F].point(data))
+      .map(data => BIO[F].now(data))
       .getOrElse(BIO[F].fail(CommonFailure(s"Can't find user by requested id $userId")))
   }
 }

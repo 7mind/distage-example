@@ -1,16 +1,14 @@
-import com.github.pshirshov.izumi.sbt.deps.Izumi.Deps
 import com.github.pshirshov.izumi.sbt.deps.IzumiDeps
 import com.github.pshirshov.izumi.sbt.deps.IzumiDeps.{R, V}
 import sbt.Keys.libraryDependencies
 
-name := "distage-workshop"
+name := "distage-sample"
 
 version := "0.1"
 
 scalaVersion := "2.12.8"
 
 organization in ThisBuild := "com.github.ratoshniuk.izumi.distage"
-
 
 enablePlugins(IzumiGitEnvironmentPlugin)
 
@@ -20,16 +18,18 @@ val GlobalSettings = new DefaultGlobalSettingsGroup {
       V.scala_212,
     ),
     addCompilerPlugin(R.kind_projector),
+
     libraryDependencies ++= Seq(
       Izumi.R.distage_plugins,
       IzumiDeps.T.scalatest,
       Izumi.R.fundamentals_bio,
-      Izumi.R.logstage_di
-      , Izumi.R.distage_testkit
+      Izumi.R.logstage_di,
+      Izumi.R.distage_testkit,
     ) ++ IzumiDeps.R.cats_all,
   )
 }
 
+// exclude assembly for libraries
 lazy val WithoutBadPlugins = new SettingsGroup {
   override val disabledPlugins: Set[sbt.AutoPlugin] = Set(AssemblyPlugin)
 }
@@ -45,7 +45,7 @@ lazy val DomainSettings = new SettingsGroup {
 lazy val AppSettings = new SettingsGroup {
   override val plugins: Set[sbt.Plugins] = Set(AssemblyPlugin)
   override val settings: Seq[sbt.Setting[_]] = Seq(
-    libraryDependencies ++= Seq(Izumi.R.distage_roles, Izumi.R.distage_app),
+    libraryDependencies ++= Seq(Izumi.R.distage_roles),
   )
 }
 
@@ -85,8 +85,8 @@ lazy val inSbt = In("sbt").settings(SbtSettings, WithoutBadPlugins)
 lazy val common = inLib.as.module
   .settings(
     libraryDependencies ++= Seq(
-      IzumiDeps.R.zio_interop
-      , IzumiDeps.R.zio_core
+      IzumiDeps.R.zio_interop,
+      IzumiDeps.R.zio_core,
     )
   )
 

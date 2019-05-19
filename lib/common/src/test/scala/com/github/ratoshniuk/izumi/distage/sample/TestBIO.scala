@@ -1,50 +1,30 @@
 package com.github.ratoshniuk.izumi.distage.sample
 
-import java.util.concurrent.Executors
-
-import com.github.pshirshov.izumi.distage.model.definition.BindingTag
-import com.github.pshirshov.izumi.distage.roles.BackendPluginTags
-import com.github.pshirshov.izumi.distage.testkit.DistagePluginSpec
-import com.github.pshirshov.izumi.functional.bio.{BIO, BIORunner}
+import com.github.pshirshov.izumi.distage.model.definition.StandardAxis.Repo
+import com.github.pshirshov.izumi.distage.model.definition.{Axis, AxisBase}
+import com.github.pshirshov.izumi.distage.testkit.{DistageBioSpecBIOSyntax, DistagePluginBioSpec}
 import com.github.pshirshov.izumi.fundamentals.platform.build.ExposedTestScope
-import com.github.pshirshov.izumi.logstage.api.IzLogger
-import com.github.ratoshniuk.izumi.distage.sample.plugins.LoggingZioRunner
-import distage.Tag
 import org.scalatest.Assertion
 import scalaz.zio.IO
 
 import scala.util.Random
 
 @ExposedTestScope
-trait TestBIO extends DistagePluginSpec {
-
-  implicit val bio: BIO[IO] = BIO[IO]
-  implicit val bioRunner: BIORunner[IO] = {
-    val cores = Runtime.getRuntime.availableProcessors.max(2)
-    val es = Executors.newFixedThreadPool(cores)
-    LoggingZioRunner.apply(es, IzLogger.DebugLogger)
-  }
-
-  def testBIO[T: Tag, E, A](f: T => IO[E, A])(implicit bio: BIO[IO], run: BIORunner[IO]): Any = {
-    di[T] {
-      cxt =>
-        val z = bio.leftMap(f(cxt))(err => fail(s"failed running bio. reason: $err"))
-        run.unsafeRun(z)
-    }
-  }
-
+abstract class TestBIO extends DistagePluginBioSpec[IO] with DistageBioSpecBIOSyntax[IO] {
 
   def dummy: Boolean
 
-  override protected def pluginPackages: Seq[String] = super.pluginPackages ++
+  override protected def pluginPackages: Seq[String] = {
     Seq("com.github.ratoshniuk.izumi.distage.sample.plugins")
+  }
 
-  override protected def disabledTags: BindingTag.Expressions.Expr = {
-    if (dummy) {
-      BindingTag.Expressions.all(BackendPluginTags.Production, BackendPluginTags.Storage)
-    } else {
-      BindingTag.Expressions.any(BackendPluginTags.Test, BackendPluginTags.Dummy)
-    }
+  override protected def memoizePlugins: Boolean = false
+
+  override protected def activation: Map[AxisBase, Axis.AxisValue] = {
+    if (dummy)
+      Map(Repo -> Repo.Dummy)
+    else
+      Map(Repo -> Repo.Prod)
   }
 }
 
@@ -58,7 +38,7 @@ trait RandomSpec {
 
   implicit def randomEmail: Random[Email] = {
     () => {
-      new Email(s"${Random.nextString(5)}@${Random.nextString(3)}.com")
+      Email(s"${Random.nextString(5)}@${Random.nextString(3)}.com")
     }
   }
 
@@ -76,7 +56,10 @@ trait RandomSpec {
 
   def random[T: Random]: T = implicitly[Random[T]].perform()
 
-  class Email(val get: String) extends AnyRef
-
+  type Email = RandomSpec.Email
+  val Email = RandomSpec.Email
 }
 
+object RandomSpec {
+  final case class Email(get: String) extends AnyVal
+}

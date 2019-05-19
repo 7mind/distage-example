@@ -1,25 +1,30 @@
 package com.github.ratoshniuk.izumi.distage.sample
 
-import com.github.pshirshov.izumi.distage.roles.{RoleId, RoleService}
-import com.github.pshirshov.izumi.functional.bio.{BIO, BIORunner}
-import com.github.pshirshov.izumi.fundamentals.platform.language.Quirks
-import com.github.pshirshov.izumi.logstage.api.IzLogger
-import com.github.ratoshniuk.izumi.distage.sample.http.HttpComponent
+import com.github.pshirshov.izumi.distage.model.definition.DIResource
+import com.github.pshirshov.izumi.distage.roles.model.{RoleDescriptor, RoleService}
+import com.github.pshirshov.izumi.fundamentals.platform.cli.model.raw.RawEntrypointParams
+import com.github.pshirshov.izumi.fundamentals.platform.language.Quirks._
+import com.github.ratoshniuk.izumi.distage.sample.http.HttpServerLauncher
+import logstage.LogBIO
 
-@RoleId("users")
-class UsersRole[F[+ _, + _] : BIO : BIORunner]
+class UsersRole[F[+ _, + _]]
 (
-  http: HttpComponent[F]
-  , logger: IzLogger
-) extends RoleService {
+  http: HttpServerLauncher.StartedServer
+, log: LogBIO[F]
+) extends RoleService[F[Throwable, ?]] {
 
-  Quirks.discard(http)
+  // force resource start-up
+  http.discard()
 
-  override def start(): Unit = {
-    logger.info("Entrypoint reached: users role")
+  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): DIResource[F[Throwable, ?], Unit] = {
+    DIResource.make(
+      acquire = log.info("Entrypoint reached: users role")
+    )(release = _ =>
+      log.info("Exit reached: users role")
+    )
   }
+}
 
-  override def stop(): Unit = {
-    logger.info("Exit reached: users role")
-  }
+object UsersRole extends RoleDescriptor {
+  override final val id = "users"
 }

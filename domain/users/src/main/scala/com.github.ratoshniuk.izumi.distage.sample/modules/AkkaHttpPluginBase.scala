@@ -7,8 +7,6 @@ import com.github.pshirshov.izumi.distage.model.definition.ModuleDef
 import scala.concurrent.ExecutionContext
 
 class AkkaHttpPluginBase extends ModuleDef {
-  tag("users")
-
   make[ActorSystem].from {
     ActorSystem("distage-sample")
   }

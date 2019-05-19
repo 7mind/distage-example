@@ -21,12 +21,12 @@ class DummyUserPersistence[F[+ _, + _] : BIO] extends UserPersistence[F] {
 
   override def get(userId: Email): F[CommonFailure, User] = {
    BIO[F].syncThrowable(storage(userId))
-     .leftMap(thr => CommonFailure(thr.getMessage, thr))
+     .leftMap(CommonFailure(_))
   }
 
   private def syncBIO[T](f: T): F[CommonFailure, T] = {
     BIO[F]
       .syncThrowable(synchronized(f))
-      .leftMap(thr => CommonFailure(thr.getMessage, thr))
+      .leftMap(CommonFailure(_))
   }
 }

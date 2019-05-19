@@ -1,77 +1,73 @@
 package com.github.ratoshniuk.izumi.distage.sample.plugins
 
-import java.util.concurrent._
+import java.util.concurrent.{LinkedBlockingQueue, ThreadPoolExecutor, TimeUnit}
 
-import cats.Monad
 import cats.effect._
+import com.github.pshirshov.izumi.distage.monadic.modules.ZioDIEffectModule
 import com.github.pshirshov.izumi.distage.plugins.PluginDef
-import com.github.pshirshov.izumi.functional.bio.BIORunner.{DefaultHandler, ZIORunnerBase}
+import com.github.pshirshov.izumi.distage.roles.services.ResourceRewriter
 import com.github.pshirshov.izumi.functional.bio._
-import com.github.pshirshov.izumi.logstage.api.IzLogger
 import distage.Id
-import scalaz.zio.IO
+import logstage.{IzLogger, LogBIO}
+import scalaz.zio
+import scalaz.zio.interop.Util
+import scalaz.zio.interop.catz._
+import scalaz.zio.{IO, Task, ZIO}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
+class BIOPlugin
+  extends ZioDIEffectModule
+  with PluginDef {
 
-class BIOPlugin extends PluginDef {
+  make[zio.clock.Clock].from(zio.clock.Clock.Live)
 
-
-  addImplicit[Monad[cats.effect.IO]]
-  addImplicit[Sync[cats.effect.IO]]
-  addImplicit[Effect[cats.effect.IO]]
-
-
-  make[ExecutionContext].named("global").from {
-    ExecutionContext.Implicits.global
+  make[BIOError[IO]].using[BIO[IO]]
+  make[BIOAsync[IO]].from {
+    implicit clock: zio.clock.Clock =>
+      BIOAsync[IO]
   }
-
-  make[ContextShift[cats.effect.IO]].named("global").from {
-    implicit ec: ExecutionContext@Id("global") =>
-      cats.effect.IO.contextShift(ec)
-  }
-
   addImplicit[BIO[IO]]
-  addImplicit[BIOAsync[IO]]
   addImplicit[BIOTransZio[IO]]
   addImplicit[BIOFork[IO]]
-  make[BIOInvariant[IO]].using[BIO[IO]]
-  make[BIOAsyncInvariant[IO]].using[BIOAsync[IO]]
+  addImplicit[BIOFromFuture[IO]]
   addImplicit[SyncSafe2[IO]]
 
-  make[ExecutorService].named("zio-es").from {
-    val cores = Runtime.getRuntime.availableProcessors.max(2)
-    Executors.newFixedThreadPool(cores)
-  }
+  addImplicit[ContextShift[IO[Throwable, ?]]]
+  addImplicit[Bracket[IO[Throwable, ?], Throwable]]
+  addImplicit[Sync[IO[Throwable, ?]]]
+  addImplicit[Async[IO[Throwable, ?]]]
 
-  make[BIORunner[IO]].from {
-    (logger: IzLogger, es: ExecutorService@Id("zio-es")) => {
-      LoggingZioRunner.apply(es, logger)
-    }
+  make[LogBIO[IO]].from(LogBIO.fromLogger(_: IzLogger)(_: SyncSafe2[IO]))
+
+  make[ThreadPoolExecutor].named("zio-es").fromResource {
+    logger: IzLogger =>
+      val cores = Runtime.getRuntime.availableProcessors.max(2)
+
+      ResourceRewriter.fromExecutorService(logger,
+        new ThreadPoolExecutor(cores, cores, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue[Runnable]))
   }
 
   make[ExecutionContext].named("blockingIO").from {
-    ExecutionContext.global
+    es: ThreadPoolExecutor @Id("zio.pool.io") =>
+      ExecutionContext.fromExecutorService(es): ExecutionContext
   }
+
 }
 
-object LoggingZioRunner {
+trait BIOFromFuture[F[_, _]] {
+  def fromFuture[A](f: F[Throwable, Future[A]]): F[Throwable, A]
+}
 
-  def apply(es: ExecutorService, log: IzLogger): BIORunner[IO] =
-    new ZIORunnerBase(
-      threadPool = es
-      , handler = DefaultHandler.Custom {
-        case BIOExit.Error(error: Throwable) =>
-          val stackTrace = error.getStackTrace
-          IO.sync(log.warn(s"Fiber terminated with unhandled Throwable $error $stackTrace"))
-        case BIOExit.Error(error) =>
-          IO.sync(log.warn(s"Fiber terminated with unhandled $error"))
-        case BIOExit.Termination(_, (_: InterruptedException) :: _) =>
-          IO.unit // don't log interrupts
-        case BIOExit.Termination(exception, _) =>
-          IO.sync(log.warn(s"Fiber terminated erroneously with unhandled defect $exception"))
-      }) {
-      // Keep default auto-fork threshold (every 1k flatMaps)
-      override final val YieldMaxOpCount: Int = 1024
+object BIOFromFuture {
+  def apply[F[_, _]: BIOFromFuture]: BIOFromFuture[F] = implicitly
+
+  implicit val bioFromFutureIO: BIOFromFuture[IO] = new BIOFromFuture[IO] {
+    override def fromFuture[A](f: Task[Future[A]]): Task[A] = {
+      for {
+        ec <- ZIO.descriptor.map(_.executor.asEC)
+        res <- Util.fromFuture(ec)(f)
+      } yield res
     }
+  }
 }
