@@ -18,8 +18,6 @@ abstract class TestBIO extends DistagePluginBioSpec[IO] with DistageBioSpecBIOSy
     Seq("com.github.ratoshniuk.izumi.distage.sample.plugins")
   }
 
-  override protected def memoizePlugins: Boolean = false
-
   override protected def activation: Map[AxisBase, Axis.AxisValue] = {
     if (dummy)
       Map(Repo -> Repo.Dummy)

@@ -2,14 +2,11 @@ package com.github.ratoshniuk.izumi.distage.sample.storages
 
 import com.github.pshirshov.izumi.distage.plugins.PluginDef
 import com.github.pshirshov.izumi.functional.bio.BIO._
+import com.github.ratoshniuk.izumi.distage.sample.RandomSpec
 import com.github.ratoshniuk.izumi.distage.sample.env.{UserRandomSpec, ZIOEnvTest}
-import com.github.ratoshniuk.izumi.distage.sample.storages.InternalStorageTest.Ctx
-import com.github.ratoshniuk.izumi.distage.sample.users.services.UserPersistence
 import com.github.ratoshniuk.izumi.distage.sample.users.services.models.User
 import com.github.ratoshniuk.izumi.distage.sample.users.services.production.PostgresDataSource.PostgresCfg
-import com.github.ratoshniuk.izumi.distage.sample.{RandomSpec, TestBIO}
 import org.scalatest.Assertion
-import scalaz.zio.IO
 
 import scala.concurrent.duration._
 

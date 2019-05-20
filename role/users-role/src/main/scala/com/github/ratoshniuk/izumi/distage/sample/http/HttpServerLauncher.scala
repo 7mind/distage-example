@@ -9,7 +9,7 @@ import akka.stream.ActorMaterializer
 import com.github.pshirshov.izumi.distage.config.annotations.ConfPath
 import com.github.pshirshov.izumi.distage.model.definition.{DIResource, Id}
 import com.github.pshirshov.izumi.functional.bio.BIO
-import com.github.pshirshov.izumi.functional.bio.BIO.syntax._
+import com.github.pshirshov.izumi.functional.bio.BIO._
 import com.github.ratoshniuk.izumi.distage.sample.http.HttpServerLauncher.{HttpConfig, StartedServer}
 import com.github.ratoshniuk.izumi.distage.sample.plugins.BIOFromFuture
 import logstage.LogBIO

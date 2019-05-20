@@ -3,7 +3,7 @@ package com.github.ratoshniuk.izumi.distage.sample.env
 import com.github.pshirshov.izumi.distage.model.Locator.LocatorRef
 import com.github.pshirshov.izumi.distage.model.definition.Binding.SingletonBinding
 import com.github.pshirshov.izumi.distage.model.definition.{ImplDef, Module}
-import com.github.ratoshniuk.izumi.distage.sample.plugins.TraitConstructor
+import com.github.pshirshov.izumi.distage.provisioning.TraitConstructor
 import com.github.ratoshniuk.izumi.distage.sample.users.services.models.Email
 import com.github.ratoshniuk.izumi.distage.sample.users.services.{UserPersistence, UserService, UserThirdParty, models}
 import com.github.ratoshniuk.izumi.distage.sample.{Models, TestBIO}
