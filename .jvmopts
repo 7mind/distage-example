@@ -1,0 +1,25 @@
+
+# Workaround to allow shutdown hooks
+# https://github.com/sbt/sbt/issues/4796
+-Dsbt.classloader.close=false
+
+# Bumping JIT inline-level increases performance of Scala code
+#   https://www.reddit.com/r/scala/comments/cigh0t/these_go_to_eighteen_c_jon_pretty/
+#   https://scalacenter.github.io/bloop/docs/performance-guide#tweak-the-java-jit
+-XX:MaxInlineLevel=18
+
+# Enable Graal JIT
+# -XX:+UnlockExperimentalVMOptions
+# -XX:+EnableJVMCI
+# -XX:+UseJVMCICompiler
+
+-Xmx8G
+-Xms20M
+-XX:+UseG1GC
+-XX:ReservedCodeCacheSize=256m
+-XX:MaxMetaspaceSize=2048M
+-noverify
+-server
+-XX:+OmitStackTraceInFastThrow
+-Dsun.io.useCanonCaches=false
+-XX:SoftRefLRUPolicyMSPerMB=50
