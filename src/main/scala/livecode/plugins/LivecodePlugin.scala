@@ -12,14 +12,14 @@ import org.http4s.dsl.Http4sDsl
 import zio.IO
 
 object LivecodePlugin extends PluginDef {
-  make[LivecodeRole]
-
   include(modules.api[IO])
   include(modules.repoProd[IO])
   include(modules.repoDummy[IO])
 
   object modules {
     def api[F[+_, +_]: TagKK](implicit ev: TagK[F[Throwable, ?]]): ModuleDef = new ModuleDef {
+      make[LivecodeRole[F]]
+
       make[HttpApi[F]].from[HttpApi.Impl[F]]
       make[Ranks[F]].from[Ranks.Impl[F]]
 

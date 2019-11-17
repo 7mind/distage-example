@@ -26,7 +26,7 @@ abstract class LivecodeTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIO
 }
 
 trait DummyTest extends LivecodeTest {
-  override def config = super.config.copy(
+  override final def config = super.config.copy(
     activation = StandardAxis.testDummyActivation,
   )
 }

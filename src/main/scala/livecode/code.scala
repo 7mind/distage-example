@@ -12,14 +12,14 @@ import io.circe.{Codec, derivation}
 import izumi.distage.model.definition.DIResource
 import izumi.distage.model.definition.DIResource.DIResourceBase
 import izumi.distage.roles.model.{IntegrationCheck, RoleDescriptor, RoleService}
-import izumi.functional.bio._
+import izumi.functional.bio.{BIO, BIOApplicative, BIOFunctor, BIOMonad, BIOPanic, BIOPrimitives, BIORef, F}
+import izumi.functional.bio.catz.{BIOToBracket, BIOToSync}
 import izumi.fundamentals.platform.cli.model.raw.RawEntrypointParams
 import izumi.fundamentals.platform.integration.{PortCheck, ResourceCheck}
 import logstage.LogBIO
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
 import org.http4s.server.blaze.BlazeServerBuilder
-import zio.{IO, Task}
 
 object code {
   type UserId = UUID
@@ -63,21 +63,19 @@ object code {
     def getRank(userId: UserId): F[QueryFailure, Option[RankedProfile]]
   }
 
-  import izumi.functional.bio.BIO._
-
-  final class LadderDummy[F[+_, +_]: BIO]
+  final class LadderDummy[F[+_, +_]: BIO: BIOPrimitives]
     extends DIResource.LiftF[F[Throwable, ?], Ladder[F]](
-      Ref(Map.empty[UserId, Score]).map(new LadderDummy.Impl(_))
+      F.mkRef(Map.empty[UserId, Score]).map(new LadderDummy.Impl(_))
     )
 
   object LadderDummy {
 
     final class Impl[F[+_, +_]: BIOFunctor](
-      state: Ref[F[Nothing, ?], Map[UserId, Score]],
+      state: BIORef[F, Map[UserId, Score]],
     ) extends Ladder[F] {
 
       override def submitScore(userId: UserId, score: Score): F[Nothing, Unit] =
-        state.update(_ + (userId -> score))
+        state.update_(_ + (userId -> score))
 
       override val getScores: F[Nothing, List[(UserId, Score)]] =
         state.get.map(_.toList.sortBy(_._2)(Ordering[Score].reverse))
@@ -85,13 +83,13 @@ object code {
 
   }
 
-  final class ProfilesDummy[F[+_, +_]: BIO]
+  final class ProfilesDummy[F[+_, +_]: BIO: BIOPrimitives]
     extends DIResource.LiftF[F[Throwable, ?], Profiles[F]](
-      Ref(Map.empty[UserId, UserProfile]).map {
+      F.mkRef(Map.empty[UserId, UserProfile]).map {
         state =>
           new Profiles[F] {
             override def setProfile(userId: UserId, profile: UserProfile): F[Nothing, Unit] =
-              state.update(_ + (userId -> profile))
+              state.update_(_ + (userId -> profile))
 
             override def getProfile(userId: UserId): F[Nothing, Option[UserProfile]] =
               state.get.map(_.get(userId))
@@ -129,7 +127,7 @@ object code {
   }
 
   object SQL {
-    final class Impl[F[+_, +_]: Bracket2: BIOError](
+    final class Impl[F[+_, +_]: BIOPanic](
       transactor: Transactor[F[Throwable, ?]]
     ) extends SQL[F] {
       override def execute[A](queryName: String)(conn: ConnectionIO[A]): F[QueryFailure, A] = {
@@ -279,7 +277,7 @@ object code {
 
   object HttpApi {
 
-    final class Impl[F[+_, +_]: BIOMonad: Sync2](
+    final class Impl[F[+_, +_]: BIO](
       dsl: Http4sDsl[F[Throwable, ?]],
       ladder: Ladder[F],
       profiles: Profiles[F],
@@ -319,15 +317,15 @@ object code {
     * curl -X GET http://localhost:8080/ladder
     * }}}
     */
-  final class LivecodeRole(
-    httpApi: HttpApi[IO],
+  final class LivecodeRole[F[+_, +_]](
+    httpApi: HttpApi[F],
   )(implicit
-    concurrentEffect2: ConcurrentEffect2[IO],
-    timer2: Timer2[IO],
-  ) extends RoleService[Task] {
-    override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): DIResourceBase[Task, Unit] = {
+    concurrentEffect2: ConcurrentEffect2[F],
+    timer2: Timer2[F],
+  ) extends RoleService[F[Throwable, ?]] {
+    override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): DIResourceBase[F[Throwable, ?], Unit] = {
       DIResource.fromCats {
-        BlazeServerBuilder[Task]
+        BlazeServerBuilder[F[Throwable, ?]]
           .withHttpApp(httpApi.http.orNotFound)
           .bindLocal(8080)
           .resource

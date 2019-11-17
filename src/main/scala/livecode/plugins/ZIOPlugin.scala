@@ -2,26 +2,27 @@ package livecode.plugins
 
 import java.util.concurrent.ThreadPoolExecutor
 
-import cats.effect.{Async, Blocker, Concurrent, ConcurrentEffect, ContextShift, Sync, Timer}
+import cats.effect.Blocker
 import distage.Id
 import distage.plugins.PluginDef
 import izumi.distage.monadic.modules.ZIODIEffectModule
-import livecode.Bracket2
+import izumi.functional.bio.BIOPrimitives
+import livecode.{Async2, Bracket2, ConcurrentEffect2, ContextShift2, Timer2}
 import logstage.LogBIO
+import zio.IO
 import zio.interop.catz._
 import zio.interop.catz.implicits._
-import zio.{IO, Task}
 
 import scala.concurrent.ExecutionContext
 
 object ZIOPlugin extends ZIODIEffectModule with PluginDef {
   addImplicit[Bracket2[IO]]
-  addImplicit[Sync[Task]]
-  addImplicit[Async[Task]]
-  addImplicit[Concurrent[Task]]
-  addImplicit[ContextShift[Task]]
-  addImplicit[Timer[Task]]
-  make[ConcurrentEffect[Task]].from((runtime: zio.Runtime[Any]) => taskEffectInstance(runtime))
+  addImplicit[Async2[IO]]
+  addImplicit[ContextShift2[IO]]
+  addImplicit[Timer2[IO]]
+  make[ConcurrentEffect2[IO]].from((runtime: zio.Runtime[Any]) => taskEffectInstance(runtime))
+
+  addImplicit[BIOPrimitives[IO]]
 
   make[Blocker].from {
     pool: ThreadPoolExecutor @Id("zio.io") =>

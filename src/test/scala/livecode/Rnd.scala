@@ -1,7 +1,6 @@
 package livecode
 
-import izumi.functional.bio.BIO
-import izumi.functional.bio.BIO.F
+import izumi.functional.bio.{BIO, F}
 import org.scalacheck.Gen.Parameters
 import org.scalacheck.{Arbitrary, Prop}
 
