@@ -6,7 +6,7 @@ import doobie.util.transactor.Transactor
 import izumi.distage.model.definition.ModuleDef
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.fundamentals.platform.integration.PortCheck
-import livecode.code.Postgres.PgIntegrationCheck
+import livecode.code.Postgres.{PgIntegrationCheck, PostgresPortCfg}
 import livecode.code._
 import org.http4s.dsl.Http4sDsl
 import zio.IO
@@ -39,6 +39,7 @@ object LivecodePlugin extends PluginDef {
       make[Transactor[F[Throwable, ?]]].fromResource(Postgres.resource[F[Throwable, ?]] _)
       make[PgIntegrationCheck]
       make[PortCheck].from(new PortCheck(3))
+      make[PostgresPortCfg].from(PostgresPortCfg(5432))
     }
 
     def repoDummy[F[+_, +_]: TagKK](implicit ev: TagK[F[Throwable, ?]]): ModuleDef = new ModuleDef {

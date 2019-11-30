@@ -2,10 +2,13 @@ package livecode
 
 import distage.{DIKey, ModuleDef}
 import doobie.util.transactor.Transactor
+import izumi.distage.constructors.ConcreteConstructor
 import izumi.distage.model.definition.StandardAxis
+import izumi.distage.testkit.integration.docker.examples.{PostgresDocker, PostgresDockerModule}
 import izumi.distage.testkit.services.DISyntaxZIOEnv
 import izumi.distage.testkit.services.st.dtest.TestConfig
 import izumi.distage.testkit.st.specs.DistageBIOSpecScalatest
+import livecode.code.Postgres.PgIntegrationCheck
 import livecode.code._
 import livecode.zioenv._
 import zio.{IO, Task, ZIO}
@@ -16,11 +19,13 @@ abstract class LivecodeTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIO
     activation     = StandardAxis.testProdActivation,
     moduleOverrides = new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
+      include(PostgresDockerModule)
     },
     memoizedKeys = Set(
       DIKey.get[Transactor[Task]],
       DIKey.get[Ladder[IO]],
       DIKey.get[Profiles[IO]],
+      DIKey.get[PostgresDocker.Container],
     ),
   )
 }

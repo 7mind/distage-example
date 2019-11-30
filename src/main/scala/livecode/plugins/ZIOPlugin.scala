@@ -20,7 +20,10 @@ object ZIOPlugin extends ZIODIEffectModule with PluginDef {
   addImplicit[Async2[IO]]
   addImplicit[ContextShift2[IO]]
   addImplicit[Timer2[IO]]
-  make[ConcurrentEffect2[IO]].from((runtime: zio.Runtime[Any]) => taskEffectInstance(runtime))
+  make[ConcurrentEffect2[IO]].from {
+    runtime: zio.Runtime[Any] =>
+      taskEffectInstance(runtime)
+  }
 
   addImplicit[BIOPrimitives[IO]]
 

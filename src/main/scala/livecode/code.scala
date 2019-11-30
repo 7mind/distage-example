@@ -21,6 +21,8 @@ import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
 import org.http4s.server.blaze.BlazeServerBuilder
 
+import scala.annotation.unused
+
 object code {
   type UserId = UUID
   type Score  = Long
@@ -145,14 +147,13 @@ object code {
       blocker: Blocker,
       async: Async[F],
       shift: ContextShift[F],
-      pgIntegrationCheck: PgIntegrationCheck,
+      @unused pgIntegrationCheck: PgIntegrationCheck,
+      portCfg: PostgresPortCfg,
     ): Resource[F, HikariTransactor[F]] = {
-      val _ = pgIntegrationCheck
-
       HikariTransactor
         .newHikariTransactor(
           driverClassName = cfg.jdbcDriver,
-          url             = cfg.url,
+          url             = cfg.url.replace("${port}", portCfg.postgresPort.toString),
           user            = cfg.user,
           pass            = cfg.password,
           connectEC       = blocker.blockingContext,
@@ -167,17 +168,20 @@ object code {
       password: String,
     )
 
+    final case class PostgresPortCfg(
+      postgresPort: Int,
+    )
+
     final class PgIntegrationCheck(
       portCheck: PortCheck,
       cfg: PostgresCfg @ConfPath("postgres"),
+      portCfg: PostgresPortCfg,
     ) extends IntegrationCheck {
       override def resourcesAvailable(): ResourceCheck = {
-        val str = cfg.url.stripPrefix("jdbc:")
+        val str = cfg.url.stripPrefix("jdbc:").replace("${port}", "")
         val uri = URI.create(str)
 
-        val postgresDefaultPort = 5432
-
-        portCheck.checkUri(uri, postgresDefaultPort, s"Couldn't connect to postgres at uri=$uri defaultPort=$postgresDefaultPort")
+        portCheck.checkUri(uri, portCfg.postgresPort, s"Couldn't connect to postgres at uri=$uri defaultPort=${portCfg.postgresPort}")
       }
     }
 
