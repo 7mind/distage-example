@@ -153,7 +153,7 @@ object code {
       HikariTransactor
         .newHikariTransactor(
           driverClassName = cfg.jdbcDriver,
-          url             = cfg.url.replace("${port}", portCfg.postgresPort.toString),
+          url             = portCfg.substitute(cfg.url),
           user            = cfg.user,
           pass            = cfg.password,
           connectEC       = blocker.blockingContext,
@@ -169,8 +169,13 @@ object code {
     )
 
     final case class PostgresPortCfg(
-      postgresPort: Int,
-    )
+      host: String,
+      port: Int,
+    ) {
+      def substitute(s: String): String = {
+        s.replace("{host}", host).replace("{port}", port.toString)
+      }
+    }
 
     final class PgIntegrationCheck(
       portCheck: PortCheck,
@@ -178,10 +183,10 @@ object code {
       portCfg: PostgresPortCfg,
     ) extends IntegrationCheck {
       override def resourcesAvailable(): ResourceCheck = {
-        val str = cfg.url.stripPrefix("jdbc:").replace("${port}", "")
+        val str = portCfg.substitute(cfg.url.stripPrefix("jdbc:"))
         val uri = URI.create(str)
 
-        portCheck.checkUri(uri, portCfg.postgresPort, s"Couldn't connect to postgres at uri=$uri defaultPort=${portCfg.postgresPort}")
+        portCheck.checkUri(uri, portCfg.port, s"Couldn't connect to postgres at uri=$uri defaultPort=${portCfg.port}")
       }
     }
 

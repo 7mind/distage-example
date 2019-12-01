@@ -3,6 +3,7 @@ package livecode.plugins
 import distage.plugins.PluginDef
 import distage.{TagK, TagKK}
 import doobie.util.transactor.Transactor
+import izumi.distage.config.annotations.ConfPath
 import izumi.distage.model.definition.ModuleDef
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.fundamentals.platform.integration.PortCheck
@@ -39,7 +40,10 @@ object LivecodePlugin extends PluginDef {
       make[Transactor[F[Throwable, ?]]].fromResource(Postgres.resource[F[Throwable, ?]] _)
       make[PgIntegrationCheck]
       make[PortCheck].from(new PortCheck(3))
-      make[PostgresPortCfg].from(PostgresPortCfg(5432))
+      make[PostgresPortCfg].from {
+        conf: PostgresPortCfg @ConfPath("postgres") =>
+          conf
+      }
     }
 
     def repoDummy[F[+_, +_]: TagKK](implicit ev: TagK[F[Throwable, ?]]): ModuleDef = new ModuleDef {

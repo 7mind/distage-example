@@ -2,13 +2,11 @@ package livecode
 
 import distage.{DIKey, ModuleDef}
 import doobie.util.transactor.Transactor
-import izumi.distage.constructors.ConcreteConstructor
 import izumi.distage.model.definition.StandardAxis
-import izumi.distage.testkit.integration.docker.examples.{PostgresDocker, PostgresDockerModule}
+import izumi.distage.testkit.integration.docker.examples.PostgresDocker
 import izumi.distage.testkit.services.DISyntaxZIOEnv
 import izumi.distage.testkit.services.st.dtest.TestConfig
 import izumi.distage.testkit.st.specs.DistageBIOSpecScalatest
-import livecode.code.Postgres.PgIntegrationCheck
 import livecode.code._
 import livecode.zioenv._
 import zio.{IO, Task, ZIO}
@@ -43,19 +41,20 @@ final class RanksTestDummy extends RanksTest with DummyTest
 class LadderTest extends LivecodeTest with DummyTest {
 
   "Ladder" should {
+    // this test gets dependencies through arguments
     "submit & get" in {
-//      (rnd: Rnd[IO], ladder: Ladder[IO]) =>
-      for {
-        user  <- rnd[UserId]
-        score <- rnd[Score]
-        _     <- ladder.submitScore(user, score)
-        res   <- ladder.getScores.map(_.find(_._1 == user).map(_._2))
-        _     = assert(res contains score)
-      } yield ()
+      (rnd: Rnd[IO], ladder: Ladder[IO]) =>
+        for {
+          user  <- rnd[UserId]
+          score <- rnd[Score]
+          _     <- ladder.submitScore(user, score)
+          res   <- ladder.getScores.map(_.find(_._1 == user).map(_._2))
+          _     = assert(res contains score)
+        } yield ()
     }
 
+    // other tests get dependencies via ZIO Env:
     "return higher score higher in the list" in {
-//      (rnd: Rnd[IO], ladder: Ladder[IO]) =>
       for {
         user1  <- rnd[UserId]
         score1 <- rnd[Score]
@@ -82,9 +81,9 @@ class LadderTest extends LivecodeTest with DummyTest {
 
 class ProfilesTest extends LivecodeTest {
   "Profiles" should {
+    // that's what the env signature looks like for ZIO Env injection
     "set & get" in {
-//      (rnd: Rnd[IO], profiles: Profiles[IO]) =>
-      for {
+      val zioValue: ZIO[ProfilesEnv with RndEnv, QueryFailure, Unit] = for {
         user    <- rnd[UserId]
         name    <- rnd[String]
         desc    <- rnd[String]
@@ -93,6 +92,7 @@ class ProfilesTest extends LivecodeTest {
         res     <- profiles.getProfile(user)
         _       = assert(res contains profile)
       } yield ()
+      zioValue
     }
   }
 }
@@ -100,8 +100,7 @@ class ProfilesTest extends LivecodeTest {
 class RanksTest extends LivecodeTest {
   "Ranks" should {
     "return None for a user with no score" in {
-//      (rnd: Rnd[IO], ranks: Ranks[IO], profiles: Profiles[IO]) =>
-      val value: ZIO[RanksEnv with ProfilesEnv with RndEnv, QueryFailure, Unit] = for {
+      for {
         user    <- rnd[UserId]
         name    <- rnd[String]
         desc    <- rnd[String]
@@ -110,11 +109,9 @@ class RanksTest extends LivecodeTest {
         res1    <- ranks.getRank(user)
         _       = assert(res1.isEmpty)
       } yield ()
-      value
     }
 
     "return None for a user with no profile" in {
-//      (rnd: Rnd[IO], ranks: Ranks[IO], ladder: Ladder[IO]) =>
       for {
         user  <- rnd[UserId]
         score <- rnd[Score]
@@ -125,7 +122,6 @@ class RanksTest extends LivecodeTest {
     }
 
     "assign a higher rank to a user with more score" in {
-//      (rnd: Rnd[IO], ranks: Ranks[IO], ladder: Ladder[IO], profiles: Profiles[IO]) =>
       for {
         user1  <- rnd[UserId]
         name1  <- rnd[String]

@@ -20,8 +20,8 @@ object PostgresDockerModule extends ModuleDef {
   // integration check is performed
   make[PostgresPortCfg].from {
     docker: PostgresDocker.Container =>
-      println(docker)
-      PostgresPortCfg(docker.availablePorts(DockerPort.TCP(5432)).head.port)
+      val knownAddress = docker.availablePorts(DockerPort.TCP(5432)).head
+      PostgresPortCfg(knownAddress.hostV4, knownAddress.port)
   }
 
   // add docker dependencies and override default configuration
