@@ -1,10 +1,10 @@
 package livecode
 
 import distage.ModuleDef
-import izumi.distage.testkit.integration.docker.Docker
-import izumi.distage.testkit.integration.docker.Docker.DockerPort
-import izumi.distage.testkit.integration.docker.examples.PostgresDocker
-import izumi.distage.testkit.integration.docker.modules.DockerContainerModule
+import izumi.distage.docker.Docker
+import izumi.distage.docker.Docker.DockerPort
+import izumi.distage.docker.examples.PostgresDocker
+import izumi.distage.docker.modules.DockerContainerModule
 import livecode.code.Postgres.PostgresPortCfg
 import zio.Task
 

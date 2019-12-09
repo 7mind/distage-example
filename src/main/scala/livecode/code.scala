@@ -4,16 +4,16 @@ import java.net.URI
 import java.util.UUID
 
 import cats.effect.{Async, Blocker, ContextShift, Resource}
-import distage.config.ConfPath
+import distage.DIResource
+import distage.DIResource.DIResourceBase
 import doobie.free.connection.ConnectionIO
 import doobie.hikari.HikariTransactor
 import doobie.util.transactor.Transactor
 import io.circe.{Codec, derivation}
-import izumi.distage.model.definition.DIResource
-import izumi.distage.model.definition.DIResource.DIResourceBase
-import izumi.distage.roles.model.{IntegrationCheck, RoleDescriptor, RoleService}
-import izumi.functional.bio.{BIO, BIOApplicative, BIOFunctor, BIOMonad, BIOPanic, BIOPrimitives, BIORef, F}
+import izumi.distage.framework.model.IntegrationCheck
+import izumi.distage.roles.model.{RoleDescriptor, RoleService}
 import izumi.functional.bio.catz.{BIOToBracket, BIOToSync}
+import izumi.functional.bio.{BIO, BIOApplicative, BIOFunctor, BIOMonad, BIOPanic, BIOPrimitives, BIORef, F}
 import izumi.fundamentals.platform.cli.model.raw.RawEntrypointParams
 import izumi.fundamentals.platform.integration.{PortCheck, ResourceCheck}
 import logstage.LogBIO
@@ -75,14 +75,12 @@ object code {
     final class Impl[F[+_, +_]: BIOFunctor](
       state: BIORef[F, Map[UserId, Score]],
     ) extends Ladder[F] {
-
       override def submitScore(userId: UserId, score: Score): F[Nothing, Unit] =
         state.update_(_ + (userId -> score))
 
       override val getScores: F[Nothing, List[(UserId, Score)]] =
         state.get.map(_.toList.sortBy(_._2)(Ordering[Score].reverse))
     }
-
   }
 
   final class ProfilesDummy[F[+_, +_]: BIO: BIOPrimitives]
@@ -143,7 +141,7 @@ object code {
   object Postgres {
 
     def resource[F[_]](
-      cfg: PostgresCfg @ConfPath("postgres"),
+      cfg: PostgresCfg,
       blocker: Blocker,
       async: Async[F],
       shift: ContextShift[F],
@@ -179,7 +177,7 @@ object code {
 
     final class PgIntegrationCheck(
       portCheck: PortCheck,
-      cfg: PostgresCfg @ConfPath("postgres"),
+      cfg: PostgresCfg,
       portCfg: PostgresPortCfg,
     ) extends IntegrationCheck {
       override def resourcesAvailable(): ResourceCheck = {
@@ -201,7 +199,7 @@ object code {
     final class Postgres[F[+_, +_]: BIOMonad](
       sql: SQL[F],
       log: LogBIO[F],
-    ) extends DIResource.Make_[F[Throwable, ?], Ladder[F]](
+    ) extends DIResource.MakePair[F[Throwable, ?], Ladder[F]](
         acquire = for {
           _ <- log.info("Creating Ladder table")
           _ <- sql.execute("ladder-ddl") {
@@ -228,8 +226,8 @@ object code {
                      |""".stripMargin.query[(UserId, Score)].to[List]
               }
           }
-        } yield res
-      )(release = F.unit)
+        } yield res -> F.unit
+      )
   }
 
   object Profiles {

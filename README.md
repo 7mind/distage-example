@@ -1,7 +1,9 @@
 # distage Livecoding example
 
-Final state of a project livecoded at ScalaWAW, Video: https://www.youtube.com/watch?v=C0srg5T0E4o&t=4971
+This is the final state of an example project livecoded at ScalaWAW Warsaw Meetup. Video: https://www.youtube.com/watch?v=C0srg5T0E4o&t=4971
 
-Features [distage](https://izumi.7mind.io/latest/release/doc/distage/), [Bifunctor Tagless Final](https://github.com/7mind/izumi/blob/c027770d35a4a0e99f7694f8afe519f1e7a820f9/fundamentals/fundamentals-bio/src/main/scala/izumi/functional/bio/BIO.scala) and [ZIO](https://zio.dev) Environment for composing test fixtures
+Features [distage](https://izumi.7mind.io/latest/release/doc/distage/),
+[Bifunctor Tagless Final](https://github.com/7mind/izumi/blob/v0.10.0-M5/fundamentals/fundamentals-bio/src/main/scala/izumi/functional/bio/package.scala),
+[ZIO Environment](https://zio.dev) for composing test fixtures and [distage-docker](https://github.com/7mind/distage-livecode/blob/livecode/src/test/scala/livecode/PostgresDockerModule.scala) for setting up test containers.
 
-To launch tests that require postgres you need to have a running `docker` daemon
+To launch tests that require postgres you need to have `docker` daemon running in the background.

@@ -5,9 +5,8 @@ import java.util.concurrent.ThreadPoolExecutor
 import cats.effect.Blocker
 import distage.Id
 import distage.plugins.PluginDef
-import izumi.distage.monadic.modules.ZIODIEffectModule
-import izumi.functional.bio.BIOPrimitives
-import livecode.{Async2, Bracket2, ConcurrentEffect2, ContextShift2, Timer2}
+import izumi.distage.effect.modules.ZIODIEffectModule
+import livecode._
 import logstage.LogBIO
 import zio.IO
 import zio.interop.catz._
@@ -24,8 +23,6 @@ object ZIOPlugin extends ZIODIEffectModule with PluginDef {
     runtime: zio.Runtime[Any] =>
       taskEffectInstance(runtime)
   }
-
-  addImplicit[BIOPrimitives[IO]]
 
   make[Blocker].from {
     pool: ThreadPoolExecutor @Id("zio.io") =>

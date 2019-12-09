@@ -2,19 +2,22 @@ package livecode
 
 import distage.{DIKey, ModuleDef}
 import doobie.util.transactor.Transactor
-import izumi.distage.model.definition.StandardAxis
-import izumi.distage.testkit.integration.docker.examples.PostgresDocker
+import izumi.distage.docker.examples.PostgresDocker
+import izumi.distage.framework.model.PluginSource
+import izumi.distage.model.definition.Activation
+import izumi.distage.model.definition.StandardAxis.Repo
+import izumi.distage.plugins.load.PluginLoader.PluginConfig
+import izumi.distage.testkit.TestConfig
+import izumi.distage.testkit.scalatest.DistageBIOSpecScalatest
 import izumi.distage.testkit.services.DISyntaxZIOEnv
-import izumi.distage.testkit.services.st.dtest.TestConfig
-import izumi.distage.testkit.st.specs.DistageBIOSpecScalatest
 import livecode.code._
 import livecode.zioenv._
 import zio.{IO, Task, ZIO}
 
 abstract class LivecodeTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
   override def config = TestConfig(
-    pluginPackages = Some(Seq("livecode.plugins")),
-    activation     = StandardAxis.testProdActivation,
+    pluginSource = Some(PluginSource(PluginConfig(packagesEnabled = Seq("livecode.plugins")))),
+    activation   = Activation(Repo -> Repo.Prod),
     moduleOverrides = new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
       include(PostgresDockerModule)
@@ -30,15 +33,15 @@ abstract class LivecodeTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIO
 
 trait DummyTest extends LivecodeTest {
   override final def config = super.config.copy(
-    activation = StandardAxis.testDummyActivation,
+    activation = Activation(Repo -> Repo.Dummy),
   )
 }
 
-final class LadderTestDummy extends LadderTest with DummyTest
-final class ProfilesTestDummy extends ProfilesTest with DummyTest
-final class RanksTestDummy extends RanksTest with DummyTest
+final class LadderTestDummy extends LadderTestPostgres with DummyTest
+final class ProfilesTestDummy extends ProfilesTestPostgres with DummyTest
+final class RanksTestDummy extends RanksTestPostgres with DummyTest
 
-class LadderTest extends LivecodeTest with DummyTest {
+class LadderTestPostgres extends LivecodeTest with DummyTest {
 
   "Ladder" should {
     // this test gets dependencies through arguments
@@ -79,7 +82,7 @@ class LadderTest extends LivecodeTest with DummyTest {
 
 }
 
-class ProfilesTest extends LivecodeTest {
+class ProfilesTestPostgres extends LivecodeTest {
   "Profiles" should {
     // that's what the env signature looks like for ZIO Env injection
     "set & get" in {
@@ -97,7 +100,7 @@ class ProfilesTest extends LivecodeTest {
   }
 }
 
-class RanksTest extends LivecodeTest {
+class RanksTestPostgres extends LivecodeTest {
   "Ranks" should {
     "return None for a user with no score" in {
       for {
