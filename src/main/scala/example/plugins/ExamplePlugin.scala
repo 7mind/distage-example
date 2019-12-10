@@ -3,16 +3,16 @@ package example.plugins
 import distage.TagKK
 import distage.plugins.PluginDef
 import doobie.util.transactor.Transactor
-import izumi.distage.config.ConfigModuleDef
-import izumi.distage.model.definition.ModuleDef
-import izumi.distage.model.definition.StandardAxis.Repo
-import izumi.fundamentals.platform.integration.PortCheck
-import org.http4s.dsl.Http4sDsl
 import example.ExampleRole
 import example.config.{PostgresCfg, PostgresPortCfg}
 import example.http.HttpApi
 import example.repo.{Ladder, Profiles, Ranks}
 import example.sql.{SQL, TransactorResource}
+import izumi.distage.config.ConfigModuleDef
+import izumi.distage.model.definition.ModuleDef
+import izumi.distage.model.definition.StandardAxis.Repo
+import izumi.fundamentals.platform.integration.PortCheck
+import org.http4s.dsl.Http4sDsl
 import zio.IO
 
 object ExamplePlugin extends PluginDef {

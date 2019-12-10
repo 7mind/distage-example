@@ -3,9 +3,9 @@ package example.repo
 import distage.DIResource
 import doobie.postgres.implicits._
 import doobie.syntax.string._
-import izumi.functional.bio.{BIO, BIOFunctor, BIOMonad, BIOPrimitives, BIORef, F}
 import example.model.{QueryFailure, Score, UserId}
 import example.sql.SQL
+import izumi.functional.bio.{BIO, BIOFunctor, BIOMonad, BIOPrimitives, BIORef, F}
 import logstage.LogBIO
 
 trait Ladder[F[_, _]] {

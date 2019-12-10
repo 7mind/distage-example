@@ -1,11 +1,11 @@
 package example
 
 import distage.ModuleDef
+import example.config.PostgresPortCfg
 import izumi.distage.docker.Docker
 import izumi.distage.docker.Docker.DockerPort
 import izumi.distage.docker.examples.PostgresDocker
 import izumi.distage.docker.modules.DockerContainerModule
-import example.config.PostgresPortCfg
 import zio.Task
 
 object PostgresDockerModule extends ModuleDef {

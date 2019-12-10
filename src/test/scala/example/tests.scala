@@ -2,6 +2,9 @@ package example
 
 import distage.{DIKey, ModuleDef}
 import doobie.util.transactor.Transactor
+import example.model.{QueryFailure, Score, UserId, UserProfile}
+import example.repo.Ladder
+import example.zioenv._
 import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
@@ -9,9 +12,6 @@ import izumi.distage.plugins.load.PluginLoader.PluginConfig
 import izumi.distage.testkit.TestConfig
 import izumi.distage.testkit.scalatest.DistageBIOSpecScalatest
 import izumi.distage.testkit.services.DISyntaxZIOEnv
-import example.model.{QueryFailure, Score, UserId, UserProfile}
-import example.repo.Ladder
-import example.zioenv._
 import zio.{IO, Task, ZIO}
 
 abstract class ExampleTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {

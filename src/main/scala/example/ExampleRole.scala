@@ -3,6 +3,7 @@ package example
 import cats.effect.{ConcurrentEffect, Timer}
 import distage.DIResource
 import distage.DIResource.DIResourceBase
+import example.http.HttpApi
 import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
@@ -12,7 +13,6 @@ import izumi.distage.roles.{RoleAppLauncher, RoleAppMain}
 import izumi.fundamentals.platform.cli.model.raw.{RawEntrypointParams, RawRoleParams}
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.syntax.kleisli._
-import example.http.HttpApi
 
 /** Example session:
   *
