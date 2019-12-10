@@ -38,11 +38,15 @@ trait DummyTest extends SampleTest {
   )
 }
 
-final class LadderTestDummy extends LadderTestPostgres with DummyTest
-final class ProfilesTestDummy extends ProfilesTestPostgres with DummyTest
-final class RanksTestDummy extends RanksTestPostgres with DummyTest
+final class LadderTestDummy extends LadderTest with DummyTest
+final class ProfilesTestDummy extends ProfilesTest with DummyTest
+final class RanksTestDummy extends RanksTest with DummyTest
 
-class LadderTestPostgres extends SampleTest with DummyTest {
+final class LadderTestPostgres extends LadderTest
+final class ProfilesTestPostgres extends ProfilesTest
+final class RanksTestPostgres extends RanksTest
+
+abstract class LadderTest extends SampleTest with DummyTest {
 
   "Ladder" should {
     // this test gets dependencies through arguments
@@ -83,7 +87,7 @@ class LadderTestPostgres extends SampleTest with DummyTest {
 
 }
 
-class ProfilesTestPostgres extends SampleTest {
+abstract class ProfilesTest extends SampleTest {
   "Profiles" should {
     // that's what the env signature looks like for ZIO Env injection
     "set & get" in {
@@ -101,7 +105,7 @@ class ProfilesTestPostgres extends SampleTest {
   }
 }
 
-class RanksTestPostgres extends SampleTest {
+abstract class RanksTest extends SampleTest {
   "Ranks" should {
     "return None for a user with no score" in {
       for {
