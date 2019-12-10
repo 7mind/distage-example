@@ -25,9 +25,6 @@ abstract class SampleTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEn
     },
     memoizedKeys = Set(
       DIKey.get[Transactor[Task]],
-      DIKey.get[Ladder[IO]],
-      DIKey.get[Profiles[IO]],
-      DIKey.get[PostgresDocker.Container],
     ),
   )
 }
