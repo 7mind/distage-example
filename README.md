@@ -1,4 +1,4 @@
-# distage Livecoding example
+# distage example
 
 This is the final state of an example project livecoded at ScalaWAW Warsaw Meetup. Video: https://www.youtube.com/watch?v=C0srg5T0E4o&t=4971
 
