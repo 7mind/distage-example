@@ -5,7 +5,7 @@ import izumi.distage.docker.Docker
 import izumi.distage.docker.Docker.DockerPort
 import izumi.distage.docker.examples.PostgresDocker
 import izumi.distage.docker.modules.DockerContainerModule
-import livecode.code.Postgres.PostgresPortCfg
+import livecode.config.PostgresPortCfg
 import zio.Task
 
 object PostgresDockerModule extends ModuleDef {

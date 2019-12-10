@@ -10,7 +10,8 @@ import izumi.distage.plugins.load.PluginLoader.PluginConfig
 import izumi.distage.testkit.TestConfig
 import izumi.distage.testkit.scalatest.DistageBIOSpecScalatest
 import izumi.distage.testkit.services.DISyntaxZIOEnv
-import livecode.code._
+import livecode.model.{QueryFailure, Score, UserId, UserProfile}
+import livecode.repo.{Ladder, Profiles}
 import livecode.zioenv._
 import zio.{IO, Task, ZIO}
 

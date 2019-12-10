@@ -7,15 +7,19 @@ import izumi.distage.config.ConfigModuleDef
 import izumi.distage.model.definition.ModuleDef
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.fundamentals.platform.integration.PortCheck
-import livecode.code.Postgres.{PgIntegrationCheck, PostgresCfg, PostgresPortCfg}
-import livecode.code._
+import livecode.LivecodeRole
+import livecode.config.{PostgresCfg, PostgresPortCfg}
+import livecode.http.HttpApi
+import livecode.repo.{Ladder, Profiles, Ranks}
+import livecode.sql.Postgres.PgIntegrationCheck
+import livecode.sql.{Postgres, SQL}
 import org.http4s.dsl.Http4sDsl
 import zio.IO
 
 object LivecodePlugin extends PluginDef {
   include(modules.api[IO])
-  include(modules.repoProd[IO])
   include(modules.repoDummy[IO])
+  include(modules.repoProd[IO])
   include(modules.configProd)
 
   object modules {
@@ -25,9 +29,14 @@ object LivecodePlugin extends PluginDef {
       make[HttpApi[F]].from[HttpApi.Impl[F]]
       make[Ranks[F]].from[Ranks.Impl[F]]
 
-      make[Http4sDsl[F[Throwable, ?]]].from {
-        new Http4sDsl[F[Throwable, ?]] {}
-      }
+      make[Http4sDsl[F[Throwable, ?]]]
+    }
+
+    def repoDummy[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
+      tag(Repo.Dummy)
+
+      make[Ladder[F]].fromResource[Ladder.Dummy[F]]
+      make[Profiles[F]].fromResource[Profiles.Dummy[F]]
     }
 
     def repoProd[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
@@ -41,13 +50,6 @@ object LivecodePlugin extends PluginDef {
       make[Transactor[F[Throwable, ?]]].fromResource(Postgres.resource[F[Throwable, ?]] _)
       make[PgIntegrationCheck]
       make[PortCheck].from(new PortCheck(3))
-    }
-
-    def repoDummy[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
-      tag(Repo.Dummy)
-
-      make[Ladder[F]].fromResource[LadderDummy[F]]
-      make[Profiles[F]].fromResource[ProfilesDummy[F]]
     }
 
     val configProd = new ConfigModuleDef {
