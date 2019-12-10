@@ -7,13 +7,12 @@ import izumi.distage.config.ConfigModuleDef
 import izumi.distage.model.definition.ModuleDef
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.fundamentals.platform.integration.PortCheck
+import org.http4s.dsl.Http4sDsl
 import sample.SampleRole
 import sample.config.{PostgresCfg, PostgresPortCfg}
 import sample.http.HttpApi
 import sample.repo.{Ladder, Profiles, Ranks}
-import sample.sql.Postgres.PgIntegrationCheck
-import sample.sql.{Postgres, SQL}
-import org.http4s.dsl.Http4sDsl
+import sample.sql.{SQL, TransactorResource}
 import zio.IO
 
 object SamplePlugin extends PluginDef {
@@ -47,8 +46,7 @@ object SamplePlugin extends PluginDef {
 
       make[SQL[F]].from[SQL.Impl[F]]
 
-      make[Transactor[F[Throwable, ?]]].fromResource(Postgres.resource[F[Throwable, ?]] _)
-      make[PgIntegrationCheck]
+      make[Transactor[F[Throwable, ?]]].fromResource[TransactorResource[F[Throwable, ?]]]
       make[PortCheck].from(new PortCheck(3))
     }
 
