@@ -62,7 +62,7 @@ abstract class LadderTest extends SampleTest with DummyTest {
     }
 
     // other tests get dependencies via ZIO Env:
-    "return higher score higher in the list" in {
+    "assign a higher position in the list to a higher score" in {
       for {
         user1  <- rnd[UserId]
         score1 <- rnd[Score]
