@@ -2,7 +2,6 @@ package sample
 
 import distage.{DIKey, ModuleDef}
 import doobie.util.transactor.Transactor
-import izumi.distage.docker.examples.PostgresDocker
 import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
@@ -11,7 +10,7 @@ import izumi.distage.testkit.TestConfig
 import izumi.distage.testkit.scalatest.DistageBIOSpecScalatest
 import izumi.distage.testkit.services.DISyntaxZIOEnv
 import sample.model.{QueryFailure, Score, UserId, UserProfile}
-import sample.repo.{Ladder, Profiles}
+import sample.repo.Ladder
 import sample.zioenv._
 import zio.{IO, Task, ZIO}
 

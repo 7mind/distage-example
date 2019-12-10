@@ -29,7 +29,6 @@ final class TransactorResource[F[_]: Async: ContextShift](
     val str = portCfg.substitute(cfg.url.stripPrefix("jdbc:"))
     val uri = URI.create(str)
 
-//    portCheck.checkUri(uri, portCfg.port, s"Couldn't connect to postgres at uri=$uri defaultPort=${portCfg.port}")
-    ResourceCheck.ResourceUnavailable("cause", None)
+    portCheck.checkUri(uri, portCfg.port, s"Couldn't connect to postgres at uri=$uri defaultPort=${portCfg.port}")
   }
 }

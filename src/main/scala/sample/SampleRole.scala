@@ -10,10 +10,9 @@ import izumi.distage.plugins.load.PluginLoader.PluginConfig
 import izumi.distage.roles.model.{RoleDescriptor, RoleService}
 import izumi.distage.roles.{RoleAppLauncher, RoleAppMain}
 import izumi.fundamentals.platform.cli.model.raw.{RawEntrypointParams, RawRoleParams}
-import sample.http.HttpApi
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.syntax.kleisli._
-import zio.Task
+import sample.http.HttpApi
 
 /** Example session:
   *
@@ -43,11 +42,9 @@ object SampleRole extends RoleDescriptor {
   val id = "sample"
 }
 
-import zio.interop.catz._
-
 object Main
   extends RoleAppMain.Default(
-    launcher = new RoleAppLauncher.LauncherF[Task] {
+    launcher = new RoleAppLauncher.LauncherBIO[zio.IO] {
       override val pluginSource = PluginSource(
         PluginConfig(
           debug            = false,
