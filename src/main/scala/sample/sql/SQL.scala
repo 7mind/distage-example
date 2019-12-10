@@ -1,10 +1,10 @@
-package livecode.sql
+package sample.sql
 
 import doobie.free.connection.ConnectionIO
 import doobie.util.transactor.Transactor
 import izumi.functional.bio.BIOPanic
 import izumi.functional.bio.catz._
-import livecode.model.QueryFailure
+import sample.model.QueryFailure
 
 trait SQL[F[_, _]] {
   def execute[A](queryName: String)(conn: ConnectionIO[A]): F[QueryFailure, A]

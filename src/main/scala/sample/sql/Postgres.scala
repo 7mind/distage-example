@@ -1,4 +1,4 @@
-package livecode.sql
+package sample.sql
 
 import java.net.URI
 
@@ -6,7 +6,7 @@ import cats.effect.{Async, Blocker, ContextShift, Resource}
 import doobie.hikari.HikariTransactor
 import izumi.distage.framework.model.IntegrationCheck
 import izumi.fundamentals.platform.integration.{PortCheck, ResourceCheck}
-import livecode.config.{PostgresCfg, PostgresPortCfg}
+import sample.config.{PostgresCfg, PostgresPortCfg}
 
 import scala.annotation.unused
 

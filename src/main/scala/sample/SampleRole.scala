@@ -1,4 +1,4 @@
-package livecode
+package sample
 
 import cats.effect.{ConcurrentEffect, Timer}
 import distage.DIResource
@@ -10,7 +10,7 @@ import izumi.distage.plugins.load.PluginLoader.PluginConfig
 import izumi.distage.roles.model.{RoleDescriptor, RoleService}
 import izumi.distage.roles.{RoleAppLauncher, RoleAppMain}
 import izumi.fundamentals.platform.cli.model.raw.{RawEntrypointParams, RawRoleParams}
-import livecode.http.HttpApi
+import sample.http.HttpApi
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.syntax.kleisli._
 import zio.Task
@@ -24,7 +24,7 @@ import zio.Task
   * curl -X GET http://localhost:8080/ladder
   * }}}
   */
-final class LivecodeRole[F[+_, +_]](
+final class SampleRole[F[+_, +_]](
   httpApi: HttpApi[F],
 )(implicit
   concurrentEffect: ConcurrentEffect[F[Throwable, ?]],
@@ -39,8 +39,8 @@ final class LivecodeRole[F[+_, +_]](
     }.void
   }
 }
-object LivecodeRole extends RoleDescriptor {
-  val id = "livecode"
+object SampleRole extends RoleDescriptor {
+  val id = "sample"
 }
 
 import zio.interop.catz._
@@ -51,7 +51,7 @@ object Main
       override val pluginSource = PluginSource(
         PluginConfig(
           debug            = false,
-          packagesEnabled  = Seq("livecode.plugins"),
+          packagesEnabled  = Seq("sample.plugins"),
           packagesDisabled = Nil,
         )
       )
@@ -61,6 +61,6 @@ object Main
     }
   ) {
   override val requiredRoles = Vector(
-    RawRoleParams.empty(LivecodeRole.id)
+    RawRoleParams.empty(SampleRole.id)
   )
 }

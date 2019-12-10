@@ -1,4 +1,4 @@
-package livecode.config
+package sample.config
 
 final case class PostgresPortCfg(
   host: String,

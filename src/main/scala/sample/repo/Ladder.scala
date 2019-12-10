@@ -1,11 +1,11 @@
-package livecode.repo
+package sample.repo
 
 import distage.DIResource
 import doobie.postgres.implicits._
 import doobie.syntax.string._
 import izumi.functional.bio.{BIO, BIOFunctor, BIOMonad, BIOPrimitives, BIORef, F}
-import livecode.model.{QueryFailure, Score, UserId}
-import livecode.sql.SQL
+import sample.model.{QueryFailure, Score, UserId}
+import sample.sql.SQL
 import logstage.LogBIO
 
 trait Ladder[F[_, _]] {

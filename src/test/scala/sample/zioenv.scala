@@ -1,7 +1,7 @@
-package livecode
+package sample
 
-import livecode.model._
-import livecode.repo.{Ladder, Profiles, Ranks}
+import sample.model._
+import sample.repo.{Ladder, Profiles, Ranks}
 import org.scalacheck.Arbitrary
 import zio.{IO, URIO, ZIO}
 

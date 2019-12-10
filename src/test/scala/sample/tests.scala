@@ -1,4 +1,4 @@
-package livecode
+package sample
 
 import distage.{DIKey, ModuleDef}
 import doobie.util.transactor.Transactor
@@ -10,14 +10,14 @@ import izumi.distage.plugins.load.PluginLoader.PluginConfig
 import izumi.distage.testkit.TestConfig
 import izumi.distage.testkit.scalatest.DistageBIOSpecScalatest
 import izumi.distage.testkit.services.DISyntaxZIOEnv
-import livecode.model.{QueryFailure, Score, UserId, UserProfile}
-import livecode.repo.{Ladder, Profiles}
-import livecode.zioenv._
+import sample.model.{QueryFailure, Score, UserId, UserProfile}
+import sample.repo.{Ladder, Profiles}
+import sample.zioenv._
 import zio.{IO, Task, ZIO}
 
-abstract class LivecodeTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
+abstract class SampleTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
   override def config = TestConfig(
-    pluginSource = Some(PluginSource(PluginConfig(packagesEnabled = Seq("livecode.plugins")))),
+    pluginSource = Some(PluginSource(PluginConfig(packagesEnabled = Seq("sample.plugins")))),
     activation   = Activation(Repo -> Repo.Prod),
     moduleOverrides = new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
@@ -32,7 +32,7 @@ abstract class LivecodeTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIO
   )
 }
 
-trait DummyTest extends LivecodeTest {
+trait DummyTest extends SampleTest {
   override final def config = super.config.copy(
     activation = Activation(Repo -> Repo.Dummy),
   )
@@ -42,7 +42,7 @@ final class LadderTestDummy extends LadderTestPostgres with DummyTest
 final class ProfilesTestDummy extends ProfilesTestPostgres with DummyTest
 final class RanksTestDummy extends RanksTestPostgres with DummyTest
 
-class LadderTestPostgres extends LivecodeTest with DummyTest {
+class LadderTestPostgres extends SampleTest with DummyTest {
 
   "Ladder" should {
     // this test gets dependencies through arguments
@@ -83,7 +83,7 @@ class LadderTestPostgres extends LivecodeTest with DummyTest {
 
 }
 
-class ProfilesTestPostgres extends LivecodeTest {
+class ProfilesTestPostgres extends SampleTest {
   "Profiles" should {
     // that's what the env signature looks like for ZIO Env injection
     "set & get" in {
@@ -101,7 +101,7 @@ class ProfilesTestPostgres extends LivecodeTest {
   }
 }
 
-class RanksTestPostgres extends LivecodeTest {
+class RanksTestPostgres extends SampleTest {
   "Ranks" should {
     "return None for a user with no score" in {
       for {

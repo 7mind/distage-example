@@ -1,11 +1,11 @@
-package livecode
+package sample
 
 import distage.ModuleDef
 import izumi.distage.docker.Docker
 import izumi.distage.docker.Docker.DockerPort
 import izumi.distage.docker.examples.PostgresDocker
 import izumi.distage.docker.modules.DockerContainerModule
-import livecode.config.PostgresPortCfg
+import sample.config.PostgresPortCfg
 import zio.Task
 
 object PostgresDockerModule extends ModuleDef {

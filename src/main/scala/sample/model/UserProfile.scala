@@ -1,4 +1,4 @@
-package livecode.model
+package sample.model
 
 import io.circe.{Codec, derivation}
 

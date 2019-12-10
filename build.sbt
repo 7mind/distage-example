@@ -45,10 +45,10 @@ inThisBuild(
   )
 )
 
-lazy val livecode = project
+lazy val sample = project
   .in(file("."))
   .settings(
-    name := "livecode",
+    name := "sample",
     scalacOptions --= Seq("-Werror", "-Xfatal-warnings"),
     libraryDependencies ++= Seq(
       Deps.distageCore,

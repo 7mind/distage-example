@@ -1,4 +1,4 @@
-package livecode
+package sample
 
 import java.util.UUID
 

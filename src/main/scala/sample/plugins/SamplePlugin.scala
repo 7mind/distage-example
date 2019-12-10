@@ -1,4 +1,4 @@
-package livecode.plugins
+package sample.plugins
 
 import distage.TagKK
 import distage.plugins.PluginDef
@@ -7,16 +7,16 @@ import izumi.distage.config.ConfigModuleDef
 import izumi.distage.model.definition.ModuleDef
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.fundamentals.platform.integration.PortCheck
-import livecode.LivecodeRole
-import livecode.config.{PostgresCfg, PostgresPortCfg}
-import livecode.http.HttpApi
-import livecode.repo.{Ladder, Profiles, Ranks}
-import livecode.sql.Postgres.PgIntegrationCheck
-import livecode.sql.{Postgres, SQL}
+import sample.SampleRole
+import sample.config.{PostgresCfg, PostgresPortCfg}
+import sample.http.HttpApi
+import sample.repo.{Ladder, Profiles, Ranks}
+import sample.sql.Postgres.PgIntegrationCheck
+import sample.sql.{Postgres, SQL}
 import org.http4s.dsl.Http4sDsl
 import zio.IO
 
-object LivecodePlugin extends PluginDef {
+object SamplePlugin extends PluginDef {
   include(modules.api[IO])
   include(modules.repoDummy[IO])
   include(modules.repoProd[IO])
@@ -24,7 +24,7 @@ object LivecodePlugin extends PluginDef {
 
   object modules {
     def api[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
-      make[LivecodeRole[F]]
+      make[SampleRole[F]]
 
       make[HttpApi[F]].from[HttpApi.Impl[F]]
       make[Ranks[F]].from[Ranks.Impl[F]]

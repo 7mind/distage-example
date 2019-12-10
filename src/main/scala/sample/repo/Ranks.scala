@@ -1,7 +1,7 @@
-package livecode.repo
+package sample.repo
 
 import izumi.functional.bio.BIOMonad
-import livecode.model.{QueryFailure, RankedProfile, UserId}
+import sample.model.{QueryFailure, RankedProfile, UserId}
 
 trait Ranks[F[_, _]] {
   def getRank(userId: UserId): F[QueryFailure, Option[RankedProfile]]

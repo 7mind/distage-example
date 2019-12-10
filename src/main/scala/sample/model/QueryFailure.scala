@@ -1,4 +1,4 @@
-package livecode.model
+package sample.model
 
 final case class QueryFailure(queryName: String, cause: Throwable)
   extends RuntimeException(

@@ -1,4 +1,4 @@
-package livecode.plugins
+package sample.plugins
 
 import java.util.concurrent.ThreadPoolExecutor
 

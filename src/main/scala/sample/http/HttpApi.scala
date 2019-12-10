@@ -1,10 +1,10 @@
-package livecode.http
+package sample.http
 
 import io.circe.syntax._
 import izumi.functional.bio.BIO
 import izumi.functional.bio.catz._
-import livecode.model.UserProfile
-import livecode.repo.{Ladder, Profiles, Ranks}
+import sample.model.UserProfile
+import sample.repo.{Ladder, Profiles, Ranks}
 import org.http4s.HttpRoutes
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
