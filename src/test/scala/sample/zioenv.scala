@@ -25,20 +25,9 @@ object zioenv {
     override def apply[A: Arbitrary]: URIO[RndEnv, A] = ZIO.accessM(_.rnd.apply[A])
   }
 
-  trait LadderEnv {
-    def ladder: Ladder[IO]
-  }
-
-  trait ProfilesEnv {
-    def profiles: Profiles[IO]
-  }
-
-  trait RanksEnv {
-    def ranks: Ranks[IO]
-  }
-
-  trait RndEnv {
-    def rnd: Rnd[IO]
-  }
+  trait LadderEnv { def ladder: Ladder[IO] }
+  trait ProfilesEnv { def profiles: Profiles[IO] }
+  trait RanksEnv { def ranks: Ranks[IO] }
+  trait RndEnv { def rnd: Rnd[IO] }
 
 }
