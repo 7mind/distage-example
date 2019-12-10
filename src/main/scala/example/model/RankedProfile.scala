@@ -1,4 +1,4 @@
-package sample.model
+package example.model
 
 import io.circe.{Codec, derivation}
 

@@ -1,4 +1,4 @@
-package sample
+package example
 
 import java.util.UUID
 

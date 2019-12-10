@@ -1,4 +1,4 @@
-package sample.plugins
+package example.plugins
 
 import java.util.concurrent.ThreadPoolExecutor
 

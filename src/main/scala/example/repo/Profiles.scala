@@ -1,11 +1,11 @@
-package sample.repo
+package example.repo
 
 import distage.DIResource
 import doobie.postgres.implicits._
 import doobie.syntax.string._
 import izumi.functional.bio.{BIO, BIOApplicative, BIOPrimitives, F}
-import sample.model.{QueryFailure, UserId, UserProfile}
-import sample.sql.SQL
+import example.model.{QueryFailure, UserId, UserProfile}
+import example.sql.SQL
 import logstage.LogBIO
 
 trait Profiles[F[_, _]] {

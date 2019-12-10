@@ -1,4 +1,4 @@
-package sample
+package example
 
 import izumi.functional.bio.{BIO, F}
 import org.scalacheck.Gen.Parameters

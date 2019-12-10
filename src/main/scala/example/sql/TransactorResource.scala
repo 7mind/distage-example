@@ -1,4 +1,4 @@
-package sample.sql
+package example.sql
 
 import java.net.URI
 
@@ -7,7 +7,7 @@ import doobie.hikari.HikariTransactor
 import izumi.distage.framework.model.IntegrationCheck
 import izumi.distage.model.definition.DIResource
 import izumi.fundamentals.platform.integration.{PortCheck, ResourceCheck}
-import sample.config.{PostgresCfg, PostgresPortCfg}
+import example.config.{PostgresCfg, PostgresPortCfg}
 
 final class TransactorResource[F[_]: Async: ContextShift](
   cfg: PostgresCfg,

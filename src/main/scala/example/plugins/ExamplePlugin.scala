@@ -1,4 +1,4 @@
-package sample.plugins
+package example.plugins
 
 import distage.TagKK
 import distage.plugins.PluginDef
@@ -8,14 +8,14 @@ import izumi.distage.model.definition.ModuleDef
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.fundamentals.platform.integration.PortCheck
 import org.http4s.dsl.Http4sDsl
-import sample.SampleRole
-import sample.config.{PostgresCfg, PostgresPortCfg}
-import sample.http.HttpApi
-import sample.repo.{Ladder, Profiles, Ranks}
-import sample.sql.{SQL, TransactorResource}
+import example.ExampleRole
+import example.config.{PostgresCfg, PostgresPortCfg}
+import example.http.HttpApi
+import example.repo.{Ladder, Profiles, Ranks}
+import example.sql.{SQL, TransactorResource}
 import zio.IO
 
-object SamplePlugin extends PluginDef {
+object ExamplePlugin extends PluginDef {
   include(modules.api[IO])
   include(modules.repoDummy[IO])
   include(modules.repoProd[IO])
@@ -23,7 +23,7 @@ object SamplePlugin extends PluginDef {
 
   object modules {
     def api[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
-      make[SampleRole[F]]
+      make[ExampleRole[F]]
 
       make[HttpApi[F]].from[HttpApi.Impl[F]]
       make[Ranks[F]].from[Ranks.Impl[F]]

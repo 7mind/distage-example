@@ -1,10 +1,10 @@
-package sample.http
+package example.http
 
 import io.circe.syntax._
 import izumi.functional.bio.BIO
 import izumi.functional.bio.catz._
-import sample.model.UserProfile
-import sample.repo.{Ladder, Profiles, Ranks}
+import example.model.UserProfile
+import example.repo.{Ladder, Profiles, Ranks}
 import org.http4s.HttpRoutes
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl

@@ -1,4 +1,4 @@
-package sample.config
+package example.config
 
 final case class PostgresCfg(
   jdbcDriver: String,

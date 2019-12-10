@@ -1,4 +1,4 @@
-package sample
+package example
 
 import distage.{DIKey, ModuleDef}
 import doobie.util.transactor.Transactor
@@ -9,14 +9,14 @@ import izumi.distage.plugins.load.PluginLoader.PluginConfig
 import izumi.distage.testkit.TestConfig
 import izumi.distage.testkit.scalatest.DistageBIOSpecScalatest
 import izumi.distage.testkit.services.DISyntaxZIOEnv
-import sample.model.{QueryFailure, Score, UserId, UserProfile}
-import sample.repo.Ladder
-import sample.zioenv._
+import example.model.{QueryFailure, Score, UserId, UserProfile}
+import example.repo.Ladder
+import example.zioenv._
 import zio.{IO, Task, ZIO}
 
-abstract class SampleTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
+abstract class ExampleTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
   override def config = TestConfig(
-    pluginSource = Some(PluginSource(PluginConfig(packagesEnabled = Seq("sample.plugins")))),
+    pluginSource = Some(PluginSource(PluginConfig(packagesEnabled = Seq("example.plugins")))),
     activation   = Activation(Repo -> Repo.Prod),
     moduleOverrides = new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
@@ -28,7 +28,7 @@ abstract class SampleTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEn
   )
 }
 
-trait DummyTest extends SampleTest {
+trait DummyTest extends ExampleTest {
   override final def config = super.config.copy(
     activation = Activation(Repo -> Repo.Dummy),
   )
@@ -42,7 +42,7 @@ final class LadderTestPostgres extends LadderTest
 final class ProfilesTestPostgres extends ProfilesTest
 final class RanksTestPostgres extends RanksTest
 
-abstract class LadderTest extends SampleTest with DummyTest {
+abstract class LadderTest extends ExampleTest with DummyTest {
 
   "Ladder" should {
     // this test gets dependencies through arguments
@@ -83,7 +83,7 @@ abstract class LadderTest extends SampleTest with DummyTest {
 
 }
 
-abstract class ProfilesTest extends SampleTest {
+abstract class ProfilesTest extends ExampleTest {
   "Profiles" should {
     // that's what the env signature looks like for ZIO Env injection
     "set & get" in {
@@ -101,7 +101,7 @@ abstract class ProfilesTest extends SampleTest {
   }
 }
 
-abstract class RanksTest extends SampleTest {
+abstract class RanksTest extends ExampleTest {
   "Ranks" should {
     "return None for a user with no score" in {
       for {

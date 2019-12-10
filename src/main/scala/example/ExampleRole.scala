@@ -1,4 +1,4 @@
-package sample
+package example
 
 import cats.effect.{ConcurrentEffect, Timer}
 import distage.DIResource
@@ -12,7 +12,7 @@ import izumi.distage.roles.{RoleAppLauncher, RoleAppMain}
 import izumi.fundamentals.platform.cli.model.raw.{RawEntrypointParams, RawRoleParams}
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.syntax.kleisli._
-import sample.http.HttpApi
+import example.http.HttpApi
 
 /** Example session:
   *
@@ -23,7 +23,7 @@ import sample.http.HttpApi
   * curl -X GET http://localhost:8080/ladder
   * }}}
   */
-final class SampleRole[F[+_, +_]](
+final class ExampleRole[F[+_, +_]](
   httpApi: HttpApi[F],
 )(implicit
   concurrentEffect: ConcurrentEffect[F[Throwable, ?]],
@@ -38,8 +38,8 @@ final class SampleRole[F[+_, +_]](
     }.void
   }
 }
-object SampleRole extends RoleDescriptor {
-  val id = "sample"
+object ExampleRole extends RoleDescriptor {
+  val id = "example"
 }
 
 object Main
@@ -48,7 +48,7 @@ object Main
       override val pluginSource = PluginSource(
         PluginConfig(
           debug            = false,
-          packagesEnabled  = Seq("sample.plugins"),
+          packagesEnabled  = Seq("example.plugins"),
           packagesDisabled = Nil,
         )
       )
@@ -58,6 +58,6 @@ object Main
     }
   ) {
   override val requiredRoles = Vector(
-    RawRoleParams.empty(SampleRole.id)
+    RawRoleParams.empty(ExampleRole.id)
   )
 }

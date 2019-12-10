@@ -1,7 +1,7 @@
-package sample
+package example
 
-import sample.model._
-import sample.repo.{Ladder, Profiles, Ranks}
+import example.model._
+import example.repo.{Ladder, Profiles, Ranks}
 import org.scalacheck.Arbitrary
 import zio.{IO, URIO, ZIO}
 

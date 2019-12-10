@@ -1,4 +1,4 @@
-package sample.model
+package example.model
 
 final case class QueryFailure(queryName: String, cause: Throwable)
   extends RuntimeException(
