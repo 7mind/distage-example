@@ -3,8 +3,9 @@ package example
 import distage.{DIKey, ModuleDef}
 import doobie.util.transactor.Transactor
 import example.model.{QueryFailure, Score, UserId, UserProfile}
-import example.repo.Ladder
+import example.repo.{Ladder, Profiles}
 import example.zioenv._
+import izumi.distage.docker.examples.PostgresDocker
 import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
@@ -24,6 +25,9 @@ abstract class ExampleTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOE
     },
     memoizedKeys = Set(
       DIKey.get[Transactor[Task]],
+      DIKey.get[Ladder[IO]],
+      DIKey.get[Profiles[IO]],
+      DIKey.get[PostgresDocker.Container],
     ),
   )
 }
