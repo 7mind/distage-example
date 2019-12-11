@@ -18,7 +18,7 @@ import izumi.distage.testkit.services.DISyntaxZIOEnv
 import izumi.logstage.api.logger.LogRouter
 import logstage.di.LogstageModule
 import org.scalatest.WordSpec
-import zio.{IO, ZIO}
+import zio.{IO, Task, ZIO}
 
 abstract class ExampleTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
   override def config = TestConfig(
@@ -163,24 +163,25 @@ abstract class RanksTest extends ExampleTest {
   }
 }
 
-final class InjectionTest extends WordSpec {
+final class InjectionTest extends ExampleTest with DummyTest {
   "all dependencies are wired" in {
-    def checkActivation(activation: Activation) = {
-      val plan = Injector(activation).plan(
-        input = Seq(
-          ExamplePlugin,
-          ZIOPlugin,
-          // dummy logger + config modules,
-          // normally the RoleStarter or the testkit will provide real values here
-          new LogstageModule(LogRouter.nullRouter, false),
-          new AppConfigModule(ConfigFactory.empty),
-        ).merge,
-        gcMode = GCMode(DIKey.get[ExampleRole[zio.IO]])
-      )
-      plan.assertImportsResolvedOrThrow()
-    }
+    () =>
+      def checkActivation(activation: Activation): Task[Unit] = {
+        val plan = Injector(activation).plan(
+          input = Seq(
+            ExamplePlugin,
+            ZIOPlugin,
+            // dummy logger + config modules,
+            // normally the RoleStarter or the testkit will provide real values here
+            new LogstageModule(LogRouter.nullRouter, false),
+            new AppConfigModule(ConfigFactory.empty),
+          ).merge,
+          gcMode = GCMode(DIKey.get[ExampleRole[zio.IO]])
+        )
+        Task(plan.assertImportsResolvedOrThrow())
+      }
 
-    checkActivation(Activation(Repo -> Repo.Dummy))
-    checkActivation(Activation(Repo -> Repo.Prod))
+      checkActivation(Activation(Repo -> Repo.Dummy)) *>
+      checkActivation(Activation(Repo -> Repo.Prod))
   }
 }
