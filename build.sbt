@@ -45,10 +45,10 @@ inThisBuild(
   )
 )
 
-lazy val example = project
+lazy val leaderboard = project
   .in(file("."))
   .settings(
-    name := "example",
+    name := "leaderboard",
     scalacOptions --= Seq("-Werror", "-Xfatal-warnings"),
     libraryDependencies ++= Seq(
       Deps.distageCore,

@@ -1,4 +1,4 @@
-package example.plugins
+package leaderboard.plugins
 
 import java.util.concurrent.ThreadPoolExecutor
 

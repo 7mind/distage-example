@@ -1,4 +1,4 @@
-package example
+package leaderboard
 
 import java.util.UUID
 

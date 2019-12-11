@@ -1,11 +1,11 @@
-package example
+package leaderboard
 
 import com.typesafe.config.ConfigFactory
 import distage.{DIKey, Injector, ModuleDef}
-import example.model.{QueryFailure, Score, UserId, UserProfile}
-import example.plugins.{ExamplePlugin, ZIOPlugin}
-import example.repo.{Ladder, Profiles}
-import example.zioenv._
+import leaderboard.model.{QueryFailure, Score, UserId, UserProfile}
+import leaderboard.plugins.{LeaderboardPlugin, ZIOPlugin}
+import leaderboard.repo.{Ladder, Profiles}
+import leaderboard.zioenv._
 import izumi.distage.config.AppConfigModule
 import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
@@ -20,9 +20,9 @@ import logstage.di.LogstageModule
 import org.scalatest.WordSpec
 import zio.{IO, Task, ZIO}
 
-abstract class ExampleTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
+abstract class leaderboardTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
   override def config = TestConfig(
-    pluginSource = Some(PluginSource(PluginConfig(packagesEnabled = Seq("example.plugins")))),
+    pluginSource = Some(PluginSource(PluginConfig(packagesEnabled = Seq("leaderboard.plugins")))),
     activation   = Activation(Repo -> Repo.Prod),
     moduleOverrides = new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
@@ -35,7 +35,7 @@ abstract class ExampleTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOE
   )
 }
 
-trait DummyTest extends ExampleTest {
+trait DummyTest extends leaderboardTest {
   override final def config = super.config.copy(
     activation = Activation(Repo -> Repo.Dummy),
   )
@@ -49,7 +49,7 @@ final class LadderTestPostgres extends LadderTest
 final class ProfilesTestPostgres extends ProfilesTest
 final class RanksTestPostgres extends RanksTest
 
-abstract class LadderTest extends ExampleTest {
+abstract class LadderTest extends leaderboardTest {
 
   "Ladder" should {
     // this test gets dependencies through arguments
@@ -90,7 +90,7 @@ abstract class LadderTest extends ExampleTest {
 
 }
 
-abstract class ProfilesTest extends ExampleTest {
+abstract class ProfilesTest extends leaderboardTest {
   "Profiles" should {
     // that's what the env signature looks like for ZIO Env injection
     "set & get" in {
@@ -108,7 +108,7 @@ abstract class ProfilesTest extends ExampleTest {
   }
 }
 
-abstract class RanksTest extends ExampleTest {
+abstract class RanksTest extends leaderboardTest {
   "Ranks" should {
     "return None for a user with no score" in {
       for {
@@ -163,20 +163,20 @@ abstract class RanksTest extends ExampleTest {
   }
 }
 
-final class InjectionTest extends ExampleTest with DummyTest {
+final class InjectionTest extends leaderboardTest with DummyTest {
   "all dependencies are wired" in {
     () =>
       def checkActivation(activation: Activation): Task[Unit] = {
         val plan = Injector(activation).plan(
           input = Seq(
-            ExamplePlugin,
+            LeaderboardPlugin,
             ZIOPlugin,
             // dummy logger + config modules,
             // normally the RoleStarter or the testkit will provide real values here
             new LogstageModule(LogRouter.nullRouter, false),
             new AppConfigModule(ConfigFactory.empty),
           ).merge,
-          gcMode = GCMode(DIKey.get[ExampleRole[zio.IO]])
+          gcMode = GCMode(DIKey.get[LeaderboardRole[zio.IO]])
         )
         Task(plan.assertImportsResolvedOrThrow())
       }

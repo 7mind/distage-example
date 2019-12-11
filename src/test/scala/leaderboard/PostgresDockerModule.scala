@@ -1,7 +1,7 @@
-package example
+package leaderboard
 
 import distage.ModuleDef
-import example.config.PostgresPortCfg
+import leaderboard.config.PostgresPortCfg
 import izumi.distage.docker.Docker
 import izumi.distage.docker.Docker.DockerPort
 import izumi.distage.docker.examples.PostgresDocker

@@ -1,4 +1,4 @@
-package example.model
+package leaderboard.model
 
 import io.circe.{Codec, derivation}
 

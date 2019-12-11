@@ -1,7 +1,7 @@
-package example
+package leaderboard
 
-import example.model._
-import example.repo.{Ladder, Profiles, Ranks}
+import leaderboard.model._
+import leaderboard.repo.{Ladder, Profiles, Ranks}
 import org.scalacheck.Arbitrary
 import zio.{IO, URIO, ZIO}
 

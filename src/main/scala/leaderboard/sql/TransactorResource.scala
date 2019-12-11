@@ -1,13 +1,13 @@
-package example.sql
+package leaderboard.sql
 
 import java.net.URI
 
 import cats.effect.{Async, Blocker, ContextShift}
 import doobie.hikari.HikariTransactor
-import example.config.{PostgresCfg, PostgresPortCfg}
 import izumi.distage.framework.model.IntegrationCheck
 import izumi.distage.model.definition.DIResource
 import izumi.fundamentals.platform.integration.{PortCheck, ResourceCheck}
+import leaderboard.config.{PostgresCfg, PostgresPortCfg}
 
 final class TransactorResource[F[_]: Async: ContextShift](
   cfg: PostgresCfg,

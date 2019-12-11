@@ -1,4 +1,4 @@
-package example.config
+package leaderboard.config
 
 final case class PostgresCfg(
   jdbcDriver: String,

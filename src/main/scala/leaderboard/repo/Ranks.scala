@@ -1,7 +1,7 @@
-package example.repo
+package leaderboard.repo
 
-import example.model.{QueryFailure, RankedProfile, UserId}
 import izumi.functional.bio.BIOMonad
+import leaderboard.model.{QueryFailure, RankedProfile, UserId}
 
 trait Ranks[F[_, _]] {
   def getRank(userId: UserId): F[QueryFailure, Option[RankedProfile]]

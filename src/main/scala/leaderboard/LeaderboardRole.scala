@@ -1,9 +1,9 @@
-package example
+package leaderboard
 
 import cats.effect.{ConcurrentEffect, Timer}
 import distage.DIResource
 import distage.DIResource.DIResourceBase
-import example.http.HttpApi
+import leaderboard.http.HttpApi
 import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
@@ -23,7 +23,7 @@ import org.http4s.syntax.kleisli._
   * curl -X GET http://localhost:8080/ladder
   * }}}
   */
-final class ExampleRole[F[+_, +_]](
+final class LeaderboardRole[F[+_, +_]](
   httpApi: HttpApi[F],
 )(implicit
   concurrentEffect: ConcurrentEffect[F[Throwable, ?]],
@@ -39,8 +39,8 @@ final class ExampleRole[F[+_, +_]](
   }
 }
 
-object ExampleRole extends RoleDescriptor {
-  val id = "example"
+object LeaderboardRole extends RoleDescriptor {
+  val id = "leaderboard"
 }
 
 object MainDummy extends MainBase(Activation(Repo -> Repo.Dummy))
@@ -60,7 +60,7 @@ sealed abstract class MainBase(activation: Activation)
       override val pluginSource = PluginSource(
         PluginConfig(
           debug            = false,
-          packagesEnabled  = Seq("example.plugins"),
+          packagesEnabled  = Seq("leaderboard.plugins"),
           packagesDisabled = Nil,
         )
       )
@@ -68,6 +68,6 @@ sealed abstract class MainBase(activation: Activation)
     }
   ) {
   override val requiredRoles = Vector(
-    RawRoleParams(ExampleRole.id)
+    RawRoleParams(LeaderboardRole.id)
   )
 }

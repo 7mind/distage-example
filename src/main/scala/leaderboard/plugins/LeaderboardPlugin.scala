@@ -1,13 +1,13 @@
-package example.plugins
+package leaderboard.plugins
 
 import distage.TagKK
 import distage.plugins.PluginDef
 import doobie.util.transactor.Transactor
-import example.ExampleRole
-import example.config.{PostgresCfg, PostgresPortCfg}
-import example.http.HttpApi
-import example.repo.{Ladder, Profiles, Ranks}
-import example.sql.{SQL, TransactorResource}
+import leaderboard.LeaderboardRole
+import leaderboard.config.{PostgresCfg, PostgresPortCfg}
+import leaderboard.http.HttpApi
+import leaderboard.repo.{Ladder, Profiles, Ranks}
+import leaderboard.sql.{SQL, TransactorResource}
 import izumi.distage.config.ConfigModuleDef
 import izumi.distage.model.definition.ModuleDef
 import izumi.distage.model.definition.StandardAxis.Repo
@@ -15,7 +15,7 @@ import izumi.fundamentals.platform.integration.PortCheck
 import org.http4s.dsl.Http4sDsl
 import zio.IO
 
-object ExamplePlugin extends PluginDef {
+object LeaderboardPlugin extends PluginDef {
   include(modules.api[IO])
   include(modules.repoDummy[IO])
   include(modules.repoProd[IO])
@@ -23,7 +23,7 @@ object ExamplePlugin extends PluginDef {
 
   object modules {
     def api[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
-      make[ExampleRole[F]]
+      make[LeaderboardRole[F]]
 
       make[HttpApi[F]].from[HttpApi.Impl[F]]
       make[Ranks[F]].from[Ranks.Impl[F]]
