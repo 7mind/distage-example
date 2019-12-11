@@ -38,6 +38,7 @@ final class ExampleRole[F[+_, +_]](
     }.void
   }
 }
+
 object ExampleRole extends RoleDescriptor {
   val id = "example"
 }
