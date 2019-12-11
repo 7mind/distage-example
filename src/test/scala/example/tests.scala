@@ -1,19 +1,24 @@
 package example
 
-import distage.{DIKey, ModuleDef}
-import doobie.util.transactor.Transactor
+import com.typesafe.config.ConfigFactory
+import distage.{DIKey, Injector, ModuleDef}
 import example.model.{QueryFailure, Score, UserId, UserProfile}
+import example.plugins.{ExamplePlugin, ZIOPlugin}
 import example.repo.{Ladder, Profiles}
 import example.zioenv._
-import izumi.distage.docker.examples.PostgresDocker
+import izumi.distage.config.AppConfigModule
 import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
+import izumi.distage.model.plan.GCMode
 import izumi.distage.plugins.load.PluginLoader.PluginConfig
 import izumi.distage.testkit.TestConfig
 import izumi.distage.testkit.scalatest.DistageBIOSpecScalatest
 import izumi.distage.testkit.services.DISyntaxZIOEnv
-import zio.{IO, Task, ZIO}
+import izumi.logstage.api.logger.LogRouter
+import logstage.di.LogstageModule
+import org.scalatest.WordSpec
+import zio.{IO, ZIO}
 
 abstract class ExampleTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
   override def config = TestConfig(
@@ -23,11 +28,9 @@ abstract class ExampleTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOE
       make[Rnd[IO]].from[Rnd.Impl[IO]]
       include(PostgresDockerModule)
     },
-    memoizedKeys = Set(
-      DIKey.get[Transactor[Task]],
+    memoizationRoots = Set(
       DIKey.get[Ladder[IO]],
       DIKey.get[Profiles[IO]],
-      DIKey.get[PostgresDocker.Container],
     ),
   )
 }
@@ -46,7 +49,7 @@ final class LadderTestPostgres extends LadderTest
 final class ProfilesTestPostgres extends ProfilesTest
 final class RanksTestPostgres extends RanksTest
 
-abstract class LadderTest extends ExampleTest with DummyTest {
+abstract class LadderTest extends ExampleTest {
 
   "Ladder" should {
     // this test gets dependencies through arguments
@@ -157,5 +160,27 @@ abstract class RanksTest extends ExampleTest {
         }
       } yield ()
     }
+  }
+}
+
+final class InjectionTest extends WordSpec {
+  "all dependencies are wired" in {
+    def checkActivation(activation: Activation) = {
+      val plan = Injector(activation).plan(
+        input = Seq(
+          ExamplePlugin,
+          ZIOPlugin,
+          // dummy logger + config modules,
+          // normally the RoleStarter or the testkit will provide real values here
+          new LogstageModule(LogRouter.nullRouter, false),
+          new AppConfigModule(ConfigFactory.empty),
+        ).merge,
+        gcMode = GCMode(DIKey.get[ExampleRole[zio.IO]])
+      )
+      plan.assertImportsResolvedOrThrow()
+    }
+
+    checkActivation(Activation(Repo -> Repo.Dummy))
+    checkActivation(Activation(Repo -> Repo.Prod))
   }
 }
