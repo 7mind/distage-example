@@ -2,10 +2,6 @@ package leaderboard
 
 import com.typesafe.config.ConfigFactory
 import distage.{DIKey, Injector, ModuleDef}
-import leaderboard.model.{QueryFailure, Score, UserId, UserProfile}
-import leaderboard.plugins.{LeaderboardPlugin, ZIOPlugin}
-import leaderboard.repo.{Ladder, Profiles}
-import leaderboard.zioenv._
 import izumi.distage.config.AppConfigModule
 import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
@@ -16,14 +12,16 @@ import izumi.distage.testkit.TestConfig
 import izumi.distage.testkit.scalatest.DistageBIOSpecScalatest
 import izumi.distage.testkit.services.DISyntaxZIOEnv
 import izumi.logstage.api.logger.LogRouter
+import leaderboard.model.{QueryFailure, Score, UserId, UserProfile}
+import leaderboard.plugins.{LeaderboardPlugin, ZIOPlugin}
+import leaderboard.repo.{Ladder, Profiles}
+import leaderboard.zioenv._
 import logstage.di.LogstageModule
-import org.scalatest.WordSpec
 import zio.{IO, Task, ZIO}
 
-abstract class leaderboardTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
+abstract class LeaderboardTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
   override def config = TestConfig(
     pluginSource = Some(PluginSource(PluginConfig(packagesEnabled = Seq("leaderboard.plugins")))),
-    activation   = Activation(Repo -> Repo.Prod),
     moduleOverrides = new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
       include(PostgresDockerModule)
@@ -35,9 +33,15 @@ abstract class leaderboardTest extends DistageBIOSpecScalatest[IO] with DISyntax
   )
 }
 
-trait DummyTest extends leaderboardTest {
+trait DummyTest extends LeaderboardTest {
   override final def config = super.config.copy(
     activation = Activation(Repo -> Repo.Dummy),
+  )
+}
+
+trait ProdTest extends LeaderboardTest {
+  override final def config = super.config.copy(
+    activation = Activation(Repo -> Repo.Prod),
   )
 }
 
@@ -45,11 +49,11 @@ final class LadderTestDummy extends LadderTest with DummyTest
 final class ProfilesTestDummy extends ProfilesTest with DummyTest
 final class RanksTestDummy extends RanksTest with DummyTest
 
-final class LadderTestPostgres extends LadderTest
-final class ProfilesTestPostgres extends ProfilesTest
-final class RanksTestPostgres extends RanksTest
+final class LadderTestPostgres extends LadderTest with ProdTest
+final class ProfilesTestPostgres extends ProfilesTest with ProdTest
+final class RanksTestPostgres extends RanksTest with ProdTest
 
-abstract class LadderTest extends leaderboardTest {
+abstract class LadderTest extends LeaderboardTest {
 
   "Ladder" should {
     // this test gets dependencies through arguments
@@ -90,7 +94,7 @@ abstract class LadderTest extends leaderboardTest {
 
 }
 
-abstract class ProfilesTest extends leaderboardTest {
+abstract class ProfilesTest extends LeaderboardTest {
   "Profiles" should {
     // that's what the env signature looks like for ZIO Env injection
     "set & get" in {
@@ -108,7 +112,7 @@ abstract class ProfilesTest extends leaderboardTest {
   }
 }
 
-abstract class RanksTest extends leaderboardTest {
+abstract class RanksTest extends LeaderboardTest {
   "Ranks" should {
     "return None for a user with no score" in {
       for {
@@ -163,7 +167,7 @@ abstract class RanksTest extends leaderboardTest {
   }
 }
 
-final class InjectionTest extends leaderboardTest with DummyTest {
+final class InjectionTest extends LeaderboardTest with DummyTest {
   "all dependencies are wired" in {
     () =>
       def checkActivation(activation: Activation): Task[Unit] = {

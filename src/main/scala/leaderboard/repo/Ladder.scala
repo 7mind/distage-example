@@ -3,7 +3,7 @@ package leaderboard.repo
 import distage.DIResource
 import doobie.postgres.implicits._
 import doobie.syntax.string._
-import izumi.functional.bio.{BIO, BIOFunctor, BIOMonad, BIOPrimitives, BIORef, F}
+import izumi.functional.bio.{BIOApplicative, BIOFunctor, BIOMonad, BIOPrimitives, BIORef, F}
 import leaderboard.model.{QueryFailure, Score, UserId}
 import leaderboard.sql.SQL
 import logstage.LogBIO
@@ -14,10 +14,11 @@ trait Ladder[F[_, _]] {
 }
 
 object Ladder {
-  final class Dummy[F[+_, +_]: BIO: BIOPrimitives]
-    extends DIResource.LiftF[F[Throwable, ?], Ladder[F]](
+  final class Dummy[F[+_, +_]: BIOApplicative: BIOPrimitives]
+    extends DIResource.Make[F[Throwable, ?], Ladder[F]](
       F.mkRef(Map.empty[UserId, Score]).map(new Dummy.Impl(_))
-    )
+    )(release = _ => F.unit)
+
   object Dummy {
     final class Impl[F[+_, +_]: BIOFunctor](
       state: BIORef[F, Map[UserId, Score]],
@@ -33,7 +34,7 @@ object Ladder {
   final class Postgres[F[+_, +_]: BIOMonad](
     sql: SQL[F],
     log: LogBIO[F],
-  ) extends DIResource.MakePair[F[Throwable, ?], Ladder[F]](
+  ) extends DIResource.Make_[F[Throwable, ?], Ladder[F]](
       acquire = for {
         _ <- log.info("Creating Ladder table")
         _ <- sql.execute("ladder-ddl") {
@@ -45,7 +46,6 @@ object Ladder {
                |""".stripMargin.update.run
         }
         res = new Ladder[F] {
-
           override def submitScore(userId: UserId, score: Score): F[QueryFailure, Unit] =
             sql
               .execute("submit-score") {
@@ -61,6 +61,6 @@ object Ladder {
                    |""".stripMargin.query[(UserId, Score)].to[List]
             }
         }
-      } yield res -> F.unit
-    )
+      } yield res
+    )(release = F.unit)
 }
