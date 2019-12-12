@@ -1,6 +1,6 @@
 # distage example
 
-Example project for Functional Scala 2019
+Example `distage` project presented at Functional Scala 2019
 
 Features [distage](https://izumi.7mind.io/latest/release/doc/distage/),
 [Bifunctor Tagless Final](https://github.com/7mind/izumi/blob/v0.10.0-M5/fundamentals/fundamentals-bio/src/main/scala/izumi/functional/bio/package.scala),
