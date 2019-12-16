@@ -1,9 +1,9 @@
 val V = new {
   val distage         = "0.10.0-M8"
   val scalatest       = "3.0.8"
-  val scalacheck      = "1.14.1"
-  val http4s          = "0.21.0-M4"
-  val doobie          = "0.8.6"
+  val scalacheck      = "1.14.3"
+  val http4s          = "0.21.0-M6"
+  val doobie          = "0.8.7"
   val zio             = "1.0.0-RC17"
   val zioCats         = "2.0.0.0-RC10"
   val kindProjector   = "0.11.0"
