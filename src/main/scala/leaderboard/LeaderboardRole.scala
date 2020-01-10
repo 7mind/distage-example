@@ -3,14 +3,14 @@ package leaderboard
 import cats.effect.{ConcurrentEffect, Timer}
 import distage.DIResource
 import distage.DIResource.DIResourceBase
-import leaderboard.http.HttpApi
 import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
-import izumi.distage.plugins.load.PluginLoader.PluginConfig
+import izumi.distage.plugins.PluginConfig
 import izumi.distage.roles.model.{RoleDescriptor, RoleService}
 import izumi.distage.roles.{RoleAppLauncher, RoleAppMain}
 import izumi.fundamentals.platform.cli.model.raw.{RawEntrypointParams, RawRoleParams}
+import leaderboard.http.HttpApi
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.syntax.kleisli._
 
@@ -58,11 +58,7 @@ sealed abstract class MainBase(activation: Activation)
   extends RoleAppMain.Default(
     launcher = new RoleAppLauncher.LauncherBIO[zio.IO] {
       override val pluginSource = PluginSource(
-        PluginConfig(
-          debug            = false,
-          packagesEnabled  = Seq("leaderboard.plugins"),
-          packagesDisabled = Nil,
-        )
+        PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins"))
       )
       override val requiredActivations = activation
     }

@@ -7,7 +7,7 @@ import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.model.plan.GCMode
-import izumi.distage.plugins.load.PluginLoader.PluginConfig
+import izumi.distage.plugins.PluginConfig
 import izumi.distage.testkit.TestConfig
 import izumi.distage.testkit.scalatest.DistageBIOSpecScalatest
 import izumi.distage.testkit.services.DISyntaxZIOEnv
@@ -21,7 +21,7 @@ import zio.{IO, Task, ZIO}
 
 abstract class LeaderboardTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
   override def config = TestConfig(
-    pluginSource = Some(PluginSource(PluginConfig(packagesEnabled = Seq("leaderboard.plugins")))),
+    pluginSource = PluginSource(PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins"))),
     moduleOverrides = new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
       include(PostgresDockerModule)
