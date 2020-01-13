@@ -12,4 +12,4 @@ To launch tests that require postgres ensure you have a `docker` daemon running 
 
 * ScalaWAW Warsaw Meetup – [Livecoding this project](https://www.youtube.com/watch?v=C0srg5T0E4o&t=4971)
 
-* Functional Scala 2019 – Hyperpragmatic Pure FP testing with distage-testkit, *Video pending*
+* Functional Scala 2019 – [Hyperpragmatic Pure FP testing with distage-testkit](https://www.youtube.com/watch?v=CzpvjkUukAs)
