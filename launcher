@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+ARGS="$@"
+sbt "runMain leaderboard.GenericLauncher $ARGS"

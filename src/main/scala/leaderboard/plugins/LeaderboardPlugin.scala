@@ -3,28 +3,36 @@ package leaderboard.plugins
 import distage.TagKK
 import distage.plugins.PluginDef
 import doobie.util.transactor.Transactor
+import izumi.distage.config.ConfigModuleDef
+import izumi.distage.model.definition.ModuleDef
+import izumi.distage.model.definition.StandardAxis.Repo
+import izumi.distage.roles.bundled.DistageRolesModule
+import izumi.fundamentals.platform.integration.PortCheck
 import leaderboard.LeaderboardRole
 import leaderboard.config.{PostgresCfg, PostgresPortCfg}
 import leaderboard.http.HttpApi
 import leaderboard.repo.{Ladder, Profiles, Ranks}
 import leaderboard.sql.{SQL, TransactorResource}
-import izumi.distage.config.ConfigModuleDef
-import izumi.distage.model.definition.ModuleDef
-import izumi.distage.model.definition.StandardAxis.Repo
-import izumi.fundamentals.platform.integration.PortCheck
 import org.http4s.dsl.Http4sDsl
 import zio.IO
 
 object LeaderboardPlugin extends PluginDef {
+  include(modules.roles[IO])
   include(modules.api[IO])
   include(modules.repoDummy[IO])
   include(modules.repoProd[IO])
-  include(modules.configProd)
+  include(modules.configs)
 
   object modules {
-    def api[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
+    def roles[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
+      // The `leaderboard` app
       make[LeaderboardRole[F]]
 
+      // Bundled roles: `help` & `configwriter`
+      include(DistageRolesModule[F[Throwable, ?]](version = "1.0.0-SNAPSHOT"))
+    }
+
+    def api[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
       make[HttpApi[F]].from[HttpApi.Impl[F]]
       make[Ranks[F]].from[Ranks.Impl[F]]
 
@@ -50,7 +58,7 @@ object LeaderboardPlugin extends PluginDef {
       make[PortCheck].from(new PortCheck(3))
     }
 
-    val configProd = new ConfigModuleDef {
+    val configs: ConfigModuleDef = new ConfigModuleDef {
       makeConfig[PostgresCfg]("postgres")
       makeConfig[PostgresPortCfg]("postgres")
     }

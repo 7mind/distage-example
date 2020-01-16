@@ -13,7 +13,9 @@ import zio.{IO, Task}
 
 import scala.concurrent.ExecutionContext
 
-object ZIOPlugin extends ZIODIEffectModule with PluginDef {
+object ZIOPlugin extends PluginDef {
+  include(ZIODIEffectModule)
+
   addImplicit[Bracket[Task, Throwable]]
   addImplicit[Async[Task]]
   addImplicit[ContextShift[Task]]

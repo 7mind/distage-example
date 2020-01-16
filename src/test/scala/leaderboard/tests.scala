@@ -1,23 +1,17 @@
 package leaderboard
 
-import com.typesafe.config.ConfigFactory
-import distage.{DIKey, Injector, ModuleDef}
-import izumi.distage.config.AppConfigModule
+import distage.{DIKey, ModuleDef}
 import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
-import izumi.distage.model.plan.GCMode
 import izumi.distage.plugins.PluginConfig
 import izumi.distage.testkit.TestConfig
 import izumi.distage.testkit.scalatest.DistageBIOSpecScalatest
 import izumi.distage.testkit.services.DISyntaxZIOEnv
-import izumi.logstage.api.logger.LogRouter
 import leaderboard.model.{QueryFailure, Score, UserId, UserProfile}
-import leaderboard.plugins.{LeaderboardPlugin, ZIOPlugin}
 import leaderboard.repo.{Ladder, Profiles}
 import leaderboard.zioenv._
-import logstage.di.LogstageModule
-import zio.{IO, Task, ZIO}
+import zio.{IO, ZIO}
 
 abstract class LeaderboardTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
   override def config = TestConfig(
@@ -170,28 +164,5 @@ abstract class RanksTest extends LeaderboardTest {
         }
       } yield ()
     }
-  }
-}
-
-final class InjectionTest extends LeaderboardTest with DummyTest {
-  "all dependencies are wired" in {
-    () =>
-      def checkActivation(activation: Activation): Task[Unit] = {
-        val plan = Injector(activation).plan(
-          input = Seq(
-            LeaderboardPlugin,
-            ZIOPlugin,
-            // dummy logger + config modules,
-            // normally the RoleStarter or the testkit will provide real values here
-            new LogstageModule(LogRouter.nullRouter, false),
-            new AppConfigModule(ConfigFactory.empty),
-          ).merge,
-          gcMode = GCMode(DIKey.get[LeaderboardRole[zio.IO]])
-        )
-        Task(plan.assertImportsResolvedOrThrow())
-      }
-
-      checkActivation(Activation(Repo -> Repo.Dummy)) *>
-      checkActivation(Activation(Repo -> Repo.Prod))
   }
 }
