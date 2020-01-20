@@ -28,7 +28,7 @@ object PostgresDockerModule extends ModuleDef {
   include(new DockerContainerModule[Task] overridenBy new ModuleDef {
     make[Docker.ClientConfig].from {
       Docker.ClientConfig(
-        readTimeoutMs    = 500,
+        readTimeoutMs    = 10000,
         connectTimeoutMs = 500,
         allowReuse       = true,
         useRemote        = false,
