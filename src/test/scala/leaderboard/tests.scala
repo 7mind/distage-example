@@ -1,7 +1,6 @@
 package leaderboard
 
 import distage.{DIKey, ModuleDef}
-import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.plugins.PluginConfig
@@ -15,7 +14,7 @@ import zio.{IO, ZIO}
 
 abstract class LeaderboardTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv {
   override def config = TestConfig(
-    pluginSource = PluginSource(PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins"))),
+    pluginConfig = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins")),
     moduleOverrides = new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
       // For testing, setup a docker container with postgres,

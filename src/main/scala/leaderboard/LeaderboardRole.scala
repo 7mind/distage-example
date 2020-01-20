@@ -3,7 +3,6 @@ package leaderboard
 import cats.effect.{ConcurrentEffect, Timer}
 import distage.DIResource
 import distage.DIResource.DIResourceBase
-import izumi.distage.framework.model.PluginSource
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.plugins.PluginConfig
@@ -122,9 +121,7 @@ object GenericLauncher extends MainBase(Activation(Repo -> Repo.Prod)) {
 sealed abstract class MainBase(activation: Activation)
   extends RoleAppMain.Default(
     launcher = new RoleAppLauncher.LauncherBIO[zio.IO] {
-      override val pluginSource = PluginSource(
-        PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins"))
-      )
+      override val pluginConfig        = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins"))
       override val requiredActivations = activation
     }
   ) {
