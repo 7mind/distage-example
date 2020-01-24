@@ -1,8 +1,3 @@
-
-# Workaround to allow shutdown hooks
-# https://github.com/sbt/sbt/issues/4796
--Dsbt.classloader.close=false
-
 # Bumping JIT inline-level increases performance of Scala code
 #   https://www.reddit.com/r/scala/comments/cigh0t/these_go_to_eighteen_c_jon_pretty/
 #   https://scalacenter.github.io/bloop/docs/performance-guide#tweak-the-java-jit
