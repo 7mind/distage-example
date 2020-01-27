@@ -18,7 +18,7 @@ final class WiringTest extends DistageBIOSpecScalatest[IO] {
       Task {
         Injector(activation)
           .plan(
-            input = Seq(
+            Seq(
               LeaderboardPlugin,
               ZIOPlugin,
               // dummy logger + config modules,
@@ -26,7 +26,7 @@ final class WiringTest extends DistageBIOSpecScalatest[IO] {
               new LogstageModule(LogRouter.nullRouter, setupStaticLogRouter = false),
               new AppConfigModule(ConfigFactory.empty),
             ).merge,
-            gcMode = GCMode(DIKey.get[LeaderboardRole[zio.IO]]),
+            GCMode(DIKey.get[LeaderboardRole[zio.IO]]),
           )
           .assertImportsResolvedOrThrow()
       }

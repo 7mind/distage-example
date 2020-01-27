@@ -6,6 +6,8 @@
 /local.sbt
 .secrets
 .DS_Store
+config
+default-configs
 
 # Compiled class file
 *.class
