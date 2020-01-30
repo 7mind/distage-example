@@ -1,11 +1,10 @@
 package leaderboard.plugins
 
-import distage.TagKK
+import distage.StandardAxis.Repo
+import distage.{ModuleDef, TagKK}
+import distage.config.ConfigModuleDef
 import distage.plugins.PluginDef
 import doobie.util.transactor.Transactor
-import izumi.distage.config.ConfigModuleDef
-import izumi.distage.model.definition.ModuleDef
-import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.roles.bundled.DistageRolesModule
 import izumi.fundamentals.platform.integration.PortCheck
 import leaderboard.LeaderboardRole

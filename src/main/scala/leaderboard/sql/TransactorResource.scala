@@ -3,9 +3,9 @@ package leaderboard.sql
 import java.net.URI
 
 import cats.effect.{Async, Blocker, ContextShift}
+import distage.DIResource
 import doobie.hikari.HikariTransactor
 import izumi.distage.framework.model.IntegrationCheck
-import izumi.distage.model.definition.DIResource
 import izumi.fundamentals.platform.integration.{PortCheck, ResourceCheck}
 import leaderboard.config.{PostgresCfg, PostgresPortCfg}
 

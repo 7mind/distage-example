@@ -1,11 +1,9 @@
 package leaderboard
 
 import cats.effect.{ConcurrentEffect, Timer}
-import distage.DIResource
-import distage.DIResource.DIResourceBase
-import izumi.distage.model.definition.Activation
-import izumi.distage.model.definition.StandardAxis.Repo
-import izumi.distage.plugins.PluginConfig
+import distage.StandardAxis.Repo
+import distage.plugins.PluginConfig
+import distage.{Activation, DIResource, DIResourceBase}
 import izumi.distage.roles.bundled.{ConfigWriter, Help}
 import izumi.distage.roles.model.{RoleDescriptor, RoleService}
 import izumi.distage.roles.{RoleAppLauncher, RoleAppMain}
