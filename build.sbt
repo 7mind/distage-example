@@ -1,5 +1,5 @@
 val V = new {
-  val distage         = "0.10.0"
+  val distage         = "0.10.1"
   val scalatest       = "3.1.0"
   val scalacheck      = "1.14.3"
   val http4s          = "0.21.0-RC1"
