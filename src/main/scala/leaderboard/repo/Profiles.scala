@@ -15,23 +15,22 @@ trait Profiles[F[_, _]] {
 
 object Profiles {
   final class Dummy[F[+_, +_]: BIOApplicative: BIOPrimitives]
-    extends DIResource.Make[F[Throwable, ?], Profiles[F]](
-      F.mkRef(Map.empty[UserId, UserProfile]).map {
-        state =>
-          new Profiles[F] {
-            override def setProfile(userId: UserId, profile: UserProfile): F[Nothing, Unit] =
-              state.update_(_ + (userId -> profile))
+    extends DIResource.LiftF[F[Nothing, ?], Profiles[F]](for {
+      state <- F.mkRef(Map.empty[UserId, UserProfile])
+    } yield {
+      new Profiles[F] {
+        override def setProfile(userId: UserId, profile: UserProfile): F[Nothing, Unit] =
+          state.update_(_ + (userId -> profile))
 
-            override def getProfile(userId: UserId): F[Nothing, Option[UserProfile]] =
-              state.get.map(_.get(userId))
-          }
+        override def getProfile(userId: UserId): F[Nothing, Option[UserProfile]] =
+          state.get.map(_.get(userId))
       }
-    )(release = _ => F.unit)
+    })
 
   final class Postgres[F[+_, +_]: BIOMonad](
     sql: SQL[F],
     log: LogBIO[F],
-  ) extends DIResource.Make_[F[Throwable, ?], Profiles[F]](for {
+  ) extends DIResource.LiftF[F[Throwable, ?], Profiles[F]](for {
       _ <- log.info("Creating Profile table")
       _ <- sql.execute("ddl-profiles") {
         sql"""create table if not exists profiles (
@@ -62,5 +61,5 @@ object Profiles {
                |""".stripMargin.query[UserProfile].option
         }
       }
-    })(release = F.unit)
+    })
 }
