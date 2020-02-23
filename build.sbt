@@ -1,8 +1,8 @@
 val V = new {
   val distage         = "0.10.1"
-  val scalatest       = "3.1.0"
+  val scalatest       = "3.1.1"
   val scalacheck      = "1.14.3"
-  val http4s          = "0.21.0"
+  val http4s          = "0.21.1"
   val doobie          = "0.8.8"
   val zio             = "1.0.0-RC17"
   val zioCats         = "2.0.0.0-RC10"
