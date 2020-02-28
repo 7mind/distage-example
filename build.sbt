@@ -1,5 +1,6 @@
 val V = new {
-  val distage         = "0.10.1"
+  val distage         = "0.10.2-M8"
+  val logstage        = "0.10.2-M8"
   val scalatest       = "3.1.1"
   val scalacheck      = "1.14.3"
   val http4s          = "0.21.1"
@@ -19,6 +20,7 @@ val Deps = new {
   val distageRoles   = "io.7mind.izumi" %% "distage-framework" % V.distage
   val distageDocker  = "io.7mind.izumi" %% "distage-framework-docker" % V.distage
   val distageTestkit = "io.7mind.izumi" %% "distage-testkit-scalatest" % V.distage
+  val logstageSlf4j  = "io.7mind.izumi" %% "logstage-adapter-slf4j" % V.logstage
 
   val http4sDsl    = "org.http4s" %% "http4s-dsl" % V.http4s
   val http4sServer = "org.http4s" %% "http4s-blaze-server" % V.http4s
@@ -54,6 +56,7 @@ lazy val leaderboard = project
       Deps.distageCore,
       Deps.distageRoles,
       Deps.distageConfig,
+      Deps.logstageSlf4j,
       Deps.distageDocker % Test,
       Deps.distageTestkit % Test,
       Deps.scalatest % Test,
