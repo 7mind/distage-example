@@ -1,11 +1,11 @@
 package leaderboard.plugins
 
 import distage.StandardAxis.Repo
-import distage.{ModuleDef, TagKK}
 import distage.config.ConfigModuleDef
 import distage.plugins.PluginDef
+import distage.{ModuleDef, TagKK}
 import doobie.util.transactor.Transactor
-import izumi.distage.roles.bundled.DistageRolesModule
+import izumi.distage.roles.bundled.BundledRolesModule
 import izumi.fundamentals.platform.integration.PortCheck
 import leaderboard.LeaderboardRole
 import leaderboard.config.{PostgresCfg, PostgresPortCfg}
@@ -28,7 +28,7 @@ object LeaderboardPlugin extends PluginDef {
       make[LeaderboardRole[F]]
 
       // Bundled roles: `help` & `configwriter`
-      include(DistageRolesModule[F[Throwable, ?]](version = "1.0.0-SNAPSHOT"))
+      include(BundledRolesModule[F[Throwable, ?]](version = "1.0.0-SNAPSHOT"))
     }
 
     def api[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
