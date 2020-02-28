@@ -48,7 +48,7 @@ object MainDummy extends MainBase(Activation(Repo -> Repo.Dummy))
   * To set it up with Docker, execute the following command:
   *
   * {{{
-  *   docker run -d -p 5432:5432 postgres:latest
+  *   docker run -d -p 5432:5432 postgres:12.1
   * }}}
   */
 object MainProd extends MainBase(Activation(Repo -> Repo.Prod))
