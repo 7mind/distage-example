@@ -5,14 +5,13 @@ import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.plugins.PluginConfig
 import izumi.distage.testkit.TestConfig
-import izumi.distage.testkit.scalatest.{AssertIO, DistageBIOSpecScalatest}
-import izumi.distage.testkit.services.DISyntaxZIOEnv
+import izumi.distage.testkit.scalatest.{AssertIO, DistageBIOEnvSpecScalatest}
 import leaderboard.model.{QueryFailure, Score, UserId, UserProfile}
-import leaderboard.repo.{Ladder, Profiles}
+import leaderboard.repo.{Ladder, Profiles, Ranks}
 import leaderboard.zioenv._
 import zio.{IO, ZIO}
 
-abstract class LeaderboardTest extends DistageBIOSpecScalatest[IO] with DISyntaxZIOEnv with AssertIO {
+abstract class LeaderboardTest extends DistageBIOEnvSpecScalatest[ZIO] with AssertIO {
   override def config = TestConfig(
     pluginConfig = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins")),
     moduleOverrides = new ModuleDef {
@@ -114,16 +113,18 @@ abstract class ProfilesTest extends LeaderboardTest {
 
 abstract class RanksTest extends LeaderboardTest {
   "Ranks" should {
+    // you can mix arguments and ZIO Env injection at the same time
     "return None for a user with no score" in {
-      for {
-        user    <- rnd[UserId]
-        name    <- rnd[String]
-        desc    <- rnd[String]
-        profile = UserProfile(name, desc)
-        _       <- profiles.setProfile(user, profile)
-        res1    <- ranks.getRank(user)
-        _       <- assertIO(res1.isEmpty)
-      } yield ()
+      (ranks: Ranks[IO]) =>
+        for {
+          user    <- rnd[UserId]
+          name    <- rnd[String]
+          desc    <- rnd[String]
+          profile = UserProfile(name, desc)
+          _       <- profiles.setProfile(user, profile)
+          res1    <- ranks.getRank(user)
+          _       <- assertIO(res1.isEmpty)
+        } yield ()
     }
 
     "return None for a user with no profile" in {

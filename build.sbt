@@ -1,14 +1,14 @@
 val V = new {
-  val distage         = "0.10.2-M8"
-  val logstage        = "0.10.2-M8"
+  val distage         = "0.10.2"
+  val logstage        = "0.10.2"
   val scalatest       = "3.1.1"
   val scalacheck      = "1.14.3"
   val http4s          = "0.21.1"
   val doobie          = "0.8.8"
-  val zio             = "1.0.0-RC17"
-  val zioCats         = "2.0.0.0-RC10"
+  val zio             = "1.0.0-RC18-2"
+  val zioCats         = "2.0.0.0-RC12"
   val kindProjector   = "0.11.0"
-  val circeDerivation = "0.12.0-M7"
+  val circeDerivation = "0.13.0-M3"
 }
 
 val Deps = new {
@@ -42,7 +42,7 @@ val Deps = new {
 inThisBuild(
   Seq(
     scalaVersion := "2.13.1",
-    version := "1.0.0-SNAPSHOT",
+    version      := "1.0.0-SNAPSHOT",
     organization := "io.7mind",
   )
 )
