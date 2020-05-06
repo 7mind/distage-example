@@ -1,3 +1,5 @@
+.bloop
+.metals
 .idea/*
 !.idea/runConfigurations
 *.jps
