@@ -19,7 +19,7 @@ object Ranks {
         scores       <- ladder.getScores
         res = for {
           profile <- maybeProfile
-          rank    = scores.indexWhere(_._1 == userId) + 1
+          rank     = scores.indexWhere(_._1 == userId) + 1
           score   <- scores.find(_._1 == userId).map(_._2)
         } yield RankedProfile(
           name        = profile.name,
