@@ -3,7 +3,7 @@ package leaderboard
 import cats.effect.{ConcurrentEffect, Timer}
 import distage.StandardAxis.Repo
 import distage.plugins.PluginConfig
-import distage.{Activation, DIResource, DIResourceBase}
+import distage.{Activation, DIResource, DIResourceBase, Id}
 import izumi.distage.roles.bundled.{ConfigWriter, Help}
 import izumi.distage.roles.model.{RoleDescriptor, RoleService}
 import izumi.distage.roles.{RoleAppLauncher, RoleAppMain}
@@ -11,6 +11,8 @@ import izumi.fundamentals.platform.cli.model.raw.{RawEntrypointParams, RawRolePa
 import leaderboard.http.HttpApi
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.syntax.kleisli._
+
+import scala.concurrent.ExecutionContext
 
 /** Example session:
   *
@@ -23,13 +25,14 @@ import org.http4s.syntax.kleisli._
   */
 final class LeaderboardRole[F[+_, +_]](
   httpApi: HttpApi[F],
+  cpuPool: ExecutionContext @Id("zio.cpu")
 )(implicit
   concurrentEffect: ConcurrentEffect[F[Throwable, ?]],
   timer: Timer[F[Throwable, ?]],
 ) extends RoleService[F[Throwable, ?]] {
   override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): DIResourceBase[F[Throwable, ?], Unit] = {
     DIResource.fromCats {
-      BlazeServerBuilder[F[Throwable, ?]]
+      BlazeServerBuilder[F[Throwable, ?]](cpuPool)
         .withHttpApp(httpApi.http.orNotFound)
         .bindLocal(8080)
         .resource

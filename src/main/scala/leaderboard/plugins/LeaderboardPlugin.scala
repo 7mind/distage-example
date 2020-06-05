@@ -15,6 +15,8 @@ import leaderboard.sql.{SQL, TransactorResource}
 import org.http4s.dsl.Http4sDsl
 import zio.IO
 
+import scala.concurrent.duration._
+
 object LeaderboardPlugin extends PluginDef {
   include(modules.roles[IO])
   include(modules.api[IO])
@@ -54,7 +56,7 @@ object LeaderboardPlugin extends PluginDef {
       make[SQL[F]].from[SQL.Impl[F]]
 
       make[Transactor[F[Throwable, ?]]].fromResource[TransactorResource[F[Throwable, ?]]]
-      make[PortCheck].from(new PortCheck(3))
+      make[PortCheck].from(new PortCheck(3.seconds))
     }
 
     val configs: ConfigModuleDef = new ConfigModuleDef {
