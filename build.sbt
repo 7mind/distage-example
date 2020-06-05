@@ -44,7 +44,7 @@ inThisBuild(
     scalaVersion := "2.13.2",
     version      := "1.0.0-SNAPSHOT",
     organization := "io.7mind",
-    testOptions in Test += Tests.Argument("-oDF"),
+    testOptions in Test += Tests.Argument("-oDFGU"),
   )
 )
 
