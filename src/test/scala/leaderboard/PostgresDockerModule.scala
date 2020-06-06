@@ -7,20 +7,13 @@ import izumi.distage.docker.modules.DockerSupportModule
 import leaderboard.config.PostgresPortCfg
 import zio.Task
 
-import scala.concurrent.duration._
-
 object PostgresDockerModule extends ModuleDef {
   // add docker support dependencies
   include(DockerSupportModule[Task])
 
   // launch postgres docker for tests
   make[PostgresDocker.Container]
-    .fromResource(
-      PostgresDocker
-        .make[Task].modifyConfig(
-          () => (cfg: PostgresDocker.Config) => cfg.copy(portProbeTimeout = 1.second)
-        )
-    )
+    .fromResource(PostgresDocker.make[Task])
 
   // spawned docker container port is randomized
   // to prevent conflicts, so make PostgresPortCfg
