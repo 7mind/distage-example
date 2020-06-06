@@ -1,6 +1,6 @@
 val V = new {
-  val distage         = "0.10.11"
-  val logstage        = "0.10.11"
+  val distage         = "0.10.12"
+  val logstage        = "0.10.12"
   val scalatest       = "3.1.2"
   val scalacheck      = "1.14.3"
   val http4s          = "0.21.4"
@@ -44,7 +44,6 @@ inThisBuild(
     scalaVersion := "2.13.2",
     version      := "1.0.0-SNAPSHOT",
     organization := "io.7mind",
-    testOptions in Test += Tests.Argument("-oDFGU"),
   )
 )
 
