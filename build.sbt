@@ -41,7 +41,7 @@ val Deps = new {
 
 inThisBuild(
   Seq(
-    scalaVersion := "2.13.2",
+    scalaVersion := "2.13.3",
     version      := "1.0.0-SNAPSHOT",
     organization := "io.7mind",
   )
