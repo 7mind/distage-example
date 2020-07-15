@@ -34,13 +34,13 @@ abstract class LeaderboardTest extends DistageBIOEnvSpecScalatest[ZIO] with Asse
 
 trait DummyTest extends LeaderboardTest {
   override final def config = super.config.copy(
-    activation = Activation(Repo -> Repo.Dummy),
+    activation = Activation(Repo -> Repo.Dummy)
   )
 }
 
 trait ProdTest extends LeaderboardTest {
   override final def config = super.config.copy(
-    activation = Activation(Repo -> Repo.Prod),
+    activation = Activation(Repo -> Repo.Prod)
   )
 }
 
@@ -55,7 +55,10 @@ final class RanksTestPostgres extends RanksTest with ProdTest
 abstract class LadderTest extends LeaderboardTest {
 
   "Ladder" should {
-    // this test gets dependencies through arguments
+
+    /**
+      * this test gets dependencies injected through function arguments
+      */
     "submit & get" in {
       (rnd: Rnd[IO], ladder: Ladder[IO]) =>
         for {
@@ -67,7 +70,9 @@ abstract class LadderTest extends LeaderboardTest {
         } yield ()
     }
 
-    // other tests get dependencies via ZIO Env:
+    /**
+      * this test get dependencies injected via ZIO Env:
+      */
     "assign a higher position in the list to a higher score" in {
       for {
         user1  <- rnd[UserId]
@@ -90,13 +95,17 @@ abstract class LadderTest extends LeaderboardTest {
           } else IO.unit
       } yield ()
     }
+
   }
 
 }
 
 abstract class ProfilesTest extends LeaderboardTest {
   "Profiles" should {
-    // that's what the env signature looks like for ZIO Env injection
+
+    /**
+      * that's what the ZIO signature looks like for ZIO Env injection:
+      */
     "set & get" in {
       val zioValue: ZIO[ProfilesEnv with RndEnv, QueryFailure, Unit] = for {
         user   <- rnd[UserId]
@@ -109,12 +118,16 @@ abstract class ProfilesTest extends LeaderboardTest {
       } yield ()
       zioValue
     }
+
   }
 }
 
 abstract class RanksTest extends LeaderboardTest {
   "Ranks" should {
-    // you can mix arguments and ZIO Env injection at the same time
+
+    /**
+      * you can use Argument injection and ZIO Env injection at the same time:
+      */
     "return None for a user with no score" in {
       (ranks: Ranks[IO]) =>
         for {
@@ -167,5 +180,6 @@ abstract class RanksTest extends LeaderboardTest {
           } else IO.unit
       } yield ()
     }
+
   }
 }
