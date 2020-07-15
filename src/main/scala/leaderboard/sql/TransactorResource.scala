@@ -1,7 +1,5 @@
 package leaderboard.sql
 
-import java.net.URI
-
 import cats.effect.{Async, Blocker, ContextShift}
 import distage.DIResource
 import doobie.hikari.HikariTransactor
@@ -26,9 +24,6 @@ final class TransactorResource[F[_]: Async: ContextShift](
   )
   with IntegrationCheck {
   override def resourcesAvailable(): ResourceCheck = {
-    val str = portCfg.substitute(cfg.url.stripPrefix("jdbc:"))
-    val uri = URI.create(str)
-
-    portCheck.checkUri(uri, portCfg.port, s"Couldn't connect to postgres at uri=$uri defaultPort=${portCfg.port}")
+    portCheck.checkPort(portCfg.host, portCfg.port, s"Couldn't connect to postgres at host=${portCfg.host} port=${portCfg.port}")
   }
 }
