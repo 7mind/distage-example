@@ -6,7 +6,9 @@ import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.plugins.PluginConfig
 import izumi.distage.testkit.TestConfig
 import izumi.distage.testkit.scalatest.{AssertIO, DistageBIOEnvSpecScalatest}
+import leaderboard.axis.Services
 import leaderboard.model.{QueryFailure, Score, UserId, UserProfile}
+import leaderboard.plugins.PostgresDockerPlugin
 import leaderboard.repo.{Ladder, Profiles, Ranks}
 import leaderboard.zioenv._
 import zio.{IO, ZIO}
@@ -16,14 +18,13 @@ abstract class LeaderboardTest extends DistageBIOEnvSpecScalatest[ZIO] with Asse
     pluginConfig = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins")),
     moduleOverrides = new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
-      // For testing, setup a docker container with postgres,
-      // instead of trying to connect to an external database
-      include(PostgresDockerModule)
     },
-    // instantiate Ladder & Profiles only once per test-run and
+    // For testing, setup a docker container with postgres,
+    // instead of trying to connect to an external database
+    activation = Activation(Services -> Services.Docker),
+    // Instantiate Ladder & Profiles only once per test-run and
     // share them and all their dependencies across all tests.
-    // this includes the Postgres Docker container above and
-    // table DDLs
+    // this includes the Postgres Docker container above and table DDLs
     memoizationRoots = Set(
       DIKey[Ladder[IO]],
       DIKey[Profiles[IO]],
@@ -34,13 +35,13 @@ abstract class LeaderboardTest extends DistageBIOEnvSpecScalatest[ZIO] with Asse
 
 trait DummyTest extends LeaderboardTest {
   override final def config = super.config.copy(
-    activation = Activation(Repo -> Repo.Dummy)
+    activation = super.config.activation ++ Activation(Repo -> Repo.Dummy)
   )
 }
 
 trait ProdTest extends LeaderboardTest {
   override final def config = super.config.copy(
-    activation = Activation(Repo -> Repo.Prod)
+    activation = super.config.activation ++ Activation(Repo -> Repo.Prod)
   )
 }
 
@@ -101,6 +102,7 @@ abstract class LadderTest extends LeaderboardTest {
 }
 
 abstract class ProfilesTest extends LeaderboardTest {
+
   "Profiles" should {
 
     /**
@@ -120,9 +122,11 @@ abstract class ProfilesTest extends LeaderboardTest {
     }
 
   }
+
 }
 
 abstract class RanksTest extends LeaderboardTest {
+
   "Ranks" should {
 
     /**
@@ -182,4 +186,5 @@ abstract class RanksTest extends LeaderboardTest {
     }
 
   }
+
 }

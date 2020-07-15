@@ -1,13 +1,17 @@
-package leaderboard
+package leaderboard.plugins
 
-import distage.ModuleDef
 import izumi.distage.docker.Docker.DockerPort
 import izumi.distage.docker.examples.PostgresDocker
 import izumi.distage.docker.modules.DockerSupportModule
+import izumi.distage.plugins.PluginDef
+import leaderboard.axis.Services
 import leaderboard.config.PostgresPortCfg
 import zio.Task
 
-object PostgresDockerModule extends ModuleDef {
+object PostgresDockerPlugin extends PluginDef {
+  // only enable postgres docker when Service axis is set to Docker
+  tag(Services.Docker)
+
   // add docker support dependencies
   include(DockerSupportModule[Task])
 
