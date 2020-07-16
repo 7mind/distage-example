@@ -4,13 +4,13 @@ import izumi.distage.docker.Docker.DockerPort
 import izumi.distage.docker.examples.PostgresDocker
 import izumi.distage.docker.modules.DockerSupportModule
 import izumi.distage.plugins.PluginDef
-import leaderboard.axis.Services
+import leaderboard.axis.Scene
 import leaderboard.config.PostgresPortCfg
 import zio.Task
 
 object PostgresDockerPlugin extends PluginDef {
-  // only enable postgres docker when Service axis is set to Docker
-  tag(Services.Docker)
+  // only enable postgres docker when Scene axis is set to Managed
+  tag(Scene.Managed)
 
   // add docker support dependencies
   include(DockerSupportModule[Task])

@@ -8,7 +8,7 @@ import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.model.plan.Roots
 import izumi.distage.testkit.scalatest.DistageBIOSpecScalatest
 import izumi.logstage.api.logger.LogRouter
-import leaderboard.axis.Services
+import leaderboard.axis.Scene
 import leaderboard.plugins.{LeaderboardPlugin, PostgresDockerPlugin, ZIOPlugin}
 import logstage.di.LogstageModule
 import zio.{IO, Task}
@@ -36,8 +36,8 @@ final class WiringTest extends DistageBIOSpecScalatest[IO] {
 
     for {
       _ <- checkActivation(Activation(Repo -> Repo.Dummy))
-      _ <- checkActivation(Activation(Repo -> Repo.Prod, Services -> Services.Prod))
-      _ <- checkActivation(Activation(Repo -> Repo.Prod, Services -> Services.Docker))
+      _ <- checkActivation(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided))
+      _ <- checkActivation(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed))
     } yield ()
   }
 }

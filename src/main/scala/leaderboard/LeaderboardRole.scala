@@ -9,7 +9,7 @@ import izumi.distage.roles.{RoleAppLauncher, RoleAppMain}
 import izumi.functional.bio.BIOApplicative
 import izumi.fundamentals.platform.cli.model.raw.{RawEntrypointParams, RawRoleParams, RawValue}
 import leaderboard.api.{LadderApi, ProfileApi}
-import leaderboard.axis.Services
+import leaderboard.axis.Scene
 import leaderboard.http.HttpServer
 import logstage.LogBIO
 
@@ -122,10 +122,10 @@ object MainDummy extends MainBase(Activation(Repo -> Repo.Dummy))
   *
   * Equivalent to:
   * {{{
-  *   ./launcher -u services:docker :leaderboard
+  *   ./launcher -u scene:managed :leaderboard
   * }}}
   */
-object MainProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Services -> Services.Docker))
+object MainProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed))
 
 /**
   * Launch with production configuration and external, not dockerized, services.
@@ -142,7 +142,7 @@ object MainProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Services ->
   *   ./launcher :leaderboard
   * }}}
   */
-object MainProd extends MainBase(Activation(Repo -> Repo.Prod, Services -> Services.Prod))
+object MainProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided))
 
 /**
   * Launch just the `ladder` APIs with dummy repositories
@@ -159,10 +159,10 @@ object MainLadderDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(R
   *
   * Equivalent to:
   * {{{
-  *   ./launcher -u services:docker :ladder
+  *   ./launcher -u scene:managed :ladder
   * }}}
   */
-object MainLadderProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Services -> Services.Docker), Vector(RawRoleParams(LadderRole.id)))
+object MainLadderProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(LadderRole.id)))
 
 /**
   * Launch just the `ladder` APIs with postgres repositories and external postgres service
@@ -174,7 +174,7 @@ object MainLadderProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Servi
   *   ./launcher :ladder
   * }}}
   */
-object MainLadderProd extends MainBase(Activation(Repo -> Repo.Prod, Services -> Services.Prod), Vector(RawRoleParams(LadderRole.id)))
+object MainLadderProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LadderRole.id)))
 
 /** Launch just the `profile` APIs with dummy repositories
   *
@@ -188,12 +188,12 @@ object MainProfileDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(
 /**
   * Launch just the `ladder` APIs with postgres repositories and dockerized postgres service
   *
-  * Equivalent to:
+  * Equivalent to:∂
   * {{{
-  *   ./launcher -u services:docker :profile
+  *   ./launcher -u scene:managed :profile
   * }}}
   */
-object MainProfileProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Services -> Services.Docker), Vector(RawRoleParams(ProfileRole.id)))
+object MainProfileProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(ProfileRole.id)))
 
 /** Launch just the `profile` APIs with postgres repositories and external postgres service
   *
@@ -202,7 +202,7 @@ object MainProfileProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Serv
   *   ./launcher :profile
   * }}}
   */
-object MainProfileProd extends MainBase(Activation(Repo -> Repo.Prod, Services -> Services.Prod), Vector(RawRoleParams(ProfileRole.id)))
+object MainProfileProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(ProfileRole.id)))
 
 /**
   * Display help message with all available launcher arguments
@@ -213,7 +213,7 @@ object MainProfileProd extends MainBase(Activation(Repo -> Repo.Prod, Services -
   *   ./launcher :help
   * }}}
   */
-object MainHelp extends MainBase(Activation(Repo -> Repo.Prod, Services -> Services.Prod)) {
+object MainHelp extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided)) {
   override val requiredRoles = Vector(
     RawRoleParams(Help.id)
   )
@@ -232,7 +232,7 @@ object MainHelp extends MainBase(Activation(Repo -> Repo.Prod, Services -> Servi
   *   ./launcher :configwriter
   * }}}
   */
-object MainWriteReferenceConfigs extends MainBase(Activation(Repo -> Repo.Prod, Services -> Services.Prod)) {
+object MainWriteReferenceConfigs extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided)) {
   override val requiredRoles = Vector(
     RawRoleParams(
       role = ConfigWriter.id,
@@ -278,7 +278,7 @@ object MainWriteReferenceConfigs extends MainBase(Activation(Repo -> Repo.Prod, 
   *
   * }}}
   */
-object GenericLauncher extends MainBase(Activation(Repo -> Repo.Prod, Services -> Services.Prod)) {
+object GenericLauncher extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided)) {
   override val requiredRoles = Vector.empty
 }
 

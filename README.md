@@ -14,7 +14,7 @@ Use `sbt test` to launch the tests.
 You can launch the application with the following command.
 
 ```
-./launcher -u services:docker :leaderboard
+./launcher -u scene:managed :leaderboard
 ```
 
 Afterwards you can call the HTTP methods:

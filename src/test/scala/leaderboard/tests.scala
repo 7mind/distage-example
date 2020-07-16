@@ -6,7 +6,7 @@ import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.plugins.PluginConfig
 import izumi.distage.testkit.TestConfig
 import izumi.distage.testkit.scalatest.{AssertIO, DistageBIOEnvSpecScalatest}
-import leaderboard.axis.Services
+import leaderboard.axis.Scene
 import leaderboard.model.{QueryFailure, Score, UserId, UserProfile}
 import leaderboard.plugins.PostgresDockerPlugin
 import leaderboard.repo.{Ladder, Profiles, Ranks}
@@ -21,7 +21,7 @@ abstract class LeaderboardTest extends DistageBIOEnvSpecScalatest[ZIO] with Asse
     },
     // For testing, setup a docker container with postgres,
     // instead of trying to connect to an external database
-    activation = Activation(Services -> Services.Docker),
+    activation = Activation(Scene -> Scene.Managed),
     // Instantiate Ladder & Profiles only once per test-run and
     // share them and all their dependencies across all tests.
     // this includes the Postgres Docker container above and table DDLs
