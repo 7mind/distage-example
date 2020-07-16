@@ -57,7 +57,7 @@ lazy val leaderboard = project
         Deps.distageRoles,
         Deps.distageConfig,
         Deps.logstageSlf4j,
-        Deps.distageDocker % Test,
+        Deps.distageDocker,
         Deps.distageTestkit % Test,
         Deps.scalatest % Test,
         Deps.scalacheck % Test,

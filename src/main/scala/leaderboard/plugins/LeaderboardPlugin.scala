@@ -9,6 +9,7 @@ import izumi.distage.roles.bundled.BundledRolesModule
 import izumi.fundamentals.platform.integration.PortCheck
 import leaderboard.{LadderRole, LeaderboardRole, ProfileRole}
 import leaderboard.api.{HttpApi, LadderApi, ProfileApi}
+import leaderboard.axis.Scene
 import leaderboard.config.{PostgresCfg, PostgresPortCfg}
 import leaderboard.http.HttpServer
 import leaderboard.repo.{Ladder, Profiles, Ranks}
@@ -24,6 +25,7 @@ object LeaderboardPlugin extends PluginDef {
   include(modules.repoDummy[IO])
   include(modules.repoProd[IO])
   include(modules.configs)
+  include(modules.prodConfigs)
 
   object modules {
     def roles[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
@@ -79,6 +81,11 @@ object LeaderboardPlugin extends PluginDef {
 
     val configs: ConfigModuleDef = new ConfigModuleDef {
       makeConfig[PostgresCfg]("postgres")
+    }
+    val prodConfigs: ConfigModuleDef = new ConfigModuleDef {
+      // only use this if Scene axis is set to Provided
+      tag(Scene.Provided)
+
       makeConfig[PostgresPortCfg]("postgres")
     }
   }
