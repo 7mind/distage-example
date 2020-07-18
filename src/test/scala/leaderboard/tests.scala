@@ -8,7 +8,6 @@ import izumi.distage.testkit.TestConfig
 import izumi.distage.testkit.scalatest.{AssertIO, DistageBIOEnvSpecScalatest}
 import leaderboard.axis.Scene
 import leaderboard.model.{QueryFailure, Score, UserId, UserProfile}
-import leaderboard.plugins.PostgresDockerPlugin
 import leaderboard.repo.{Ladder, Profiles, Ranks}
 import leaderboard.zioenv._
 import zio.{IO, ZIO}
