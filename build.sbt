@@ -1,12 +1,12 @@
 val V = new {
-  val distage         = "0.10.16"
+  val distage         = "0.10.17"
   val logstage        = distage
-  val scalatest       = "3.1.2"
+  val scalatest       = "3.2.1"
   val scalacheck      = "1.14.3"
-  val http4s          = "0.21.6"
+  val http4s          = "0.21.7"
   val doobie          = "0.9.0"
   val zio             = "1.0.0"
-  val zioCats         = "2.1.4.0-RC17"
+  val zioCats         = "2.1.4.0"
   val kindProjector   = "0.11.0"
   val circeDerivation = "0.13.0-M4"
 }
