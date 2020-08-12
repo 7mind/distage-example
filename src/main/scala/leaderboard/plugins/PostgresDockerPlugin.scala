@@ -1,7 +1,7 @@
 package leaderboard.plugins
 
 import izumi.distage.docker.Docker.DockerPort
-import izumi.distage.docker.examples.PostgresDocker
+import izumi.distage.docker.bundled.PostgresDocker
 import izumi.distage.docker.modules.DockerSupportModule
 import izumi.distage.plugins.PluginDef
 import leaderboard.axis.Scene
@@ -26,7 +26,7 @@ object PostgresDockerPlugin extends PluginDef {
   // integration check is performed
   make[PostgresPortCfg].from {
     docker: PostgresDocker.Container =>
-      val knownAddress = docker.availablePorts.availablePorts(DockerPort.TCP(5432)).head
+      val knownAddress = docker.availablePorts.first(DockerPort.TCP(5432))
       PostgresPortCfg(knownAddress.hostV4, knownAddress.port)
   }
 }
