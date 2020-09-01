@@ -6,14 +6,15 @@ import distage.plugins.PluginDef
 import distage.{ModuleDef, TagKK}
 import doobie.util.transactor.Transactor
 import izumi.distage.roles.bundled.BundledRolesModule
+import izumi.distage.roles.model.definition.RoleModuleDef
 import izumi.fundamentals.platform.integration.PortCheck
-import leaderboard.{LadderRole, LeaderboardRole, ProfileRole}
 import leaderboard.api.{HttpApi, LadderApi, ProfileApi}
 import leaderboard.axis.Scene
 import leaderboard.config.{PostgresCfg, PostgresPortCfg}
 import leaderboard.http.HttpServer
 import leaderboard.repo.{Ladder, Profiles, Ranks}
 import leaderboard.sql.{SQL, TransactorResource}
+import leaderboard.{LadderRole, LeaderboardRole, ProfileRole}
 import org.http4s.dsl.Http4sDsl
 import zio.IO
 
@@ -28,15 +29,15 @@ object LeaderboardPlugin extends PluginDef {
   include(modules.prodConfigs)
 
   object modules {
-    def roles[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
+    def roles[F[+_, +_]: TagKK]: RoleModuleDef = new RoleModuleDef {
       // The `ladder` role
-      make[LadderRole[F]]
+      makeRole[LadderRole[F]]
 
       // The `profile` role
-      make[ProfileRole[F]]
+      makeRole[ProfileRole[F]]
 
       // The composite `leaderboard` role that pulls in both `ladder` & `profile` roles
-      make[LeaderboardRole[F]]
+      makeRole[LeaderboardRole[F]]
 
       // Add bundled roles: `help` & `configwriter`
       include(BundledRolesModule[F[Throwable, ?]](version = "1.0.0-SNAPSHOT"))
