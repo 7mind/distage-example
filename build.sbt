@@ -1,7 +1,7 @@
 val V = new {
   val distage         = "0.10.19"
   val logstage        = distage
-  val scalatest       = "3.2.2"
+  val scalatest       = "3.2.3"
   val scalacheck      = "1.14.3"
   val http4s          = "0.21.7"
   val doobie          = "0.9.2"
