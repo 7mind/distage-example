@@ -1,8 +1,9 @@
 package leaderboard.http
 
-import cats.implicits._
 import cats.effect.{ConcurrentEffect, Timer}
-import distage.{DIResource, Id}
+import cats.implicits._
+import distage.Id
+import izumi.distage.model.definition.Lifecycle
 import leaderboard.api.HttpApi
 import org.http4s.server.Server
 import org.http4s.server.blaze.BlazeServerBuilder
@@ -22,8 +23,8 @@ object HttpServer {
   )(implicit
     concurrentEffect: ConcurrentEffect[F[Throwable, ?]],
     timer: Timer[F[Throwable, ?]],
-  ) extends DIResource.Of[F[Throwable, ?], HttpServer[F]](
-      DIResource.fromCats {
+  ) extends Lifecycle.Of[F[Throwable, ?], HttpServer[F]](
+      Lifecycle.fromCats {
         val combinedApis = allHttpApis.map(_.http).toList.foldK
 
         BlazeServerBuilder[F[Throwable, ?]](cpuPool)

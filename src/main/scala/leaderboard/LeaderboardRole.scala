@@ -2,20 +2,22 @@ package leaderboard
 
 import distage.StandardAxis.Repo
 import distage.plugins.PluginConfig
-import distage.{Activation, DIResource, DIResourceBase}
+import distage.{Activation, Lifecycle, Module, ModuleDef}
+import izumi.distage.model.definition.StandardAxis.Scene
+import izumi.distage.roles.RoleAppMain
 import izumi.distage.roles.bundled.{ConfigWriter, Help}
 import izumi.distage.roles.model.{RoleDescriptor, RoleService}
-import izumi.distage.roles.{RoleAppLauncher, RoleAppMain}
-import izumi.functional.bio.BIOApplicative
+import izumi.functional.bio.Applicative2
 import izumi.fundamentals.platform.cli.model.raw.{RawEntrypointParams, RawRoleParams, RawValue}
 import leaderboard.api.{LadderApi, ProfileApi}
-import leaderboard.axis.Scene
 import leaderboard.http.HttpServer
-import logstage.LogBIO
+import logstage.LogIO2
+import zio.IO
 
 import scala.annotation.unused
 
-/** A role that exposes just the /ladder/ endpoints, it can be launched with
+/**
+  * A role that exposes just the /ladder/ endpoints, it can be launched with
   *
   * {{{
   *   ./launcher :ladder
@@ -28,20 +30,21 @@ import scala.annotation.unused
   *   curl -X GET http://localhost:8080/ladder
   * }}}
   */
-final class LadderRole[F[+_, +_]: BIOApplicative](
+final class LadderRole[F[+_, +_]: Applicative2](
   @unused ladderApi: LadderApi[F],
   @unused runningServer: HttpServer[F],
-  log: LogBIO[F],
+  log: LogIO2[F],
 ) extends RoleService[F[Throwable, ?]] {
-  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): DIResourceBase[F[Throwable, ?], Unit] = {
-    DIResource.liftF(log.info("Ladder API started!"))
+  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): Lifecycle[F[Throwable, ?], Unit] = {
+    Lifecycle.liftF(log.info("Ladder API started!"))
   }
 }
 object LadderRole extends RoleDescriptor {
   final val id = "ladder"
 }
 
-/** A role that exposes just the /profile/ endpoints, it can be launched with
+/**
+  * A role that exposes just the /profile/ endpoints, it can be launched with
   *
   * {{{
   *   ./launcher :profile
@@ -54,13 +57,13 @@ object LadderRole extends RoleDescriptor {
   *   curl -X GET http://localhost:8080/profile/50753a00-5e2e-4a2f-94b0-e6721b0a3cc4
   * }}}
   */
-final class ProfileRole[F[+_, +_]: BIOApplicative](
+final class ProfileRole[F[+_, +_]: Applicative2](
   @unused profileApi: ProfileApi[F],
   @unused runningServer: HttpServer[F],
-  log: LogBIO[F],
+  log: LogIO2[F],
 ) extends RoleService[F[Throwable, ?]] {
-  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): DIResourceBase[F[Throwable, ?], Unit] = {
-    DIResource.liftF(log.info("Profile API started!"))
+  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): Lifecycle[F[Throwable, ?], Unit] = {
+    Lifecycle.liftF(log.info("Profile API started!"))
   }
 }
 object ProfileRole extends RoleDescriptor {
@@ -90,13 +93,13 @@ object ProfileRole extends RoleDescriptor {
   *   curl -X GET http://localhost:8080/profile/50753a00-5e2e-4a2f-94b0-e6721b0a3cc4
   * }}}
   */
-final class LeaderboardRole[F[+_, +_]: BIOApplicative](
+final class LeaderboardRole[F[+_, +_]: Applicative2](
   @unused ladderRole: LadderRole[F],
   @unused profileRole: ProfileRole[F],
-  log: LogBIO[F],
+  log: LogIO2[F],
 ) extends RoleService[F[Throwable, ?]] {
-  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): DIResourceBase[F[Throwable, ?], Unit] = {
-    DIResource.liftF(log.info("Ladder & Profile APIs started!"))
+  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): Lifecycle[F[Throwable, ?], Unit] = {
+    Lifecycle.liftF(log.info("Ladder & Profile APIs started!"))
   }
 }
 object LeaderboardRole extends RoleDescriptor {
@@ -113,7 +116,7 @@ object LeaderboardRole extends RoleDescriptor {
   *   ./launcher -u repo:dummy :leaderboard
   * }}}
   */
-object MainDummy extends MainBase(Activation(Repo -> Repo.Dummy))
+object MainDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(LeaderboardRole.id)))
 
 /**
   * Launch with production configuration and setup the required postgres DB inside docker.
@@ -125,7 +128,7 @@ object MainDummy extends MainBase(Activation(Repo -> Repo.Dummy))
   *   ./launcher -u scene:managed :leaderboard
   * }}}
   */
-object MainProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed))
+object MainProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(LeaderboardRole.id)))
 
 /**
   * Launch with production configuration and external, not dockerized, services.
@@ -142,7 +145,7 @@ object MainProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Sc
   *   ./launcher :leaderboard
   * }}}
   */
-object MainProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided))
+object MainProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LadderRole.id)))
 
 /**
   * Launch just the `ladder` APIs with dummy repositories
@@ -176,7 +179,8 @@ object MainLadderProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene
   */
 object MainLadderProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LadderRole.id)))
 
-/** Launch just the `profile` APIs with dummy repositories
+/**
+  * Launch just the `profile` APIs with dummy repositories
   *
   * Equivalent to:
   * {{{
@@ -195,7 +199,8 @@ object MainProfileDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(
   */
 object MainProfileProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(ProfileRole.id)))
 
-/** Launch just the `profile` APIs with postgres repositories and external postgres service
+/**
+  * Launch just the `profile` APIs with postgres repositories and external postgres service
   *
   * Equivalent to:
   * {{{
@@ -213,11 +218,7 @@ object MainProfileProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> S
   *   ./launcher :help
   * }}}
   */
-object MainHelp extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided)) {
-  override val requiredRoles = Vector(
-    RawRoleParams(Help.id)
-  )
-}
+object MainHelp extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(Help.id)))
 
 /**
   * Write the default configuration files for each role into JSON files in `./config`.
@@ -232,19 +233,25 @@ object MainHelp extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Pr
   *   ./launcher :configwriter
   * }}}
   */
-object MainWriteReferenceConfigs extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided)) {
-  override val requiredRoles = Vector(
-    RawRoleParams(
-      role = ConfigWriter.id,
-      roleParameters = RawEntrypointParams(
-        flags = Vector.empty,
-        // output configs in "hocon" format, instead of "json"
-        values = Vector(RawValue("format", "hocon")),
-      ),
-      freeArgs = Vector.empty,
-    )
+object MainWriteReferenceConfigs
+  extends MainBase(
+    activation = {
+      Activation(Repo -> Repo.Prod, Scene -> Scene.Provided)
+    },
+    requiredRoles = {
+      Vector(
+        RawRoleParams(
+          role = ConfigWriter.id,
+          roleParameters = RawEntrypointParams(
+            flags = Vector.empty,
+            // output configs in "hocon" format, instead of "json"
+            values = Vector(RawValue("format", "hocon")),
+          ),
+          freeArgs = Vector.empty,
+        )
+      )
+    },
   )
-}
 
 /**
   * Generic launcher not set to run a specific role by default,
@@ -278,16 +285,23 @@ object MainWriteReferenceConfigs extends MainBase(Activation(Repo -> Repo.Prod, 
   *
   * }}}
   */
-object GenericLauncher extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided)) {
-  override val requiredRoles = Vector.empty
-}
+object GenericLauncher extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector.empty)
 
 sealed abstract class MainBase(
   activation: Activation,
-  override val requiredRoles: Vector[RawRoleParams] = Vector(RawRoleParams(LeaderboardRole.id)),
-) extends RoleAppMain.Default(
-    launcher = new RoleAppLauncher.LauncherBIO[zio.IO] {
-      override val pluginConfig        = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins"))
-      override val requiredActivations = activation
-    }
-  )
+  requiredRoles: Vector[RawRoleParams],
+) extends RoleAppMain.LauncherBIO2[IO] {
+
+  override def requiredRoles(argv: RoleAppMain.ArgV): Vector[RawRoleParams] = {
+    requiredRoles
+  }
+
+  override def pluginConfig: PluginConfig = {
+    PluginConfig.cached(pluginsPackage = "leaderboard.plugins")
+  }
+
+  protected override def roleAppBootOverrides(argv: RoleAppMain.ArgV): Module = super.roleAppBootOverrides(argv) ++ new ModuleDef {
+    make[Activation].named("default").fromValue(activation)
+  }
+
+}

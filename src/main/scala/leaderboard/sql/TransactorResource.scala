@@ -1,6 +1,6 @@
 package leaderboard.sql
 
-import cats.effect.{Async, Blocker, ContextShift}
+import cats.effect.{Async, Blocker, ContextShift, Sync}
 import distage.DIResource
 import doobie.hikari.HikariTransactor
 import izumi.distage.framework.model.IntegrationCheck
@@ -22,8 +22,8 @@ final class TransactorResource[F[_]: Async: ContextShift](
       blocker         = blocker,
     )
   )
-  with IntegrationCheck {
-  override def resourcesAvailable(): ResourceCheck = {
+  with IntegrationCheck[F] {
+  override def resourcesAvailable(): F[ResourceCheck] = Sync[F].delay {
     portCheck.checkPort(portCfg.host, portCfg.port, s"Couldn't connect to postgres at host=${portCfg.host} port=${portCfg.port}")
   }
 }

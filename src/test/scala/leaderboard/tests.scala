@@ -1,21 +1,19 @@
 package leaderboard
 
-import distage.{DIKey, ModuleDef}
+import distage.{DIKey, ModuleDef, Scene}
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.plugins.PluginConfig
-import izumi.distage.testkit.TestConfig
-import izumi.distage.testkit.scalatest.{AssertIO, DistageBIOEnvSpecScalatest}
-import leaderboard.axis.Scene
+import izumi.distage.testkit.scalatest.{AssertIO3, Spec3}
 import leaderboard.model.{QueryFailure, Score, UserId, UserProfile}
 import leaderboard.repo.{Ladder, Profiles, Ranks}
 import leaderboard.zioenv._
 import zio.{IO, ZIO}
 
-abstract class LeaderboardTest extends DistageBIOEnvSpecScalatest[ZIO] with AssertIO {
-  override def config = TestConfig(
+abstract class LeaderboardTest extends Spec3[ZIO] with AssertIO3[ZIO] {
+  override def config = super.config.copy(
     pluginConfig = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins")),
-    moduleOverrides = new ModuleDef {
+    moduleOverrides = super.config.moduleOverrides ++ new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
     },
     // For testing, setup a docker container with postgres,
@@ -56,8 +54,7 @@ abstract class LadderTest extends LeaderboardTest {
 
   "Ladder" should {
 
-    /**
-      * this test gets dependencies injected through function arguments
+    /** this test gets dependencies injected through function arguments
       */
     "submit & get" in {
       (rnd: Rnd[IO], ladder: Ladder[IO]) =>
@@ -70,8 +67,7 @@ abstract class LadderTest extends LeaderboardTest {
         } yield ()
     }
 
-    /**
-      * this test get dependencies injected via ZIO Env:
+    /** this test get dependencies injected via ZIO Env:
       */
     "assign a higher position in the list to a higher score" in {
       for {
@@ -104,8 +100,7 @@ abstract class ProfilesTest extends LeaderboardTest {
 
   "Profiles" should {
 
-    /**
-      * that's what the ZIO signature looks like for ZIO Env injection:
+    /** that's what the ZIO signature looks like for ZIO Env injection:
       */
     "set & get" in {
       val zioValue: ZIO[ProfilesEnv with RndEnv, QueryFailure, Unit] = for {
@@ -128,8 +123,7 @@ abstract class RanksTest extends LeaderboardTest {
 
   "Ranks" should {
 
-    /**
-      * you can use Argument injection and ZIO Env injection at the same time:
+    /** you can use Argument injection and ZIO Env injection at the same time:
       */
     "return None for a user with no score" in {
       (ranks: Ranks[IO]) =>
