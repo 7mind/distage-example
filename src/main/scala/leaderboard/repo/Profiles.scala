@@ -3,10 +3,10 @@ package leaderboard.repo
 import distage.DIResource
 import doobie.postgres.implicits._
 import doobie.syntax.string._
-import izumi.functional.bio.{BIOApplicative, BIOMonad, BIOPrimitives, F}
+import izumi.functional.bio.{Applicative2, F, Monad2, Primitives2}
 import leaderboard.model.{QueryFailure, UserId, UserProfile}
 import leaderboard.sql.SQL
-import logstage.LogBIO
+import logstage.LogIO2
 
 trait Profiles[F[_, _]] {
   def setProfile(userId: UserId, profile: UserProfile): F[QueryFailure, Unit]
@@ -14,7 +14,7 @@ trait Profiles[F[_, _]] {
 }
 
 object Profiles {
-  final class Dummy[F[+_, +_]: BIOApplicative: BIOPrimitives]
+  final class Dummy[F[+_, +_]: Applicative2: Primitives2]
     extends DIResource.LiftF[F[Nothing, ?], Profiles[F]](for {
       state <- F.mkRef(Map.empty[UserId, UserProfile])
     } yield {
@@ -27,9 +27,9 @@ object Profiles {
       }
     })
 
-  final class Postgres[F[+_, +_]: BIOMonad](
+  final class Postgres[F[+_, +_]: Monad2](
     sql: SQL[F],
-    log: LogBIO[F],
+    log: LogIO2[F],
   ) extends DIResource.LiftF[F[Throwable, ?], Profiles[F]](for {
       _ <- log.info("Creating Profile table")
       _ <- sql.execute("ddl-profiles") {

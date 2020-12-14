@@ -3,6 +3,9 @@
 #   https://scalacenter.github.io/bloop/docs/performance-guide#tweak-the-java-jit
 -XX:MaxInlineLevel=18
 
+# Enable/disable compile-time check failures
+-Dizumi.distage.plancheck.only-warn=false
+
 # Enable Graal JIT
 # -XX:+UnlockExperimentalVMOptions
 # -XX:+EnableJVMCI

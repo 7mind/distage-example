@@ -1,14 +1,14 @@
 val V = new {
-  val distage         = "1.0.0-M1"
+  val distage         = "1.0.0"
   val logstage        = distage
   val scalatest       = "3.2.3"
   val scalacheck      = "1.15.1"
-  val http4s          = "0.21.8"
-  val doobie          = "0.9.2"
+  val http4s          = "0.21.14"
+  val doobie          = "0.9.4"
   val zio             = "1.0.3"
-  val zioCats         = "2.1.4.1"
-  val kindProjector   = "0.11.0"
-  val circeDerivation = "0.13.0-M4"
+  val zioCats         = "2.2.0.1"
+  val kindProjector   = "0.11.1"
+  val circeDerivation = "0.13.0-M5"
 }
 
 val Deps = new {
@@ -41,8 +41,8 @@ val Deps = new {
 
 inThisBuild(
   Seq(
-    scalaVersion := "2.13.3",
-    version      := "1.0.0-SNAPSHOT",
+    scalaVersion := "2.13.4",
+    version      := "1.0.0",
     organization := "io.7mind",
   )
 )
@@ -51,7 +51,6 @@ lazy val leaderboard = project
   .in(file("."))
   .settings(
     name := "leaderboard",
-    scalacOptions --= Seq("-Werror", "-Xfatal-warnings"),
     libraryDependencies ++= Seq(
       Deps.distageCore,
       Deps.distageRoles,
@@ -73,4 +72,17 @@ lazy val leaderboard = project
       Deps.zioCats,
     ),
     addCompilerPlugin(Deps.kindProjector),
+    scalacOptions -= "-Xfatal-warnings",
+    scalacOptions ++= Seq(
+      s"-Xmacro-settings:product-name=${name.value}",
+      s"-Xmacro-settings:product-version=${version.value}",
+      s"-Xmacro-settings:product-group=${organization.value}",
+      s"-Xmacro-settings:scala-version=${scalaVersion.value}",
+      s"-Xmacro-settings:scala-versions=${crossScalaVersions.value.mkString(":")}",
+      s"-Xmacro-settings:sbt-version=${sbtVersion.value}",
+      s"-Xmacro-settings:git-repo-clean=${git.gitUncommittedChanges.value}",
+      s"-Xmacro-settings:git-branch=${git.gitCurrentBranch.value}",
+      s"-Xmacro-settings:git-described-version=${git.gitDescribedVersion.value.getOrElse("")}",
+      s"-Xmacro-settings:git-head-commit=${git.gitHeadCommit.value.getOrElse("")}",
+    ),
   )

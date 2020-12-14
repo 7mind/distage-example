@@ -2,17 +2,16 @@ package leaderboard
 
 import distage.StandardAxis.Repo
 import distage.plugins.PluginConfig
-import distage.{Activation, DIResource, DIResourceBase, ModuleDef}
-import izumi.distage.model.definition
+import distage.{Activation, Lifecycle, Module, ModuleDef}
+import izumi.distage.model.definition.StandardAxis.Scene
+import izumi.distage.roles.RoleAppMain
 import izumi.distage.roles.bundled.{ConfigWriter, Help}
 import izumi.distage.roles.model.{RoleDescriptor, RoleService}
-import izumi.distage.roles.RoleAppMain
-import izumi.functional.bio.BIOApplicative
+import izumi.functional.bio.Applicative2
 import izumi.fundamentals.platform.cli.model.raw.{RawEntrypointParams, RawRoleParams, RawValue}
 import leaderboard.api.{LadderApi, ProfileApi}
-import leaderboard.axis.Scene
 import leaderboard.http.HttpServer
-import logstage.LogBIO
+import logstage.LogIO2
 import zio.IO
 
 import scala.annotation.unused
@@ -31,13 +30,13 @@ import scala.annotation.unused
   *   curl -X GET http://localhost:8080/ladder
   * }}}
   */
-final class LadderRole[F[+_, +_]: BIOApplicative](
+final class LadderRole[F[+_, +_]: Applicative2](
   @unused ladderApi: LadderApi[F],
   @unused runningServer: HttpServer[F],
-  log: LogBIO[F],
+  log: LogIO2[F],
 ) extends RoleService[F[Throwable, ?]] {
-  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): DIResourceBase[F[Throwable, ?], Unit] = {
-    DIResource.liftF(log.info("Ladder API started!"))
+  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): Lifecycle[F[Throwable, ?], Unit] = {
+    Lifecycle.liftF(log.info("Ladder API started!"))
   }
 }
 object LadderRole extends RoleDescriptor {
@@ -58,13 +57,13 @@ object LadderRole extends RoleDescriptor {
   *   curl -X GET http://localhost:8080/profile/50753a00-5e2e-4a2f-94b0-e6721b0a3cc4
   * }}}
   */
-final class ProfileRole[F[+_, +_]: BIOApplicative](
+final class ProfileRole[F[+_, +_]: Applicative2](
   @unused profileApi: ProfileApi[F],
   @unused runningServer: HttpServer[F],
-  log: LogBIO[F],
+  log: LogIO2[F],
 ) extends RoleService[F[Throwable, ?]] {
-  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): DIResourceBase[F[Throwable, ?], Unit] = {
-    DIResource.liftF(log.info("Profile API started!"))
+  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): Lifecycle[F[Throwable, ?], Unit] = {
+    Lifecycle.liftF(log.info("Profile API started!"))
   }
 }
 object ProfileRole extends RoleDescriptor {
@@ -94,13 +93,13 @@ object ProfileRole extends RoleDescriptor {
   *   curl -X GET http://localhost:8080/profile/50753a00-5e2e-4a2f-94b0-e6721b0a3cc4
   * }}}
   */
-final class LeaderboardRole[F[+_, +_]: BIOApplicative](
+final class LeaderboardRole[F[+_, +_]: Applicative2](
   @unused ladderRole: LadderRole[F],
   @unused profileRole: ProfileRole[F],
-  log: LogBIO[F],
+  log: LogIO2[F],
 ) extends RoleService[F[Throwable, ?]] {
-  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): DIResourceBase[F[Throwable, ?], Unit] = {
-    DIResource.liftF(log.info("Ladder & Profile APIs started!"))
+  override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): Lifecycle[F[Throwable, ?], Unit] = {
+    Lifecycle.liftF(log.info("Ladder & Profile APIs started!"))
   }
 }
 object LeaderboardRole extends RoleDescriptor {
@@ -291,7 +290,7 @@ object GenericLauncher extends MainBase(Activation(Repo -> Repo.Prod, Scene -> S
 sealed abstract class MainBase(
   activation: Activation,
   requiredRoles: Vector[RawRoleParams],
-) extends RoleAppMain.LauncherBIO[IO] {
+) extends RoleAppMain.LauncherBIO2[IO] {
 
   override def requiredRoles(argv: RoleAppMain.ArgV): Vector[RawRoleParams] = {
     requiredRoles
@@ -301,7 +300,7 @@ sealed abstract class MainBase(
     PluginConfig.cached(pluginsPackage = "leaderboard.plugins")
   }
 
-  override protected def makeAppModuleOverride(argv: RoleAppMain.ArgV): definition.Module = new ModuleDef {
+  protected override def roleAppBootOverrides(argv: RoleAppMain.ArgV): Module = super.roleAppBootOverrides(argv) ++ new ModuleDef {
     make[Activation].named("default").fromValue(activation)
   }
 
