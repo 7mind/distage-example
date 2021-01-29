@@ -1,6 +1,6 @@
 package leaderboard.repo
 
-import distage.DIResource
+import distage.Lifecycle
 import doobie.postgres.implicits._
 import doobie.syntax.string._
 import izumi.functional.bio.{Applicative2, F, Monad2, Primitives2}
@@ -15,7 +15,7 @@ trait Profiles[F[_, _]] {
 
 object Profiles {
   final class Dummy[F[+_, +_]: Applicative2: Primitives2]
-    extends DIResource.LiftF[F[Nothing, ?], Profiles[F]](for {
+    extends Lifecycle.LiftF[F[Nothing, ?], Profiles[F]](for {
       state <- F.mkRef(Map.empty[UserId, UserProfile])
     } yield {
       new Profiles[F] {
@@ -30,7 +30,7 @@ object Profiles {
   final class Postgres[F[+_, +_]: Monad2](
     sql: SQL[F],
     log: LogIO2[F],
-  ) extends DIResource.LiftF[F[Throwable, ?], Profiles[F]](for {
+  ) extends Lifecycle.LiftF[F[Throwable, ?], Profiles[F]](for {
       _ <- log.info("Creating Profile table")
       _ <- sql.execute("ddl-profiles") {
         sql"""create table if not exists profiles (

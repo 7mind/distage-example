@@ -1,7 +1,7 @@
 package leaderboard.sql
 
 import cats.effect.{Async, Blocker, ContextShift, Sync}
-import distage.DIResource
+import distage.Lifecycle
 import doobie.hikari.HikariTransactor
 import izumi.distage.framework.model.IntegrationCheck
 import izumi.fundamentals.platform.integration.{PortCheck, ResourceCheck}
@@ -12,7 +12,7 @@ final class TransactorResource[F[_]: Async: ContextShift](
   portCfg: PostgresPortCfg,
   portCheck: PortCheck,
   blocker: Blocker,
-) extends DIResource.OfCats(
+) extends Lifecycle.OfCats(
     HikariTransactor.newHikariTransactor(
       driverClassName = cfg.jdbcDriver,
       url             = portCfg.substitute(cfg.url),
