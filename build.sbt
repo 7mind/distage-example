@@ -41,7 +41,7 @@ val Deps = new {
 
 inThisBuild(
   Seq(
-    scalaVersion := "2.13.4",
+    scalaVersion := "2.13.5",
     version      := "1.0.0",
     organization := "io.7mind",
   )
@@ -74,6 +74,7 @@ lazy val leaderboard = project
     addCompilerPlugin(Deps.kindProjector),
     scalacOptions -= "-Xfatal-warnings",
     scalacOptions += "-Wconf:msg=kind-projector:silent",
+    scalacOptions += "-Wmacros:after",
     scalacOptions ++= Seq(
       s"-Xmacro-settings:product-name=${name.value}",
       s"-Xmacro-settings:product-version=${version.value}",
