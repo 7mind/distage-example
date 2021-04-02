@@ -301,7 +301,9 @@ sealed abstract class MainBase(
   }
 
   protected override def roleAppBootOverrides(argv: RoleAppMain.ArgV): Module = super.roleAppBootOverrides(argv) ++ new ModuleDef {
-    make[Activation].named("default").fromValue(activation)
+    make[Activation].named("default").fromValue(defaultActivation ++ activation)
   }
+
+  private[this] def defaultActivation = Activation(Scene -> Scene.Provided)
 
 }
