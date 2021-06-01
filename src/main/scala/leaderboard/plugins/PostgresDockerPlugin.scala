@@ -27,6 +27,6 @@ object PostgresDockerPlugin extends PluginDef {
   make[PostgresPortCfg].from {
     docker: PostgresDocker.Container =>
       val knownAddress = docker.availablePorts.first(DockerPort.TCP(5432))
-      PostgresPortCfg(knownAddress.hostV4, knownAddress.port)
+      PostgresPortCfg(knownAddress.hostString, knownAddress.port)
   }
 }
