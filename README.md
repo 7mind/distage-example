@@ -17,6 +17,15 @@ You can launch the application with the following command.
 ./launcher -u scene:managed :leaderboard
 ```
 
+#### Note
+
+If this command fails for you with some cryptic stack trace, there's most likely an issue with your Docker. First of all, check that you have `docker` and `contrainerd` daemons running. If you're using something else than Ubuntu, please stick to the relevant [installation page](https://docs.docker.com/engine/install/):
+```
+sudo systemctl status docker
+sudo systemctl status contrainerd
+```
+Both of them should have `Active: active (running)` status. If your problem isn't gone yet, most likely you don't have your user in `docker` group. [Here](https://docs.docker.com/engine/install/) you can find a tutorial on how to do so. Don't forget to logout of your session or restart your virtual machine before proceeding. If you still have problems, don't hesitate to open an issue.
+
 Afterwards you can call the HTTP methods:
 
 ```bash
