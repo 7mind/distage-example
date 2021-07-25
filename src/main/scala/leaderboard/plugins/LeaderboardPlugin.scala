@@ -53,7 +53,7 @@ object LeaderboardPlugin extends PluginDef {
         .weak[LadderApi[F]] // add ladder API as a _weak reference_
         .weak[ProfileApi[F]] // add profiles API as a _weak reference_
 
-      make[HttpServer[F]].fromResource[HttpServer.Impl[F]]
+      make[HttpServer].fromResource[HttpServer.Impl[F]]
 
       make[Ranks[F]].from[Ranks.Impl[F]]
 

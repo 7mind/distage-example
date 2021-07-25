@@ -32,7 +32,7 @@ import scala.annotation.unused
   */
 final class LadderRole[F[+_, +_]: Applicative2](
   @unused ladderApi: LadderApi[F],
-  @unused runningServer: HttpServer[F],
+  @unused runningServer: HttpServer,
   log: LogIO2[F],
 ) extends RoleService[F[Throwable, ?]] {
   override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): Lifecycle[F[Throwable, ?], Unit] = {
@@ -59,7 +59,7 @@ object LadderRole extends RoleDescriptor {
   */
 final class ProfileRole[F[+_, +_]: Applicative2](
   @unused profileApi: ProfileApi[F],
-  @unused runningServer: HttpServer[F],
+  @unused runningServer: HttpServer,
   log: LogIO2[F],
 ) extends RoleService[F[Throwable, ?]] {
   override def start(roleParameters: RawEntrypointParams, freeArgs: Vector[String]): Lifecycle[F[Throwable, ?], Unit] = {

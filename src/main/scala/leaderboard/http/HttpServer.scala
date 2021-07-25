@@ -5,14 +5,14 @@ import cats.implicits._
 import distage.Id
 import izumi.distage.model.definition.Lifecycle
 import leaderboard.api.HttpApi
+import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.server.Server
-import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.syntax.kleisli._
 
 import scala.concurrent.ExecutionContext
 
-final case class HttpServer[F[_, _]](
-  server: Server[F[Throwable, ?]]
+final case class HttpServer(
+  server: Server
 )
 
 object HttpServer {
@@ -23,7 +23,7 @@ object HttpServer {
   )(implicit
     concurrentEffect: ConcurrentEffect[F[Throwable, ?]],
     timer: Timer[F[Throwable, ?]],
-  ) extends Lifecycle.Of[F[Throwable, ?], HttpServer[F]](
+  ) extends Lifecycle.Of[F[Throwable, ?], HttpServer](
       Lifecycle.fromCats {
         val combinedApis = allHttpApis.map(_.http).toList.foldK
 
