@@ -21,13 +21,13 @@ object HttpServer {
     allHttpApis: Set[HttpApi[F]],
     cpuPool: ExecutionContext @Id("zio.cpu"),
   )(implicit
-    concurrentEffect: ConcurrentEffect[F[Throwable, ?]],
-    timer: Timer[F[Throwable, ?]],
-  ) extends Lifecycle.Of[F[Throwable, ?], HttpServer](
+    concurrentEffect: ConcurrentEffect[F[Throwable, *]],
+    timer: Timer[F[Throwable, *]],
+  ) extends Lifecycle.Of[F[Throwable, *], HttpServer](
       Lifecycle.fromCats {
         val combinedApis = allHttpApis.map(_.http).toList.foldK
 
-        BlazeServerBuilder[F[Throwable, ?]](cpuPool)
+        BlazeServerBuilder[F[Throwable, *]](cpuPool)
           .withHttpApp(combinedApis.orNotFound)
           .bindLocal(8080)
           .resource

@@ -10,14 +10,14 @@ import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 
 final class ProfileApi[F[+_, +_]: IO2](
-  dsl: Http4sDsl[F[Throwable, ?]],
+  dsl: Http4sDsl[F[Throwable, *]],
   profiles: Profiles[F],
   ranks: Ranks[F],
 ) extends HttpApi[F] {
 
   import dsl._
 
-  override def http: HttpRoutes[F[Throwable, ?]] = {
+  override def http: HttpRoutes[F[Throwable, *]] = {
     HttpRoutes.of {
       case GET -> Root / "profile" / UUIDVar(userId) =>
         Ok(ranks.getRank(userId).map(_.asJson))

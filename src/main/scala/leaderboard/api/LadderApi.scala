@@ -9,13 +9,13 @@ import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 
 final class LadderApi[F[+_, +_]: IO2](
-  dsl: Http4sDsl[F[Throwable, ?]],
+  dsl: Http4sDsl[F[Throwable, *]],
   ladder: Ladder[F],
 ) extends HttpApi[F] {
 
   import dsl._
 
-  override def http: HttpRoutes[F[Throwable, ?]] = {
+  override def http: HttpRoutes[F[Throwable, *]] = {
     HttpRoutes.of {
       case GET -> Root / "ladder" =>
         Ok(ladder.getScores.map(_.asJson))
