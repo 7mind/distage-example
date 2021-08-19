@@ -16,8 +16,7 @@ import zio.IO
 
 import scala.annotation.unused
 
-/**
-  * A role that exposes just the /ladder/ endpoints, it can be launched with
+/** A role that exposes just the /ladder/ endpoints, it can be launched with
   *
   * {{{
   *   ./launcher :ladder
@@ -43,8 +42,7 @@ object LadderRole extends RoleDescriptor {
   final val id = "ladder"
 }
 
-/**
-  * A role that exposes just the /profile/ endpoints, it can be launched with
+/** A role that exposes just the /profile/ endpoints, it can be launched with
   *
   * {{{
   *   ./launcher :profile
@@ -106,8 +104,7 @@ object LeaderboardRole extends RoleDescriptor {
   final val id = "leaderboard"
 }
 
-/**
-  * Launch the service with dummy configuration.
+/** Launch the service with dummy configuration.
   *
   * This will use in-memory repositories and not require an external postgres DB.
   *
@@ -118,8 +115,7 @@ object LeaderboardRole extends RoleDescriptor {
   */
 object MainDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(LeaderboardRole.id)))
 
-/**
-  * Launch with production configuration and setup the required postgres DB inside docker.
+/** Launch with production configuration and setup the required postgres DB inside docker.
   *
   * You will need docker daemon running in the background.
   *
@@ -130,11 +126,9 @@ object MainDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(RawRole
   */
 object MainProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(LeaderboardRole.id)))
 
-/**
-  * Launch with production configuration and external, not dockerized, services.
+/** Launch with production configuration and external, not dockerized, services.
   *
-  * You will need postgres to be available at `localhost:5432`.
-  * To set it up with Docker, execute the following command:
+  * You will need postgres to be available at `localhost:5432`. To set it up with Docker, execute the following command:
   *
   * {{{
   *   docker run --rm -d -p 5432:5432 postgres:12.1
@@ -147,8 +141,7 @@ object MainProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Sc
   */
 object MainProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LadderRole.id)))
 
-/**
-  * Launch just the `ladder` APIs with dummy repositories
+/** Launch just the `ladder` APIs with dummy repositories
   *
   * Equivalent to:
   * {{{
@@ -157,8 +150,7 @@ object MainProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Pr
   */
 object MainLadderDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(LadderRole.id)))
 
-/**
-  * Launch just the `ladder` APIs with postgres repositories and dockerized postgres service
+/** Launch just the `ladder` APIs with postgres repositories and dockerized postgres service
   *
   * Equivalent to:
   * {{{
@@ -167,8 +159,7 @@ object MainLadderDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(R
   */
 object MainLadderProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(LadderRole.id)))
 
-/**
-  * Launch just the `ladder` APIs with postgres repositories and external postgres service
+/** Launch just the `ladder` APIs with postgres repositories and external postgres service
   *
   * You will need postgres to be available at `localhost:5432`
   *
@@ -179,8 +170,7 @@ object MainLadderProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene
   */
 object MainLadderProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LadderRole.id)))
 
-/**
-  * Launch just the `profile` APIs with dummy repositories
+/** Launch just the `profile` APIs with dummy repositories
   *
   * Equivalent to:
   * {{{
@@ -189,8 +179,7 @@ object MainLadderProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Sc
   */
 object MainProfileDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(ProfileRole.id)))
 
-/**
-  * Launch just the `ladder` APIs with postgres repositories and dockerized postgres service
+/** Launch just the `ladder` APIs with postgres repositories and dockerized postgres service
   *
   * Equivalent to:∂
   * {{{
@@ -199,8 +188,7 @@ object MainProfileDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(
   */
 object MainProfileProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(ProfileRole.id)))
 
-/**
-  * Launch just the `profile` APIs with postgres repositories and external postgres service
+/** Launch just the `profile` APIs with postgres repositories and external postgres service
   *
   * Equivalent to:
   * {{{
@@ -209,9 +197,7 @@ object MainProfileProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scen
   */
 object MainProfileProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(ProfileRole.id)))
 
-/**
-  * Display help message with all available launcher arguments
-  * and command-line parameters for all roles
+/** Display help message with all available launcher arguments and command-line parameters for all roles
   *
   * Equivalent to:
   * {{{
@@ -220,10 +206,8 @@ object MainProfileProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> S
   */
 object MainHelp extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(Help.id)))
 
-/**
-  * Write the default configuration files for each role into JSON files in `./config`.
-  * Configurations in [[izumi.distage.config.ConfigModuleDef#makeConfig]]
-  * are read from resources:
+/** Write the default configuration files for each role into JSON files in `./config`. Configurations in [[izumi.distage.config.ConfigModuleDef#makeConfig]] are read from
+  * resources:
   *
   *   - common-reference.conf - (configuration shared across all roles)
   *   - ${roleName}-reference.conf - (role-specific configuration, overrides `common`)
@@ -253,9 +237,7 @@ object MainWriteReferenceConfigs
     },
   )
 
-/**
-  * Generic launcher not set to run a specific role by default,
-  * use command-line arguments to choose one or multiple roles:
+/** Generic launcher not set to run a specific role by default, use command-line arguments to choose one or multiple roles:
   *
   * {{{
   *
