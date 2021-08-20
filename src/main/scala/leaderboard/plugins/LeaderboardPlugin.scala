@@ -17,7 +17,7 @@ import leaderboard.{LadderRole, LeaderboardRole, ProfileRole}
 import org.http4s.dsl.Http4sDsl
 import zio.IO
 
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 
 object LeaderboardPlugin extends PluginDef {
   include(modules.roles[IO])

@@ -1,13 +1,13 @@
 package leaderboard.http
 
 import cats.effect.{ConcurrentEffect, Timer}
-import cats.implicits._
+import cats.implicits.*
 import distage.Id
 import izumi.distage.model.definition.Lifecycle
 import leaderboard.api.HttpApi
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.server.Server
-import org.http4s.syntax.kleisli._
+import org.http4s.syntax.kleisli.*
 
 import scala.concurrent.ExecutionContext
 

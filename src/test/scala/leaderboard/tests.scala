@@ -7,7 +7,7 @@ import izumi.distage.plugins.PluginConfig
 import izumi.distage.testkit.scalatest.{AssertIO3, Spec3}
 import leaderboard.model.{QueryFailure, Score, UserId, UserProfile}
 import leaderboard.repo.{Ladder, Profiles, Ranks}
-import leaderboard.zioenv._
+import leaderboard.zioenv.*
 import zio.{IO, ZIO}
 
 abstract class LeaderboardTest extends Spec3[ZIO] with AssertIO3[ZIO] {
@@ -103,7 +103,7 @@ abstract class ProfilesTest extends LeaderboardTest {
     /** that's what the ZIO signature looks like for ZIO Env injection:
       */
     "set & get" in {
-      val zioValue: ZIO[ProfilesEnv with RndEnv, QueryFailure, Unit] = for {
+      val zioValue: ZIO[ProfilesEnv & RndEnv, QueryFailure, Unit] = for {
         user   <- rnd[UserId]
         name   <- rnd[String]
         desc   <- rnd[String]

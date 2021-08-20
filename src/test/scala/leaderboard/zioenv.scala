@@ -1,6 +1,6 @@
 package leaderboard
 
-import leaderboard.model._
+import leaderboard.model.*
 import leaderboard.repo.{Ladder, Profiles, Ranks}
 import org.scalacheck.Arbitrary
 import zio.{Has, IO, URIO, ZIO}

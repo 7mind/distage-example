@@ -1,8 +1,8 @@
 package leaderboard.repo
 
 import distage.Lifecycle
-import doobie.postgres.implicits._
-import doobie.syntax.string._
+import doobie.postgres.implicits.*
+import doobie.syntax.string.*
 import izumi.functional.bio.{Applicative2, F, Monad2, Primitives2}
 import leaderboard.model.{QueryFailure, Score, UserId}
 import leaderboard.sql.SQL
