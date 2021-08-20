@@ -7,7 +7,7 @@ val V = new {
   val doobie          = "0.13.4"
   val zio             = "1.0.9"
   val zioCats         = "2.5.1.0"
-  val kindProjector   = "0.11.3"
+  val kindProjector   = "0.13.0"
   val circeDerivation = "0.13.0-M5"
 }
 
@@ -41,7 +41,7 @@ val Deps = new {
 
 inThisBuild(
   Seq(
-    scalaVersion := "2.13.5",
+    scalaVersion := "2.13.6",
     version      := "1.0.0",
     organization := "io.7mind",
   )
@@ -73,7 +73,8 @@ lazy val leaderboard = project
     ),
     addCompilerPlugin(Deps.kindProjector),
     scalacOptions -= "-Xfatal-warnings",
-    scalacOptions += "-Wconf:msg=kind-projector:silent",
+    scalacOptions += "-Xsource:3",
+    scalacOptions += "-P:kind-projector:underscore-placeholders",
     scalacOptions += "-Wmacros:after",
     scalacOptions ++= Seq(
       s"-Xmacro-settings:product-name=${name.value}",

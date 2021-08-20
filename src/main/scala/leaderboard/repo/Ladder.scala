@@ -1,8 +1,8 @@
 package leaderboard.repo
 
 import distage.Lifecycle
-import doobie.postgres.implicits._
-import doobie.syntax.string._
+import doobie.postgres.implicits.*
+import doobie.syntax.string.*
 import izumi.functional.bio.{Applicative2, F, Monad2, Primitives2}
 import leaderboard.model.{QueryFailure, Score, UserId}
 import leaderboard.sql.SQL
@@ -15,7 +15,7 @@ trait Ladder[F[_, _]] {
 
 object Ladder {
   final class Dummy[F[+_, +_]: Applicative2: Primitives2]
-    extends Lifecycle.LiftF[F[Nothing, ?], Ladder[F]](for {
+    extends Lifecycle.LiftF[F[Nothing, _], Ladder[F]](for {
       state <- F.mkRef(Map.empty[UserId, Score])
     } yield {
       new Ladder[F] {
@@ -30,7 +30,7 @@ object Ladder {
   final class Postgres[F[+_, +_]: Monad2](
     sql: SQL[F],
     log: LogIO2[F],
-  ) extends Lifecycle.LiftF[F[Throwable, ?], Ladder[F]](for {
+  ) extends Lifecycle.LiftF[F[Throwable, _], Ladder[F]](for {
       _ <- log.info(s"Creating Ladder table ${log -> "LambdaFunction"} with $log")
       _ <- sql.execute("ladder-ddl") {
         sql"""create table if not exists ladder (
