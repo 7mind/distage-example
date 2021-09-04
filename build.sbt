@@ -7,7 +7,7 @@ val V = new {
   val doobie          = "0.13.4"
   val zio             = "1.0.11"
   val zioCats         = "2.5.1.0"
-  val kindProjector   = "0.13.1"
+  val kindProjector   = "0.13.2"
   val circeDerivation = "0.13.0-M5"
 }
 
