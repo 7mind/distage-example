@@ -54,8 +54,7 @@ abstract class LadderTest extends LeaderboardTest {
 
   "Ladder" should {
 
-    /** this test gets dependencies injected through function arguments
-      */
+    /** this test gets dependencies injected through function arguments */
     "submit & get" in {
       (rnd: Rnd[IO], ladder: Ladder[IO]) =>
         for {
@@ -67,8 +66,7 @@ abstract class LadderTest extends LeaderboardTest {
         } yield ()
     }
 
-    /** this test get dependencies injected via ZIO Env:
-      */
+    /** this test get dependencies injected via ZIO Env: */
     "assign a higher position in the list to a higher score" in {
       for {
         user1  <- rnd[UserId]
@@ -100,8 +98,7 @@ abstract class ProfilesTest extends LeaderboardTest {
 
   "Profiles" should {
 
-    /** that's what the ZIO signature looks like for ZIO Env injection:
-      */
+    /** that's what the ZIO signature looks like for ZIO Env injection: */
     "set & get" in {
       val zioValue: ZIO[ProfilesEnv & RndEnv, QueryFailure, Unit] = for {
         user   <- rnd[UserId]
@@ -123,8 +120,7 @@ abstract class RanksTest extends LeaderboardTest {
 
   "Ranks" should {
 
-    /** you can use Argument injection and ZIO Env injection at the same time:
-      */
+    /** you can use Argument injection and ZIO Env injection at the same time: */
     "return None for a user with no score" in {
       (ranks: Ranks[IO]) =>
         for {
