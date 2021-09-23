@@ -145,7 +145,7 @@ object MainProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Sc
   *   ./launcher :leaderboard
   * }}}
   */
-object MainProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LadderRole.id)))
+object MainProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LeaderboardRole.id)))
 
 /**
   * Launch just the `ladder` APIs with dummy repositories
