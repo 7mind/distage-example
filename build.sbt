@@ -88,4 +88,16 @@ lazy val leaderboard = project
       s"-Xmacro-settings:git-described-version=${git.gitDescribedVersion.value.getOrElse("")}",
       s"-Xmacro-settings:git-head-commit=${git.gitHeadCommit.value.getOrElse("")}",
     ),
+    GraalVMNativeImage / mainClass := Some("leaderboard.MainProfileProdDocker"),
+    graalVMNativeImageOptions ++= Seq(
+      "--no-fallback",
+      "-H:+ReportExceptionStackTraces",
+      "--allow-incomplete-classpath",
+      "--report-unsupported-elements-at-runtime",
+      "--enable-https",
+      "--enable-http",
+      "--enable-all-security-services",
+      "-J-Xmx4G",
+    ),
   )
+  .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)
