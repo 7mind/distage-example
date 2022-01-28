@@ -3,7 +3,7 @@ package leaderboard.sql
 import cats.effect.{Async, Blocker, ContextShift, Sync}
 import distage.Lifecycle
 import doobie.hikari.HikariTransactor
-import izumi.distage.model.provisioning.IntegrationCheck
+import izumi.distage.framework.model.IntegrationCheck
 import izumi.fundamentals.platform.integration.{PortCheck, ResourceCheck}
 import leaderboard.config.{PostgresCfg, PostgresPortCfg}
 
