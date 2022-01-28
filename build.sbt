@@ -1,5 +1,9 @@
+import com.typesafe.sbt.packager.docker._
+
+import java.io.ByteArrayInputStream
+
 val V = new {
-  val distage         = "1.0.8"
+  val distage         = "1.0.9"
   val logstage        = distage
   val scalatest       = "3.2.10"
   val scalacheck      = "1.15.4"
@@ -88,4 +92,58 @@ lazy val leaderboard = project
       s"-Xmacro-settings:git-described-version=${git.gitDescribedVersion.value.getOrElse("")}",
       s"-Xmacro-settings:git-head-commit=${git.gitHeadCommit.value.getOrElse("")}",
     ),
+    GraalVMNativeImage / mainClass := Some("leaderboard.MainProfileProdDocker"),
+    graalVMNativeImageOptions ++= Seq(
+      "--no-fallback",
+      "-H:+ReportExceptionStackTraces",
+      "--allow-incomplete-classpath",
+      "--report-unsupported-elements-at-runtime",
+      "--enable-https",
+      "--enable-http",
+      "-J-Xmx4G",
+    ),
+    graalVMNativeImageGraalVersion := Some("java11-22.0.0.2"),
+    // see https://github.com/sbt/sbt-native-packager/issues/1492
+    GraalVMNativeImage / UniversalPlugin.autoImport.containerBuildImage := Def.taskDyn {
+      (Def.task {
+
+        val baseImage     = s"ghcr.io/graalvm/graalvm-ce:ol8-${graalVMNativeImageGraalVersion.value.get}"
+        val dockerCommand = (DockerPlugin.autoImport.dockerExecCommand in GraalVMNativeImage).value
+        val streams       = Keys.streams.value
+
+        val (baseName, tag) = baseImage.split(":", 2) match {
+          case Array(n, t) => (n, t)
+          case Array(n)    => (n, "latest")
+        }
+
+        val imageName = s"${baseName.replace('/', '-')}-native-image:$tag"
+        import sys.process._
+        if ((dockerCommand ++ Seq("image", "ls", imageName, "--quiet")).!!.trim.isEmpty) {
+          streams.log.info(s"Generating new GraalVM native-image image based on $baseImage: $imageName")
+
+          val dockerContent = Dockerfile(
+            Cmd("FROM", baseImage),
+            Cmd("WORKDIR", "/opt/graalvm"),
+            ExecCmd("RUN", "gu", "install", "native-image"),
+            ExecCmd("ENTRYPOINT", "native-image"),
+            ExecCmd("RUN", "ln", "-s", s"/opt/graalvm-ce-${graalVMNativeImageGraalVersion.value.get}/bin/native-image", "/usr/local/bin/native-image"),
+          ).makeContent
+
+          val command = dockerCommand ++ Seq("build", "-t", imageName, "-")
+
+          val pb: ProcessBuilder = sys.process.Process(command) #< new ByteArrayInputStream(dockerContent.getBytes())
+          val ret = pb ! (DockerPlugin: { def publishLocalLogger(log: sbt.Logger): scala.AnyRef with scala.sys.process.ProcessLogger }).publishLocalLogger(streams.log)
+
+          if (ret != 0)
+            throw new RuntimeException("Nonzero exit value when generating GraalVM container build image: " + ret)
+
+        } else
+          streams.log.info(s"Using existing GraalVM native-image image: $imageName")
+
+        Some(imageName)
+      }: Def.Initialize[Task[Option[String]]])
+    }.value,
   )
+  .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)
+
+ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
