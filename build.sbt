@@ -5,7 +5,7 @@ import java.io.ByteArrayInputStream
 val V = new {
   val distage         = "1.0.10"
   val logstage        = distage
-  val scalatest       = "3.2.10"
+  val scalatest       = "3.2.11"
   val scalacheck      = "1.15.4"
   val http4s          = "0.22.11"
   val doobie          = "0.13.4"
