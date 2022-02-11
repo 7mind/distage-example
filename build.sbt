@@ -3,7 +3,7 @@ import com.typesafe.sbt.packager.docker._
 import java.io.ByteArrayInputStream
 
 val V = new {
-  val distage         = "1.0.9"
+  val distage         = "1.0.10"
   val logstage        = distage
   val scalatest       = "3.2.10"
   val scalacheck      = "1.15.4"
