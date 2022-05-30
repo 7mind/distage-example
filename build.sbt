@@ -3,14 +3,14 @@ import com.typesafe.sbt.packager.docker._
 import java.io.ByteArrayInputStream
 
 val V = new {
-  val distage         = "1.0.10"
+  val distage         = "1.1.0-SNAPSHOT"
   val logstage        = distage
-  val scalatest       = "3.2.11"
+  val scalatest       = "3.2.12"
   val scalacheck      = "1.15.4"
-  val http4s          = "0.22.11"
-  val doobie          = "0.13.4"
-  val zio             = "1.0.13"
-  val zioCats         = "2.5.1.0"
+  val http4s          = "0.23.12"
+  val doobie          = "1.0.0-RC2"
+  val zio             = "1.0.14"
+  val zioCats         = "3.2.9.1"
   val kindProjector   = "0.13.2"
   val circeDerivation = "0.13.0-M5"
 }
@@ -108,7 +108,7 @@ lazy val leaderboard = project
       (Def.task {
 
         val baseImage     = s"ghcr.io/graalvm/graalvm-ce:ol8-${graalVMNativeImageGraalVersion.value.get}"
-        val dockerCommand = (DockerPlugin.autoImport.dockerExecCommand in GraalVMNativeImage).value
+        val dockerCommand = (GraalVMNativeImage / DockerPlugin.autoImport.dockerExecCommand).value
         val streams       = Keys.streams.value
 
         val (baseName, tag) = baseImage.split(":", 2) match {
