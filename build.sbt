@@ -105,8 +105,7 @@ lazy val leaderboard = project
     graalVMNativeImageGraalVersion := Some("java11-22.0.0.2"),
     // see https://github.com/sbt/sbt-native-packager/issues/1492
     GraalVMNativeImage / UniversalPlugin.autoImport.containerBuildImage := Def.taskDyn {
-      (Def.task {
-
+      Def.task {
         val baseImage     = s"ghcr.io/graalvm/graalvm-ce:ol8-${graalVMNativeImageGraalVersion.value.get}"
         val dockerCommand = (GraalVMNativeImage / DockerPlugin.autoImport.dockerExecCommand).value
         val streams       = Keys.streams.value
@@ -141,7 +140,7 @@ lazy val leaderboard = project
           streams.log.info(s"Using existing GraalVM native-image image: $imageName")
 
         Some(imageName)
-      }: Def.Initialize[Task[Option[String]]])
+      }: Def.Initialize[Task[Option[String]]]
     }.value,
   )
   .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)

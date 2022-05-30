@@ -27,6 +27,15 @@ curl -X GET http://localhost:8080/ladder
 # user profile now shows the rank in the ladder along with profile data
 curl -X GET http://localhost:8080/profile/50753a00-5e2e-4a2f-94b0-e6721b0a3cc4
 ```
+
+#### GraalVM Native Image
+
+Use `sbt` to build a native Linux binary via GraalVM NativeImage:
+
+```bash
+sbt GraalVMNativeImage/packageBin
+```
+
 #### Note
 
 If `./launcher` command fails for you with some cryptic stack trace, there's most likely an issue with your Docker. First of all, check that you have `docker` and `contrainerd` daemons running. If you're using something else than Ubuntu, please stick to the relevant [installation page](https://docs.docker.com/engine/install/):
