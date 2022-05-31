@@ -1,25 +1,26 @@
 package leaderboard.sql
 
-import cats.effect.{Async, Blocker, ContextShift, Sync}
-import distage.Lifecycle
+import cats.effect.{Async, Sync}
+import distage.{Id, Lifecycle}
 import doobie.hikari.HikariTransactor
-import izumi.distage.framework.model.IntegrationCheck
+import izumi.distage.model.provisioning.IntegrationCheck
 import izumi.fundamentals.platform.integration.{PortCheck, ResourceCheck}
 import leaderboard.config.{PostgresCfg, PostgresPortCfg}
 
-final class TransactorResource[F[_]: Async: ContextShift](
+import scala.concurrent.ExecutionContext
+
+final class TransactorResource[F[_]: Async](
   cfg: PostgresCfg,
   portCfg: PostgresPortCfg,
   portCheck: PortCheck,
-  blocker: Blocker,
+  blockingExecutionContext: ExecutionContext @Id("io"),
 ) extends Lifecycle.OfCats(
     HikariTransactor.newHikariTransactor(
       driverClassName = cfg.jdbcDriver,
       url             = portCfg.substitute(cfg.url),
       user            = cfg.user,
       pass            = cfg.password,
-      connectEC       = blocker.blockingContext,
-      blocker         = blocker,
+      connectEC       = blockingExecutionContext,
     )
   )
   with IntegrationCheck[F] {
