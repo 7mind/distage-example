@@ -1,0 +1,1135 @@
+[
+{
+  "name":"[Lcats.parse.Parser0;"
+},
+{
+  "name":"[Lcats.parse.Parser;"
+},
+{
+  "name":"[Lcom.fasterxml.jackson.databind.deser.BeanDeserializerModifier;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.Bind;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.Capability;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.ContainerPort;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.Device;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.ExposedPort;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.Link;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.LxcConf;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.PortBinding;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.Ports$Binding;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.Ulimit;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.VolumeBind;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.VolumeRW;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.VolumesFrom;"
+},
+{
+  "name":"[Lcom.zaxxer.hikari.util.ConcurrentBag$IConcurrentBagEntry;"
+},
+{
+  "name":"[Lizumi.distage.model.plan.ExecutableOp;"
+},
+{
+  "name":"[Ljava.lang.Object;"
+},
+{
+  "name":"[Ljava.lang.String;"
+},
+{
+  "name":"[Ljava.sql.Statement;"
+},
+{
+  "name":"[Ljava.util.concurrent.atomic.AtomicReference;"
+},
+{
+  "name":"[Lorg.http4s.blaze.channel.nio1.SelectorLoop;"
+},
+{
+  "name":"[Lorg.http4s.blaze.util.TickWheelExecutor$Bucket;"
+},
+{
+  "name":"[Lscala.util.Either;"
+},
+{
+  "name":"[[Ljava.lang.Object;"
+},
+{
+  "name":"[[Ljava.util.concurrent.atomic.AtomicReference;"
+},
+{
+  "name":"com.fasterxml.jackson.databind.ext.Java7HandlersImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.fasterxml.jackson.databind.ext.Java7SupportImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.command.GraphData",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.command.GraphDriver",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.command.HealthState",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.command.HealthStateLog",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.command.InspectContainerResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.command.InspectContainerResponse$ContainerState",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["com.github.dockerjava.api.command.InspectContainerResponse"] }]
+},
+{
+  "name":"com.github.dockerjava.api.command.InspectContainerResponse$Mount",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.command.InspectContainerResponse$Node",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.AccessMode",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.api.model.Bind",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.BindOptions",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.BindPropagation",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.api.model.Binds",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.BlkioRateDevice",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.BlkioWeightDevice",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.Capability",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.api.model.ClusterInfo",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.Container",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.ContainerConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.ContainerHostConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.ContainerMount",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.ContainerNetwork",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.ContainerNetwork$Ipam",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.ContainerNetworkSettings",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.ContainerPort",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.Device",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.DeviceRequest",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.DockerObject",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.api.model.Driver",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.ExposedPort",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.ExposedPorts",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"fromPrimitive","parameterTypes":["java.util.Map"] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.ExternalCA",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.ExternalCAProtocol",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.api.model.HealthCheck",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.HostConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.Info",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.InfoRegistryConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.InfoRegistryConfig$IndexConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.InternetProtocol",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.api.model.Isolation",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"fromValue","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.Link",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.Links",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.LocalNodeState",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"forValue","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.LogConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"setType","parameterTypes":["com.github.dockerjava.api.model.LogConfig$LoggingType"] }
+  ]
+},
+{
+  "name":"com.github.dockerjava.api.model.LogConfig$LoggingType",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"fromValue","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.LxcConf",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.Mount",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.MountType",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.api.model.NetworkSettings",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.PeerNode",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.Ports",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"fromPrimitive","parameterTypes":["java.util.Map"] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.Ports$Binding",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.PropagationMode",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.api.model.ResourceVersion",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.RestartPolicy",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.SELContext",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.api.model.SwarmCAConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.SwarmDispatcherConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.SwarmInfo",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.SwarmOrchestration",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.SwarmRaftConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.SwarmSpec",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.TaskDefaults",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.TmpfsOptions",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.Ulimit",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.Volume",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"com.github.dockerjava.api.model.VolumeBind",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.VolumeBinds",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.VolumeOptions",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.VolumeRW",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.VolumesFrom",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.api.model.VolumesRW",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.dockerjava.transport.DomainSocket",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.transport.LinuxDomainSocket",
+  "allPublicFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.transport.LinuxDomainSocket$SockaddrUn",
+  "allDeclaredFields":true
+},
+{
+  "name":"com.intellij.rt.execution.application.AppMainV2$Agent",
+  "methods":[{"name":"premain","parameterTypes":["java.lang.String","java.lang.instrument.Instrumentation"] }]
+},
+{
+  "name":"com.sun.jna.CallbackProxy",
+  "queriedMethods":[{"name":"callback","parameterTypes":["java.lang.Object[]"] }]
+},
+{
+  "name":"com.sun.jna.Structure$FFIType",
+  "allDeclaredFields":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.jna.Structure$FFIType$size_t",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"java.io.Closeable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.io.InputStream",
+  "queriedMethods":[
+    {"name":"readAllBytes","parameterTypes":[] }, 
+    {"name":"readNBytes","parameterTypes":["int"] }, 
+    {"name":"readNBytes","parameterTypes":["byte[]","int","int"] }, 
+    {"name":"transferTo","parameterTypes":["java.io.OutputStream"] }
+  ]
+},
+{
+  "name":"java.io.Serializable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.AutoCloseable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Class",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"getModule","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.ClassLoader",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.ClassValue"
+},
+{
+  "name":"java.lang.Comparable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Enum",
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.Class","java.lang.String"] }]
+},
+{
+  "name":"java.lang.Iterable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Module",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"getLayer","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.ModuleLayer",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[
+    {"name":"boot","parameterTypes":[] }, 
+    {"name":"configuration","parameterTypes":[] }, 
+    {"name":"findLoader","parameterTypes":["java.lang.String"] }, 
+    {"name":"parents","parameterTypes":[] }
+  ]
+},
+{
+  "name":"java.lang.Object",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.StackWalker",
+  "methods":[
+    {"name":"forEach","parameterTypes":["java.util.function.Consumer"] }, 
+    {"name":"getInstance","parameterTypes":["java.lang.StackWalker$Option"] }
+  ]
+},
+{
+  "name":"java.lang.StackWalker$Option"
+},
+{
+  "name":"java.lang.StackWalker$StackFrame",
+  "methods":[{"name":"getDeclaringClass","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.System",
+  "methods":[{"name":"getSecurityManager","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.Throwable",
+  "queriedMethods":[{"name":"addSuppressed","parameterTypes":["java.lang.Throwable"] }]
+},
+{
+  "name":"java.lang.invoke.VarHandle",
+  "methods":[{"name":"releaseFence","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.module.Configuration",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"modules","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.module.ModuleDescriptor",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[
+    {"name":"name","parameterTypes":[] }, 
+    {"name":"packages","parameterTypes":[] }, 
+    {"name":"rawVersion","parameterTypes":[] }
+  ]
+},
+{
+  "name":"java.lang.module.ModuleReader",
+  "queryAllDeclaredMethods":true,
+  "methods":[
+    {"name":"list","parameterTypes":[] }, 
+    {"name":"open","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
+  "name":"java.lang.module.ModuleReference",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[
+    {"name":"descriptor","parameterTypes":[] }, 
+    {"name":"location","parameterTypes":[] }, 
+    {"name":"open","parameterTypes":[] }
+  ]
+},
+{
+  "name":"java.lang.module.ResolvedModule",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"reference","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.reflect.AccessibleObject",
+  "methods":[
+    {"name":"canAccess","parameterTypes":["java.lang.Object"] }, 
+    {"name":"trySetAccessible","parameterTypes":[] }
+  ],
+  "queriedMethods":[
+    {"name":"isAccessible","parameterTypes":[] }, 
+    {"name":"setAccessible","parameterTypes":["boolean"] }
+  ]
+},
+{
+  "name":"java.lang.reflect.AnnotatedElement",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.reflect.GenericDeclaration",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.reflect.Method",
+  "queriedMethods":[{"name":"isVarArgs","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.reflect.Type",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.nio.Buffer"
+},
+{
+  "name":"java.security.AccessController",
+  "methods":[{"name":"doPrivileged","parameterTypes":["java.security.PrivilegedAction"] }]
+},
+{
+  "name":"java.security.MessageDigestSpi"
+},
+{
+  "name":"java.security.PrivilegedAction"
+},
+{
+  "name":"java.security.SecureClassLoader",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.security.SecureRandomParameters"
+},
+{
+  "name":"java.util.AbstractCollection",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.AbstractList",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.Collection",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.List",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.Optional",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[
+    {"name":"get","parameterTypes":[] }, 
+    {"name":"isPresent","parameterTypes":[] }
+  ]
+},
+{
+  "name":"java.util.function.Consumer"
+},
+{
+  "name":"java.util.stream.AbstractPipeline",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.stream.BaseStream",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.stream.Collector"
+},
+{
+  "name":"java.util.stream.Collectors",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"toList","parameterTypes":[] }]
+},
+{
+  "name":"java.util.stream.PipelineHelper",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.stream.ReferencePipeline",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.stream.ReferencePipeline$Head",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.stream.Stream",
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"collect","parameterTypes":["java.util.stream.Collector"] }]
+},
+{
+  "name":"jdk.internal.loader.BuiltinClassLoader",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"jdk.internal.loader.ClassLoaders$AppClassLoader",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"jdk.internal.loader.ClassLoaders$PlatformClassLoader",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"jdk.internal.module.ModuleReferenceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"jdk.internal.module.SystemModuleFinders$SystemModuleReader",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"leaderboard.plugins.LeaderboardPlugin$",
+  "fields":[{"name":"MODULE$"}]
+},
+{
+  "name":"leaderboard.plugins.PostgresDockerPlugin$",
+  "fields":[{"name":"MODULE$"}]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.AntClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.ClassGraphClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.CxfContainerClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.EquinoxClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.EquinoxContextFinderClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.FallbackClassLoaderHandler",
+  "queriedMethods":[
+    {"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.FelixClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.JBossClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.JPMSClassLoaderHandler",
+  "methods":[
+    {"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.OSGiDefaultClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.ParentLastDelegationOrderTestClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.PlexusClassWorldsClassRealmClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.QuarkusClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.SpringBootRestartClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.TomcatWebappClassLoaderBaseHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.URLClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.UnoOneJarClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.WeblogicClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.WebsphereLibertyClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.classloaderhandler.WebsphereTraditionalClassLoaderHandler",
+  "methods":[{"name":"canHandle","parameterTypes":["java.lang.Class","nonapi.io.github.classgraph.utils.LogNode"] }],
+  "queriedMethods":[
+    {"name":"findClassLoaderOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClassLoaderOrder","nonapi.io.github.classgraph.utils.LogNode"] }, 
+    {"name":"findClasspathOrder","parameterTypes":["java.lang.ClassLoader","nonapi.io.github.classgraph.classpath.ClasspathOrder","nonapi.io.github.classgraph.scanspec.ScanSpec","nonapi.io.github.classgraph.utils.LogNode"] }
+  ]
+},
+{
+  "name":"nonapi.io.github.classgraph.scanspec.ScanSpec",
+  "allDeclaredFields":true
+},
+{
+  "name":"org.postgresql.Driver"
+},
+{
+  "name":"org.postgresql.PGProperty",
+  "fields":[
+    {"name":"ADAPTIVE_FETCH"}, 
+    {"name":"ADAPTIVE_FETCH_MAXIMUM"}, 
+    {"name":"ADAPTIVE_FETCH_MINIMUM"}, 
+    {"name":"ALLOW_ENCODING_CHANGES"}, 
+    {"name":"APPLICATION_NAME"}, 
+    {"name":"ASSUME_MIN_SERVER_VERSION"}, 
+    {"name":"AUTOSAVE"}, 
+    {"name":"BINARY_TRANSFER"}, 
+    {"name":"BINARY_TRANSFER_DISABLE"}, 
+    {"name":"BINARY_TRANSFER_ENABLE"}, 
+    {"name":"CANCEL_SIGNAL_TIMEOUT"}, 
+    {"name":"CLEANUP_SAVEPOINTS"}, 
+    {"name":"CONNECT_TIMEOUT"}, 
+    {"name":"CURRENT_SCHEMA"}, 
+    {"name":"DATABASE_METADATA_CACHE_FIELDS"}, 
+    {"name":"DATABASE_METADATA_CACHE_FIELDS_MIB"}, 
+    {"name":"DEFAULT_ROW_FETCH_SIZE"}, 
+    {"name":"DISABLE_COLUMN_SANITISER"}, 
+    {"name":"ESCAPE_SYNTAX_CALL_MODE"}, 
+    {"name":"GSS_ENC_MODE"}, 
+    {"name":"GSS_LIB"}, 
+    {"name":"HIDE_UNPRIVILEGED_OBJECTS"}, 
+    {"name":"HOST_RECHECK_SECONDS"}, 
+    {"name":"JAAS_APPLICATION_NAME"}, 
+    {"name":"JAAS_LOGIN"}, 
+    {"name":"KERBEROS_SERVER_NAME"}, 
+    {"name":"LOAD_BALANCE_HOSTS"}, 
+    {"name":"LOGGER_FILE"}, 
+    {"name":"LOGGER_LEVEL"}, 
+    {"name":"LOGIN_TIMEOUT"}, 
+    {"name":"LOG_SERVER_ERROR_DETAIL"}, 
+    {"name":"LOG_UNCLOSED_CONNECTIONS"}, 
+    {"name":"MAX_RESULT_BUFFER"}, 
+    {"name":"OPTIONS"}, 
+    {"name":"PASSWORD"}, 
+    {"name":"PG_DBNAME"}, 
+    {"name":"PG_HOST"}, 
+    {"name":"PG_PORT"}, 
+    {"name":"PREFER_QUERY_MODE"}, 
+    {"name":"PREPARED_STATEMENT_CACHE_QUERIES"}, 
+    {"name":"PREPARED_STATEMENT_CACHE_SIZE_MIB"}, 
+    {"name":"PREPARE_THRESHOLD"}, 
+    {"name":"PROTOCOL_VERSION"}, 
+    {"name":"QUOTE_RETURNING_IDENTIFIERS"}, 
+    {"name":"READ_ONLY"}, 
+    {"name":"READ_ONLY_MODE"}, 
+    {"name":"RECEIVE_BUFFER_SIZE"}, 
+    {"name":"REPLICATION"}, 
+    {"name":"REWRITE_BATCHED_INSERTS"}, 
+    {"name":"SEND_BUFFER_SIZE"}, 
+    {"name":"SOCKET_FACTORY"}, 
+    {"name":"SOCKET_FACTORY_ARG"}, 
+    {"name":"SOCKET_TIMEOUT"}, 
+    {"name":"SSL"}, 
+    {"name":"SSL_CERT"}, 
+    {"name":"SSL_FACTORY"}, 
+    {"name":"SSL_FACTORY_ARG"}, 
+    {"name":"SSL_HOSTNAME_VERIFIER"}, 
+    {"name":"SSL_KEY"}, 
+    {"name":"SSL_MODE"}, 
+    {"name":"SSL_PASSWORD"}, 
+    {"name":"SSL_PASSWORD_CALLBACK"}, 
+    {"name":"SSL_ROOT_CERT"}, 
+    {"name":"SSPI_SERVICE_CLASS"}, 
+    {"name":"STRING_TYPE"}, 
+    {"name":"TARGET_SERVER_TYPE"}, 
+    {"name":"TCP_KEEP_ALIVE"}, 
+    {"name":"UNKNOWN_LENGTH"}, 
+    {"name":"USER"}, 
+    {"name":"USE_SPNEGO"}, 
+    {"name":"XML_FACTORY_FACTORY"}
+  ]
+},
+{
+  "name":"scala.Equals",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"scala.Product",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"scala.collection.convert.JavaCollectionWrappers$IterableWrapperTrait",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"scala.collection.convert.JavaCollectionWrappers$SeqWrapper",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"sun.misc.Unsafe",
+  "fields":[{"name":"theUnsafe"}],
+  "methods":[{"name":"invokeCleaner","parameterTypes":["java.nio.ByteBuffer"] }]
+},
+{
+  "name":"sun.security.provider.MD5",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.NativePRNG",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.SHA",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+}
+]

@@ -1,0 +1,11 @@
+{
+  "rules": [
+    {"excludeClasses": "izumi.**"},
+    {"excludeClasses": "zio.**"},
+    {"excludeClasses": "sun.instrument.**"},
+    {"excludeClasses": "sun.management.**"}
+  ],
+  "regexRules": [
+    {"excludeClasses": ".*/0x.*"}
+  ]
+}

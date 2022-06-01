@@ -39,6 +39,15 @@ sbt GraalVMNativeImage/packageBin
 
 Not all the roles and activations currently work under NativeImage due to some [bugs](https://github.com/oracle/graal/issues/4282) in NativeImage.
 
+##### Assisted NI configuration generator
+
+See Native Image [docs](https://www.graalvm.org/22.1/reference-manual/native-image/Agent/#assisted-configuration-of-native-image-builds) for details.
+
+```bash
+-agentlib:native-image-agent=access-filter-file=./ni-filter.json,config-output-dir=./src/main/resources/META-INF/native-image/auto
+```
+
+
 #### Note
 
 If `./launcher` command fails for you with some cryptic stack trace, there's most likely an issue with your Docker. First of all, check that you have `docker` and `contrainerd` daemons running. If you're using something else than Ubuntu, please stick to the relevant [installation page](https://docs.docker.com/engine/install/):
