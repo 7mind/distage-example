@@ -34,7 +34,10 @@ Use `sbt` to build a native Linux binary via GraalVM NativeImage:
 
 ```bash
 sbt GraalVMNativeImage/packageBin
+./target/graalvm-native-image/leaderboard -Djna.debug_load=true -u scene:managed -u repo:dummy :leaderboard
 ```
+
+Not all the roles and activations currently work under NativeImage due to some [bugs](https://github.com/oracle/graal/issues/4282) in NativeImage.
 
 #### Note
 

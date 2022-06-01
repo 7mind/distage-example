@@ -1,0 +1,8 @@
+{
+  "resources": [
+    {"pattern": ".*\\.conf"},
+    {"pattern": ".*\\.txt"},
+    {"pattern": ".*\\.properties"},
+    {"pattern": "runtime/.*"}
+  ]
+}

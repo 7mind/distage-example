@@ -8,9 +8,11 @@ import izumi.distage.roles.RoleAppMain
 import izumi.distage.roles.bundled.{ConfigWriter, Help}
 import izumi.distage.roles.model.{RoleDescriptor, RoleService}
 import izumi.functional.bio.Applicative2
+import izumi.fundamentals.platform.{IzPlatform, ScalaPlatform}
 import izumi.fundamentals.platform.cli.model.raw.{RawEntrypointParams, RawRoleParams, RawValue}
 import leaderboard.api.{LadderApi, ProfileApi}
 import leaderboard.http.HttpServer
+import leaderboard.plugins.{LeaderboardPlugin, PostgresDockerPlugin}
 import logstage.LogIO2
 import zio.IO
 
@@ -297,7 +299,11 @@ sealed abstract class MainBase(
   }
 
   override def pluginConfig: PluginConfig = {
-    PluginConfig.cached(pluginsPackage = "leaderboard.plugins")
+    if (IzPlatform.isGraalNativeImage) {
+      PluginConfig.const(List(LeaderboardPlugin, PostgresDockerPlugin))
+    } else {
+      PluginConfig.cached(pluginsPackage = "leaderboard.plugins")
+    }
   }
 
   protected override def roleAppBootOverrides(argv: RoleAppMain.ArgV): Module = super.roleAppBootOverrides(argv) ++ new ModuleDef {
