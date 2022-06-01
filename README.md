@@ -39,6 +39,9 @@ sbt GraalVMNativeImage/packageBin
 
 Not all the roles and activations currently work under NativeImage due to some [bugs](https://github.com/oracle/graal/issues/4282) in NativeImage.
 
+JNA libraries are just regular Java resources, currently the NI config is generated for x86-64 Linux,
+you'll have to re-generate or manually edit it to run on different operating systems or architectures.
+
 ##### Assisted NI configuration generator
 
 See Native Image [docs](https://www.graalvm.org/22.1/reference-manual/native-image/Agent/#assisted-configuration-of-native-image-builds) for details.
@@ -46,7 +49,6 @@ See Native Image [docs](https://www.graalvm.org/22.1/reference-manual/native-ima
 ```bash
 -agentlib:native-image-agent=access-filter-file=./ni-filter.json,config-output-dir=./src/main/resources/META-INF/native-image/auto
 ```
-
 
 #### Note
 

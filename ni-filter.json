@@ -3,7 +3,8 @@
     {"excludeClasses": "izumi.**"},
     {"excludeClasses": "zio.**"},
     {"excludeClasses": "sun.instrument.**"},
-    {"excludeClasses": "sun.management.**"}
+    {"excludeClasses": "sun.management.**"},
+    {"excludeClasses": "com.intellij.**"}
   ],
   "regexRules": [
     {"excludeClasses": ".*/0x.*"}

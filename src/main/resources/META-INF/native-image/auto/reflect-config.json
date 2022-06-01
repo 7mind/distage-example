@@ -552,10 +552,6 @@
   "allDeclaredFields":true
 },
 {
-  "name":"com.intellij.rt.execution.application.AppMainV2$Agent",
-  "methods":[{"name":"premain","parameterTypes":["java.lang.String","java.lang.instrument.Instrumentation"] }]
-},
-{
   "name":"com.sun.jna.CallbackProxy",
   "queriedMethods":[{"name":"callback","parameterTypes":["java.lang.Object[]"] }]
 },
