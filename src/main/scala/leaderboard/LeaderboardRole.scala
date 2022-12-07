@@ -8,7 +8,7 @@ import izumi.distage.roles.RoleAppMain
 import izumi.distage.roles.bundled.{ConfigWriter, Help}
 import izumi.distage.roles.model.{RoleDescriptor, RoleService}
 import izumi.functional.bio.Applicative2
-import izumi.fundamentals.platform.{IzPlatform, ScalaPlatform}
+import izumi.fundamentals.platform.IzPlatform
 import izumi.fundamentals.platform.cli.model.raw.{RawEntrypointParams, RawRoleParams, RawValue}
 import leaderboard.api.{LadderApi, ProfileApi}
 import leaderboard.http.HttpServer
