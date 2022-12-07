@@ -31,7 +31,7 @@ object Ladder {
     sql: SQL[F],
     log: LogIO2[F],
   ) extends Lifecycle.LiftF[F[Throwable, _], Ladder[F]](for {
-      _ <- log.info(s"Creating Ladder table ${log -> "LambdaFunction"} with $log")
+      _ <- log.info(s"Creating Ladder table")
       _ <- sql.execute("ladder-ddl") {
         sql"""create table if not exists ladder (
              | user_id uuid not null,
