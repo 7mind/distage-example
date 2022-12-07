@@ -102,6 +102,7 @@ lazy val leaderboard = project
       "-J-Xmx4G",
     ),
     graalVMNativeImageGraalVersion := Some("ol8-java11-22.1.0"),
+    runMain / fork                 := true,
   )
   .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)
 
