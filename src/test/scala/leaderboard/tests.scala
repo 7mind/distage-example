@@ -5,7 +5,7 @@ import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.plugins.PluginConfig
 import izumi.distage.testkit.scalatest.{AssertIO3, Spec3}
-import leaderboard.model.{QueryFailure, Score, UserId, UserProfile}
+import leaderboard.model.{QueryFailure, RankedProfile, Score, UserId, UserProfile}
 import leaderboard.repo.{Ladder, Profiles, Ranks}
 import leaderboard.zioenv.*
 import zio.{IO, ZIO}
@@ -121,7 +121,7 @@ abstract class RanksTest extends LeaderboardTest {
   "Ranks" should {
 
     /** you can use Argument injection and ZIO Env injection at the same time: */
-    "return None for a user with no score" in {
+    "return 0 rank for a user with no score" in {
       (ranks: Ranks[IO]) =>
         for {
           user   <- rnd[UserId]
@@ -130,7 +130,7 @@ abstract class RanksTest extends LeaderboardTest {
           profile = UserProfile(name, desc)
           _      <- profiles.setProfile(user, profile)
           res1   <- ranks.getRank(user)
-          _      <- assertIO(res1.isEmpty)
+          _      <- assertIO(res1.contains(RankedProfile(name, desc, 0, 0)))
         } yield ()
     }
 

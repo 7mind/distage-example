@@ -2,14 +2,14 @@ package leaderboard.api;
 
 import io.circe.syntax.*
 import izumi.functional.bio.catz.*
-import izumi.functional.bio.{Async2, BlockingIO2, Fork2, Temporal2}
+import izumi.functional.bio.{Async2, Fork2}
 import leaderboard.model.UserProfile
 import leaderboard.repo.{Profiles, Ranks}
 import org.http4s.HttpRoutes
 import org.http4s.circe.*
 import org.http4s.dsl.Http4sDsl
 
-final class ProfileApi[F[+_, +_]: Async2: Temporal2: Fork2: BlockingIO2](
+final class ProfileApi[F[+_, +_]: Async2: Fork2](
   dsl: Http4sDsl[F[Throwable, _]],
   profiles: Profiles[F],
   ranks: Ranks[F],

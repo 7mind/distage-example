@@ -1,12 +1,13 @@
 val V = new {
-  val distage         = "1.1.0-M2"
+  val distage         = "1.1.0-M11"
   val logstage        = distage
-  val scalatest       = "3.2.12"
-  val scalacheck      = "1.16.0"
+  val scalatest       = "3.2.14"
+  val scalacheck      = "1.17.0"
   val http4s          = "0.23.12"
   val doobie          = "1.0.0-RC2"
-  val zio             = "1.0.14"
-  val zioCats         = "3.2.9.1"
+  val catsCore        = "2.8.0"
+  val zio             = "1.0.17"
+  val zioCats         = "13.0.0.1"
   val kindProjector   = "0.13.2"
   val circeDerivation = "0.13.0-M5"
 }
@@ -37,11 +38,13 @@ val Deps = new {
 
   val zio     = "dev.zio" %% "zio" % V.zio
   val zioCats = "dev.zio" %% "zio-interop-cats" % V.zioCats
+
+  val catsCore = "org.typelevel" %% "cats-core" % V.catsCore
 }
 
 inThisBuild(
   Seq(
-    scalaVersion := "2.13.8",
+    scalaVersion := "2.13.10",
     version      := "1.0.0",
     organization := "io.7mind",
   )
@@ -70,6 +73,7 @@ lazy val leaderboard = project
       Deps.doobieHikari,
       Deps.zio,
       Deps.zioCats,
+      Deps.catsCore,
     ),
     addCompilerPlugin(Deps.kindProjector),
     scalacOptions -= "-Xfatal-warnings",
@@ -98,6 +102,7 @@ lazy val leaderboard = project
       "-J-Xmx4G",
     ),
     graalVMNativeImageGraalVersion := Some("ol8-java11-22.1.0"),
+    run / fork                     := true,
   )
   .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)
 
