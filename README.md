@@ -42,6 +42,8 @@ when compiled by `ol8-java17-22.1.0`. Oddly the `ol8-java11-22.1.0` produces bro
 
 Check other GraalVM images [here](https://github.com/graalvm/container/pkgs/container/graalvm-ce)
 
+Currently, the application does not build with GraalVM `22.2` and `22.3`, this seems to be a [bug](https://github.com/oracle/graal/issues/4797).
+
 JNA libraries are just regular Java resources, currently the NI config is generated for x86-64 Linux,
 you'll have to re-generate or manually edit it to run on different operating systems or architectures.
 

@@ -105,13 +105,10 @@ lazy val leaderboard = project
       "--enable-http",
       "-J-Xmx4G",
     ),
-    graalVMNativeImageGraalVersion := Some("ol8-java17-22.1.0"), // works with metadata
-
+    graalVMNativeImageGraalVersion := Some("ol8-java17-22.1.0"),
 //    graalVMNativeImageGraalVersion := Some("ol8-java17-22.2.0"),
-    // --initialize-at-run-time=java.util.jar.JarFile \
 //    graalVMNativeImageGraalVersion := Some("ol9-java17-22.3.1"),
-
-    run / fork := true,
+    run / fork                     := true,
   )
   .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)
 
