@@ -10,6 +10,7 @@ val V = new {
   val zioCats         = "13.0.0.1"
   val kindProjector   = "0.13.2"
   val circeDerivation = "0.13.0-M5"
+  val graalMetadata   = "0.9.19"
 }
 
 val Deps = new {
@@ -40,6 +41,8 @@ val Deps = new {
   val zioCats = "dev.zio" %% "zio-interop-cats" % V.zioCats
 
   val catsCore = "org.typelevel" %% "cats-core" % V.catsCore
+
+  val graalMetadata = "org.graalvm.buildtools" % "graalvm-reachability-metadata" % V.graalMetadata
 }
 
 inThisBuild(
@@ -74,6 +77,7 @@ lazy val leaderboard = project
       Deps.zio,
       Deps.zioCats,
       Deps.catsCore,
+      Deps.graalMetadata,
     ),
     addCompilerPlugin(Deps.kindProjector),
     scalacOptions -= "-Xfatal-warnings",
@@ -101,8 +105,13 @@ lazy val leaderboard = project
       "--enable-http",
       "-J-Xmx4G",
     ),
-    graalVMNativeImageGraalVersion := Some("ol8-java11-22.1.0"),
-    run / fork                     := true,
+    graalVMNativeImageGraalVersion := Some("ol8-java17-22.1.0"), // works with metadata
+
+//    graalVMNativeImageGraalVersion := Some("ol8-java17-22.2.0"),
+    // --initialize-at-run-time=java.util.jar.JarFile \
+//    graalVMNativeImageGraalVersion := Some("ol9-java17-22.3.1"),
+
+    run / fork := true,
   )
   .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)
 

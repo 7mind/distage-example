@@ -37,7 +37,10 @@ sbt GraalVMNativeImage/packageBin
 ./target/graalvm-native-image/leaderboard -Djna.debug_load=true -u scene:managed -u repo:dummy :leaderboard
 ```
 
-Not all the roles and activations currently work under NativeImage due to some [bugs](https://github.com/oracle/graal/issues/4282) in NativeImage.
+Despite some [bugs](https://github.com/oracle/graal/issues/4282) in NativeImage the applications seems to be completely functional 
+when compiled by `ol8-java17-22.1.0`. Oddly the `ol8-java11-22.1.0` produces broken binaries.
+
+Check other GraalVM images [here](https://github.com/graalvm/container/pkgs/container/graalvm-ce)
 
 JNA libraries are just regular Java resources, currently the NI config is generated for x86-64 Linux,
 you'll have to re-generate or manually edit it to run on different operating systems or architectures.

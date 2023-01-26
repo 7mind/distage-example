@@ -364,7 +364,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
     {"name":"setType","parameterTypes":["com.github.dockerjava.api.model.LogConfig$LoggingType"] }
   ]
 },

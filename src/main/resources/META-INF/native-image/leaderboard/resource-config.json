@@ -3,5 +3,8 @@
     {"pattern": ".*\\.conf"},
     {"pattern": ".*\\.txt"},
     {"pattern": ".*\\.properties"}
+  ],
+  "includes": [
+    {"pattern":"\\QMETA-INF/services/java.sql.Driver\\E"}
   ]
 }
