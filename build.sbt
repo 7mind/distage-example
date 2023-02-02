@@ -42,6 +42,8 @@ val Deps = new {
 
   val catsCore = "org.typelevel" %% "cats-core" % V.catsCore
 
+  val izumiReflect = "dev.zio" %% "izumi-reflect" % "2.2.5"
+
   val graalMetadata = "org.graalvm.buildtools" % "graalvm-reachability-metadata" % V.graalMetadata
 }
 
@@ -80,6 +82,8 @@ lazy val leaderboard = project
       Deps.zio,
       Deps.zioCats,
       Deps.catsCore,
+      //
+      Deps.izumiReflect,
       Deps.graalMetadata,
     ),
     addCompilerPlugin(Deps.kindProjector),
