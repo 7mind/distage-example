@@ -1,5 +1,5 @@
 val V = new {
-  val distage         = "1.1.0-M11"
+  val distage         = "1.1.0-M15"
   val logstage        = distage
   val scalatest       = "3.2.14"
   val scalacheck      = "1.17.0"
@@ -108,8 +108,11 @@ lazy val leaderboard = project
     graalVMNativeImageGraalVersion := Some("ol8-java17-22.1.0"),
 //    graalVMNativeImageGraalVersion := Some("ol8-java17-22.2.0"),
 //    graalVMNativeImageGraalVersion := Some("ol9-java17-22.3.1"),
-    run / fork                     := true,
+    run / fork := true,
   )
   .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)
 
 ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
+
+// we need to remove dependency on circe-derivation
+ThisBuild / libraryDependencySchemes += "io.circe" %% "circe-core" % VersionScheme.Always
