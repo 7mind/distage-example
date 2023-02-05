@@ -1,6 +1,7 @@
 package leaderboard.model
 
-import io.circe.{Codec, derivation}
+import io.circe.Codec
+import io.circe.generic.semiauto
 
 final case class RankedProfile(
   name: String,
@@ -10,5 +11,5 @@ final case class RankedProfile(
 )
 
 object RankedProfile {
-  implicit val codec: Codec.AsObject[RankedProfile] = derivation.deriveCodec
+  implicit val codec: Codec.AsObject[RankedProfile] = semiauto.deriveCodec
 }

@@ -1,16 +1,16 @@
 val V = new {
-  val distage         = "1.1.0-M15"
-  val logstage        = distage
-  val scalatest       = "3.2.14"
-  val scalacheck      = "1.17.0"
-  val http4s          = "0.23.13"
-  val doobie          = "1.0.0-RC2"
-  val catsCore        = "2.8.0"
-  val zio             = "1.0.17"
-  val zioCats         = "13.0.0.1"
-  val kindProjector   = "0.13.2"
-  val circeDerivation = "0.13.0-M5"
-  val graalMetadata   = "0.9.19"
+  val distage       = "1.1.0-M16"
+  val logstage      = distage
+  val scalatest     = "3.2.14"
+  val scalacheck    = "1.17.0"
+  val http4s        = "0.23.13"
+  val doobie        = "1.0.0-RC2"
+  val catsCore      = "2.8.0"
+  val zio           = "1.0.17"
+  val zioCats       = "13.0.0.1"
+  val kindProjector = "0.13.2"
+  val circeGeneric  = "0.14.3"
+  val graalMetadata = "0.9.19"
 }
 
 val Deps = new {
@@ -29,7 +29,7 @@ val Deps = new {
   val http4sClient = "org.http4s" %% "http4s-blaze-client" % V.http4s
   val http4sCirce  = "org.http4s" %% "http4s-circe" % V.http4s
 
-  val circeDerivation = "io.circe" %% "circe-derivation" % V.circeDerivation
+  val circeGeneric = "io.circe" %% "circe-generic" % V.circeGeneric
 
   val doobie         = "org.tpolecat" %% "doobie-core" % V.doobie
   val doobiePostgres = "org.tpolecat" %% "doobie-postgres" % V.doobie
@@ -70,7 +70,7 @@ lazy val leaderboard = project
       Deps.http4sServer,
       Deps.http4sClient % Test,
       Deps.http4sCirce,
-      Deps.circeDerivation,
+      Deps.circeGeneric,
       Deps.doobie,
       Deps.doobiePostgres,
       Deps.doobieHikari,
@@ -110,6 +110,3 @@ lazy val leaderboard = project
   .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)
 
 ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
-
-// we need to remove dependency on circe-derivation
-ThisBuild / libraryDependencySchemes += "io.circe" %% "circe-core" % VersionScheme.Always
