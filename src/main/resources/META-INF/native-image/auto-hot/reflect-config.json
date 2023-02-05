@@ -1,0 +1,424 @@
+[
+{
+  "name":"System"
+},
+{
+  "name":"[Lcats.parse.Parser0;"
+},
+{
+  "name":"[Lcats.parse.Parser;"
+},
+{
+  "name":"[Lcom.fasterxml.jackson.databind.deser.BeanDeserializerModifier;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.Bind;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.Capability;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.ContainerPort;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.Device;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.ExposedPort;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.Link;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.LxcConf;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.PortBinding;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.Ports$Binding;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.Ulimit;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.VolumeBind;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.VolumeRW;"
+},
+{
+  "name":"[Lcom.github.dockerjava.api.model.VolumesFrom;"
+},
+{
+  "name":"[Lcom.zaxxer.hikari.util.ConcurrentBag$IConcurrentBagEntry;"
+},
+{
+  "name":"[Lizumi.distage.model.plan.ExecutableOp;"
+},
+{
+  "name":"[Ljava.lang.Object;"
+},
+{
+  "name":"[Ljava.lang.String;"
+},
+{
+  "name":"[Ljava.sql.Statement;"
+},
+{
+  "name":"[Ljava.util.concurrent.atomic.AtomicReference;"
+},
+{
+  "name":"[Lorg.http4s.blaze.channel.nio1.SelectorLoop;"
+},
+{
+  "name":"[Lorg.http4s.blaze.util.TickWheelExecutor$Bucket;"
+},
+{
+  "name":"[Lscala.util.Either;"
+},
+{
+  "name":"[[Ljava.lang.Object;"
+},
+{
+  "name":"[[Ljava.util.concurrent.atomic.AtomicReference;"
+},
+{
+  "name":"com.fasterxml.jackson.databind.ext.Java7HandlersImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.fasterxml.jackson.databind.ext.Java7SupportImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"java.io.Closeable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.io.InputStream",
+  "methods":[
+    {"name":"readAllBytes","parameterTypes":[] }, 
+    {"name":"readNBytes","parameterTypes":["int"] }, 
+    {"name":"readNBytes","parameterTypes":["byte[]","int","int"] }, 
+    {"name":"skipNBytes","parameterTypes":["long"] }, 
+    {"name":"transferTo","parameterTypes":["java.io.OutputStream"] }
+  ]
+},
+{
+  "name":"java.io.Serializable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.AutoCloseable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Class",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"getModule","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.ClassLoader",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.ClassValue"
+},
+{
+  "name":"java.lang.Comparable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Enum",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.Class","java.lang.String"] }]
+},
+{
+  "name":"java.lang.Iterable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.Module",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"getLayer","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.ModuleLayer",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[
+    {"name":"boot","parameterTypes":[] }, 
+    {"name":"configuration","parameterTypes":[] }, 
+    {"name":"findLoader","parameterTypes":["java.lang.String"] }, 
+    {"name":"parents","parameterTypes":[] }
+  ]
+},
+{
+  "name":"java.lang.Object",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.StackWalker",
+  "methods":[
+    {"name":"forEach","parameterTypes":["java.util.function.Consumer"] }, 
+    {"name":"getInstance","parameterTypes":["java.lang.StackWalker$Option"] }
+  ]
+},
+{
+  "name":"java.lang.StackWalker$Option"
+},
+{
+  "name":"java.lang.StackWalker$StackFrame",
+  "methods":[{"name":"getDeclaringClass","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.System",
+  "methods":[{"name":"getSecurityManager","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.constant.Constable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.invoke.TypeDescriptor",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.invoke.TypeDescriptor$OfField",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.invoke.VarHandle",
+  "methods":[{"name":"releaseFence","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.reflect.AccessibleObject",
+  "methods":[
+    {"name":"canAccess","parameterTypes":["java.lang.Object"] }, 
+    {"name":"isAccessible","parameterTypes":[] }, 
+    {"name":"setAccessible","parameterTypes":["boolean"] }, 
+    {"name":"trySetAccessible","parameterTypes":[] }
+  ]
+},
+{
+  "name":"java.lang.reflect.AnnotatedElement",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.reflect.GenericDeclaration",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.reflect.Type",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.net.UnixDomainSocketAddress",
+  "methods":[{"name":"of","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.security.AccessController",
+  "methods":[{"name":"doPrivileged","parameterTypes":["java.security.PrivilegedAction"] }]
+},
+{
+  "name":"java.security.PrivilegedAction"
+},
+{
+  "name":"java.security.SecureClassLoader",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.security.SecureRandomParameters"
+},
+{
+  "name":"java.util.AbstractCollection",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.AbstractList",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.Collection",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.List",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.Optional",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[
+    {"name":"get","parameterTypes":[] }, 
+    {"name":"isPresent","parameterTypes":[] }
+  ]
+},
+{
+  "name":"java.util.function.Consumer"
+},
+{
+  "name":"java.util.stream.AbstractPipeline",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.stream.BaseStream",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.stream.Collector"
+},
+{
+  "name":"java.util.stream.Collectors",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"toList","parameterTypes":[] }]
+},
+{
+  "name":"java.util.stream.PipelineHelper",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.stream.ReferencePipeline",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.stream.ReferencePipeline$Head",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.stream.Stream",
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"collect","parameterTypes":["java.util.stream.Collector"] }]
+},
+{
+  "name":"leaderboard.plugins.LeaderboardPlugin$",
+  "fields":[{"name":"MODULE$"}]
+},
+{
+  "name":"leaderboard.plugins.PostgresDockerPlugin$",
+  "fields":[{"name":"MODULE$"}]
+},
+{
+  "name":"org.postgresql.Driver"
+},
+{
+  "name":"org.postgresql.PGProperty",
+  "fields":[
+    {"name":"ADAPTIVE_FETCH"}, 
+    {"name":"ADAPTIVE_FETCH_MAXIMUM"}, 
+    {"name":"ADAPTIVE_FETCH_MINIMUM"}, 
+    {"name":"ALLOW_ENCODING_CHANGES"}, 
+    {"name":"APPLICATION_NAME"}, 
+    {"name":"ASSUME_MIN_SERVER_VERSION"}, 
+    {"name":"AUTOSAVE"}, 
+    {"name":"BINARY_TRANSFER"}, 
+    {"name":"BINARY_TRANSFER_DISABLE"}, 
+    {"name":"BINARY_TRANSFER_ENABLE"}, 
+    {"name":"CANCEL_SIGNAL_TIMEOUT"}, 
+    {"name":"CLEANUP_SAVEPOINTS"}, 
+    {"name":"CONNECT_TIMEOUT"}, 
+    {"name":"CURRENT_SCHEMA"}, 
+    {"name":"DATABASE_METADATA_CACHE_FIELDS"}, 
+    {"name":"DATABASE_METADATA_CACHE_FIELDS_MIB"}, 
+    {"name":"DEFAULT_ROW_FETCH_SIZE"}, 
+    {"name":"DISABLE_COLUMN_SANITISER"}, 
+    {"name":"ESCAPE_SYNTAX_CALL_MODE"}, 
+    {"name":"GSS_ENC_MODE"}, 
+    {"name":"GSS_LIB"}, 
+    {"name":"HIDE_UNPRIVILEGED_OBJECTS"}, 
+    {"name":"HOST_RECHECK_SECONDS"}, 
+    {"name":"JAAS_APPLICATION_NAME"}, 
+    {"name":"JAAS_LOGIN"}, 
+    {"name":"KERBEROS_SERVER_NAME"}, 
+    {"name":"LOAD_BALANCE_HOSTS"}, 
+    {"name":"LOGGER_FILE"}, 
+    {"name":"LOGGER_LEVEL"}, 
+    {"name":"LOGIN_TIMEOUT"}, 
+    {"name":"LOG_SERVER_ERROR_DETAIL"}, 
+    {"name":"LOG_UNCLOSED_CONNECTIONS"}, 
+    {"name":"MAX_RESULT_BUFFER"}, 
+    {"name":"OPTIONS"}, 
+    {"name":"PASSWORD"}, 
+    {"name":"PG_DBNAME"}, 
+    {"name":"PG_HOST"}, 
+    {"name":"PG_PORT"}, 
+    {"name":"PREFER_QUERY_MODE"}, 
+    {"name":"PREPARED_STATEMENT_CACHE_QUERIES"}, 
+    {"name":"PREPARED_STATEMENT_CACHE_SIZE_MIB"}, 
+    {"name":"PREPARE_THRESHOLD"}, 
+    {"name":"PROTOCOL_VERSION"}, 
+    {"name":"QUOTE_RETURNING_IDENTIFIERS"}, 
+    {"name":"READ_ONLY"}, 
+    {"name":"READ_ONLY_MODE"}, 
+    {"name":"RECEIVE_BUFFER_SIZE"}, 
+    {"name":"REPLICATION"}, 
+    {"name":"REWRITE_BATCHED_INSERTS"}, 
+    {"name":"SEND_BUFFER_SIZE"}, 
+    {"name":"SOCKET_FACTORY"}, 
+    {"name":"SOCKET_FACTORY_ARG"}, 
+    {"name":"SOCKET_TIMEOUT"}, 
+    {"name":"SSL"}, 
+    {"name":"SSL_CERT"}, 
+    {"name":"SSL_FACTORY"}, 
+    {"name":"SSL_FACTORY_ARG"}, 
+    {"name":"SSL_HOSTNAME_VERIFIER"}, 
+    {"name":"SSL_KEY"}, 
+    {"name":"SSL_MODE"}, 
+    {"name":"SSL_PASSWORD"}, 
+    {"name":"SSL_PASSWORD_CALLBACK"}, 
+    {"name":"SSL_ROOT_CERT"}, 
+    {"name":"SSPI_SERVICE_CLASS"}, 
+    {"name":"STRING_TYPE"}, 
+    {"name":"TARGET_SERVER_TYPE"}, 
+    {"name":"TCP_KEEP_ALIVE"}, 
+    {"name":"UNKNOWN_LENGTH"}, 
+    {"name":"USER"}, 
+    {"name":"USE_SPNEGO"}, 
+    {"name":"XML_FACTORY_FACTORY"}
+  ]
+},
+{
+  "name":"scala.collection.convert.JavaCollectionWrappers$IterableWrapperTrait",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"scala.collection.convert.JavaCollectionWrappers$SeqWrapper",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"sun.misc.Unsafe",
+  "fields":[{"name":"theUnsafe"}],
+  "methods":[{"name":"invokeCleaner","parameterTypes":["java.nio.ByteBuffer"] }]
+},
+{
+  "name":"sun.security.provider.MD5",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.NativePRNG",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.NativePRNG$NonBlocking",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.SHA",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+}
+]
