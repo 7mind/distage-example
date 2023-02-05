@@ -39,6 +39,9 @@
   "name":"[Lcom.github.dockerjava.api.model.Ulimit;"
 },
 {
+  "name":"[Lcom.github.dockerjava.api.model.Volume;"
+},
+{
   "name":"[Lcom.github.dockerjava.api.model.VolumeBind;"
 },
 {
@@ -87,6 +90,25 @@
 {
   "name":"com.fasterxml.jackson.databind.ext.Java7SupportImpl",
   "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.api.command.CreateContainerCmd",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.api.command.CreateContainerResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"setId","parameterTypes":["java.lang.String"] }, 
+    {"name":"setWarnings","parameterTypes":["java.lang.String[]"] }
+  ]
+},
+{
+  "name":"com.github.dockerjava.api.command.DockerCmd",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"com.github.dockerjava.api.command.GraphData",
@@ -143,9 +165,30 @@
   "queryAllPublicConstructors":true
 },
 {
+  "name":"com.github.dockerjava.api.command.SyncDockerCmd",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"com.github.dockerjava.api.model.AccessMode",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.api.model.AuthConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"getAuth","parameterTypes":[] }, 
+    {"name":"getEmail","parameterTypes":[] }, 
+    {"name":"getIdentitytoken","parameterTypes":[] }, 
+    {"name":"getPassword","parameterTypes":[] }, 
+    {"name":"getRegistryAddress","parameterTypes":[] }, 
+    {"name":"getRegistrytoken","parameterTypes":[] }, 
+    {"name":"getStackOrchestrator","parameterTypes":[] }, 
+    {"name":"getUsername","parameterTypes":[] }
+  ]
 },
 {
   "name":"com.github.dockerjava.api.model.Bind",
@@ -263,7 +306,8 @@
 {
   "name":"com.github.dockerjava.api.model.DockerObject",
   "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"getRawValues","parameterTypes":[] }]
 },
 {
   "name":"com.github.dockerjava.api.model.Driver",
@@ -282,7 +326,10 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"fromPrimitive","parameterTypes":["java.util.Map"] }]
+  "methods":[
+    {"name":"fromPrimitive","parameterTypes":["java.util.Map"] }, 
+    {"name":"toPrimitive","parameterTypes":[] }
+  ]
 },
 {
   "name":"com.github.dockerjava.api.model.ExternalCA",
@@ -303,6 +350,81 @@
 },
 {
   "name":"com.github.dockerjava.api.model.HostConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"getAutoRemove","parameterTypes":[] }, 
+    {"name":"getBlkioDeviceReadBps","parameterTypes":[] }, 
+    {"name":"getBlkioDeviceReadIOps","parameterTypes":[] }, 
+    {"name":"getBlkioDeviceWriteBps","parameterTypes":[] }, 
+    {"name":"getBlkioDeviceWriteIOps","parameterTypes":[] }, 
+    {"name":"getBlkioWeight","parameterTypes":[] }, 
+    {"name":"getBlkioWeightDevice","parameterTypes":[] }, 
+    {"name":"getCapAdd","parameterTypes":[] }, 
+    {"name":"getCapDrop","parameterTypes":[] }, 
+    {"name":"getCgroup","parameterTypes":[] }, 
+    {"name":"getCgroupParent","parameterTypes":[] }, 
+    {"name":"getCgroupnsMode","parameterTypes":[] }, 
+    {"name":"getConsoleSize","parameterTypes":[] }, 
+    {"name":"getContainerIDFile","parameterTypes":[] }, 
+    {"name":"getCpuCount","parameterTypes":[] }, 
+    {"name":"getCpuPercent","parameterTypes":[] }, 
+    {"name":"getCpuPeriod","parameterTypes":[] }, 
+    {"name":"getCpuQuota","parameterTypes":[] }, 
+    {"name":"getCpuRealtimePeriod","parameterTypes":[] }, 
+    {"name":"getCpuRealtimeRuntime","parameterTypes":[] }, 
+    {"name":"getCpuShares","parameterTypes":[] }, 
+    {"name":"getCpusetCpus","parameterTypes":[] }, 
+    {"name":"getCpusetMems","parameterTypes":[] }, 
+    {"name":"getDeviceCgroupRules","parameterTypes":[] }, 
+    {"name":"getDeviceRequests","parameterTypes":[] }, 
+    {"name":"getDevices","parameterTypes":[] }, 
+    {"name":"getDiskQuota","parameterTypes":[] }, 
+    {"name":"getDns","parameterTypes":[] }, 
+    {"name":"getDnsOptions","parameterTypes":[] }, 
+    {"name":"getDnsSearch","parameterTypes":[] }, 
+    {"name":"getExtraHosts","parameterTypes":[] }, 
+    {"name":"getGroupAdd","parameterTypes":[] }, 
+    {"name":"getInit","parameterTypes":[] }, 
+    {"name":"getIoMaximumBandwidth","parameterTypes":[] }, 
+    {"name":"getIoMaximumIOps","parameterTypes":[] }, 
+    {"name":"getIpcMode","parameterTypes":[] }, 
+    {"name":"getIsolation","parameterTypes":[] }, 
+    {"name":"getKernelMemory","parameterTypes":[] }, 
+    {"name":"getLxcConf","parameterTypes":[] }, 
+    {"name":"getMemory","parameterTypes":[] }, 
+    {"name":"getMemoryReservation","parameterTypes":[] }, 
+    {"name":"getMemorySwap","parameterTypes":[] }, 
+    {"name":"getMemorySwappiness","parameterTypes":[] }, 
+    {"name":"getMounts","parameterTypes":[] }, 
+    {"name":"getNanoCPUs","parameterTypes":[] }, 
+    {"name":"getNetworkMode","parameterTypes":[] }, 
+    {"name":"getOomKillDisable","parameterTypes":[] }, 
+    {"name":"getOomScoreAdj","parameterTypes":[] }, 
+    {"name":"getPidMode","parameterTypes":[] }, 
+    {"name":"getPidsLimit","parameterTypes":[] }, 
+    {"name":"getPortBindings","parameterTypes":[] }, 
+    {"name":"getPrivileged","parameterTypes":[] }, 
+    {"name":"getPublishAllPorts","parameterTypes":[] }, 
+    {"name":"getReadonlyRootfs","parameterTypes":[] }, 
+    {"name":"getRestartPolicy","parameterTypes":[] }, 
+    {"name":"getRuntime","parameterTypes":[] }, 
+    {"name":"getSecurityOpts","parameterTypes":[] }, 
+    {"name":"getShmSize","parameterTypes":[] }, 
+    {"name":"getStorageOpt","parameterTypes":[] }, 
+    {"name":"getSysctls","parameterTypes":[] }, 
+    {"name":"getTmpFs","parameterTypes":[] }, 
+    {"name":"getUlimits","parameterTypes":[] }, 
+    {"name":"getUsernsMode","parameterTypes":[] }, 
+    {"name":"getUtSMode","parameterTypes":[] }, 
+    {"name":"getVolumeDriver","parameterTypes":[] }, 
+    {"name":"getVolumesFrom","parameterTypes":[] }
+  ]
+},
+{
+  "name":"com.github.dockerjava.api.model.Image",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
@@ -409,7 +531,10 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"fromPrimitive","parameterTypes":["java.util.Map"] }]
+  "methods":[
+    {"name":"fromPrimitive","parameterTypes":["java.util.Map"] }, 
+    {"name":"toPrimitive","parameterTypes":[] }
+  ]
 },
 {
   "name":"com.github.dockerjava.api.model.Ports$Binding",
@@ -527,6 +652,13 @@
   "queryAllDeclaredConstructors":true
 },
 {
+  "name":"com.github.dockerjava.api.model.Volumes",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"toPrimitive","parameterTypes":[] }]
+},
+{
   "name":"com.github.dockerjava.api.model.VolumesFrom",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -539,7 +671,33 @@
   "queryAllDeclaredConstructors":true
 },
 {
+  "name":"com.github.dockerjava.core.DockerConfigFile",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.dockerjava.core.command.AbstrDockerCmd",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.dockerjava.core.command.CreateContainerCmdImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.io.Closeable",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"java.io.Serializable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.AutoCloseable",
   "queryAllDeclaredMethods":true
 },
 {
@@ -571,11 +729,20 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"java.util.AbstractMap",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"java.util.Collection",
   "queryAllDeclaredMethods":true
 },
 {
   "name":"java.util.List",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.Map",
   "queryAllDeclaredMethods":true
 },
 {
@@ -660,6 +827,12 @@
 {
   "name":"scala.collection.convert.JavaCollectionWrappers$IterableWrapperTrait",
   "queryAllDeclaredMethods":true
+},
+{
+  "name":"scala.collection.convert.JavaCollectionWrappers$MapWrapper",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"scala.collection.convert.JavaCollectionWrappers$SeqWrapper",
