@@ -57,12 +57,11 @@ See Native Image [docs](https://www.graalvm.org/22.1/reference-manual/native-ima
 -agentlib:native-image-agent=access-filter-file=./ni-filter.json,config-output-dir=./src/main/resources/META-INF/native-image/auto
 ```
 
-Just the mere presense of ClassGraph in classpath, even it's not effectively reachable, makes Native Image sick.
-Comment out the line which triggers ClassGraph in `GenericLauncher` before running the generator:
+Just the mere presense of ClassGraph in classpath, even it's not effectively reachable, makes Native Image agent generate broken reflection config.
+Only `PluginConfig.const` works reliably under Native Image. So, ClassGraph analysis is disabled in `ni-filter.json`.
 
-```scala
-//PluginConfig.cached(pluginsPackage = "leaderboard.plugins")
-```
+The codepaths in `docker-java` are different for the cold state when no containers are running and the hot state. 
+Destroy running containers before running the agent. It seems like we've managed to build an exhaustive ruleset for `docker-java` so it's excluded in `ni-filter.json`.
 
 #### Note
 
@@ -71,7 +70,7 @@ If `./launcher` command fails for you with some cryptic stack trace, there's mos
 sudo systemctl status docker
 sudo systemctl status contrainerd
 ```
-Both of them should have `Active: active (running)` status. If your problem isn't gone yet, most likely you don't have your user in `docker` group. [Here](https://docs.docker.com/engine/install/) you can find a tutorial on how to do so. Don't forget to logout of your session or restart your virtual machine before proceeding. If you still have problems, don't hesitate to open an issue.
+Both of them should have `Active: active (running)` status. If your problem isn't gone yet, most likely you don't have your user in `docker` group. [Here](https://docs.docker.com/engine/install/) you can find a tutorial on how to do so. Don't forget to log out of your session or restart your virtual machine before proceeding. If you still have problems, don't hesitate to open an issue.
 
 ### Videos:
 

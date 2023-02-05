@@ -299,11 +299,14 @@ sealed abstract class MainBase(
   }
 
   override def pluginConfig: PluginConfig = {
-    // for pure jvm project we may use runtime discovery with PluginConfig.cached
-    // PluginConfig.cached(pluginsPackage = "leaderboard.plugins")
-
-    // Only this would work reliably for NativeImage
-    PluginConfig.const(List(LeaderboardPlugin, PostgresDockerPlugin))
+    if (IzPlatform.isGraalNativeImage) {
+      // Only this would work reliably for NativeImage
+      PluginConfig.const(List(LeaderboardPlugin, PostgresDockerPlugin))
+    } else {
+      // Runtime discovery with PluginConfig.cached might be convenient for pure jvm projects during active development
+      // Once the project gets to the maintenance stage it's a good idea to switch to PluginConfig.const
+      PluginConfig.cached(pluginsPackage = "leaderboard.plugins")
+    }
   }
 
   protected override def roleAppBootOverrides(argv: RoleAppMain.ArgV): Module = super.roleAppBootOverrides(argv) ++ new ModuleDef {

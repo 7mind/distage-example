@@ -1,12 +1,15 @@
 {
   "rules": [
-    {"excludeClasses": "izumi.**"},
-    {"excludeClasses": "zio.**"},
     {"excludeClasses": "sun.instrument.**"},
     {"excludeClasses": "sun.management.**"},
+    {"excludeClasses": "java.lang.module.**"},
+    {"excludeClasses": "jdk.internal.**"},
     {"excludeClasses": "com.intellij.**"},
+    {"excludeClasses": "izumi.**"},
+    {"excludeClasses": "zio.**"},
     {"excludeClasses": "io.github.classgraph.**"},
-    {"excludeClasses": "nonapi.io.github.classgraph.**"}
+    {"excludeClasses": "nonapi.io.github.classgraph.**"},
+    {"excludeClasses": "com.github.dockerjava.**"}
   ],
   "regexRules": [
     {"excludeClasses": ".*/0x.*"}
