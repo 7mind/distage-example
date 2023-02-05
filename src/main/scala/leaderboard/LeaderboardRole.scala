@@ -224,11 +224,11 @@ object MainHelp extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Pr
 
 /**
   * Write the default configuration files for each role into JSON files in `./config`.
-  * Configurations in [[izumi.distage.config.ConfigModuleDef#makeConfig]]
+  * Configurations in @see {{{izumi.distage.config.ConfigModuleDef#makeConfig}}}
   * are read from resources:
   *
   *   - common-reference.conf - (configuration shared across all roles)
-  *   - ${roleName}-reference.conf - (role-specific configuration, overrides `common`)
+  *   - \${roleName}-reference.conf - (role-specific configuration, overrides `common`)
   *
   * Equivalent to:
   * {{{
@@ -299,11 +299,11 @@ sealed abstract class MainBase(
   }
 
   override def pluginConfig: PluginConfig = {
-    if (IzPlatform.isGraalNativeImage) {
-      PluginConfig.const(List(LeaderboardPlugin, PostgresDockerPlugin))
-    } else {
-      PluginConfig.cached(pluginsPackage = "leaderboard.plugins")
-    }
+    // for pure jvm project we may use runtime discovery with PluginConfig.cached
+    // PluginConfig.cached(pluginsPackage = "leaderboard.plugins")
+
+    // Only this would work reliably for NativeImage
+    PluginConfig.const(List(LeaderboardPlugin, PostgresDockerPlugin))
   }
 
   protected override def roleAppBootOverrides(argv: RoleAppMain.ArgV): Module = super.roleAppBootOverrides(argv) ++ new ModuleDef {

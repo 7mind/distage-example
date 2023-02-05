@@ -80,7 +80,6 @@ lazy val leaderboard = project
       Deps.graalMetadata,
     ),
     addCompilerPlugin(Deps.kindProjector),
-    scalacOptions -= "-Xfatal-warnings",
     scalacOptions += "-Xsource:3",
     scalacOptions += "-P:kind-projector:underscore-placeholders",
     scalacOptions += "-Wmacros:after",
