@@ -9,7 +9,8 @@
     {"excludeClasses": "zio.**"},
     {"excludeClasses": "io.github.classgraph.**"},
     {"excludeClasses": "nonapi.io.github.classgraph.**"},
-    {"excludeClasses": "com.github.dockerjava.**"}
+    {"excludeClasses": "com.github.dockerjava.**"},
+    {"excludeClasses": "[Lcom.github.dockerjava.**"}
   ],
   "regexRules": [
     {"excludeClasses": ".*/0x.*"}

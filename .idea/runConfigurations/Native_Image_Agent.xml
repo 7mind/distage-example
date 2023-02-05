@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Native Image Agent" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="leaderboard.GenericLauncher" />
+    <module name="leaderboard" />
+    <option name="PROGRAM_PARAMETERS" value="-u scene:managed -u repo:prod :leaderboard" />
+    <option name="VM_PARAMETERS" value="-agentlib:native-image-agent=access-filter-file=./ni-filter.json,config-output-dir=./src/main/resources/META-INF/native-image/auto-wip " />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="leaderboard.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

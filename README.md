@@ -83,7 +83,7 @@ See Native Image [docs](https://www.graalvm.org/22.1/reference-manual/native-ima
 Add the following to Java commandline to run the Assisted configuration agent:
 
 ```
--agentlib:native-image-agent=access-filter-file=./ni-filter.json,config-output-dir=./src/main/resources/META-INF/native-image/auto
+-agentlib:native-image-agent=access-filter-file=./ni-filter.json,config-output-dir=./src/main/resources/META-INF/native-image/auto-wip
 ```
 
 Notes:

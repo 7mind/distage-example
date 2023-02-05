@@ -12,48 +12,6 @@
   "name":"[Lcom.fasterxml.jackson.databind.deser.BeanDeserializerModifier;"
 },
 {
-  "name":"[Lcom.github.dockerjava.api.model.Bind;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.Capability;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.ContainerPort;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.Device;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.ExposedPort;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.Link;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.LxcConf;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.PortBinding;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.Ports$Binding;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.Ulimit;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.Volume;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.VolumeBind;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.VolumeRW;"
-},
-{
-  "name":"[Lcom.github.dockerjava.api.model.VolumesFrom;"
-},
-{
   "name":"[Lcom.zaxxer.hikari.util.ConcurrentBag$IConcurrentBagEntry;"
 },
 {
