@@ -4,7 +4,9 @@
     {"excludeClasses": "zio.**"},
     {"excludeClasses": "sun.instrument.**"},
     {"excludeClasses": "sun.management.**"},
-    {"excludeClasses": "com.intellij.**"}
+    {"excludeClasses": "com.intellij.**"},
+    {"excludeClasses": "io.github.classgraph.**"},
+    {"excludeClasses": "nonapi.io.github.classgraph.**"}
   ],
   "regexRules": [
     {"excludeClasses": ".*/0x.*"}
