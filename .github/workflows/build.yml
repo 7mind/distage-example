@@ -3,9 +3,17 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  build:
+  sbt-test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Run tests
       run: sbt test
+  build-native:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build native app
+        run: sbt GraalVMNativeImage/packageBin
+      - name: Check native app
+        run: ./target/graalvm-native-image/leaderboard :help
