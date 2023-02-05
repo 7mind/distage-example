@@ -37,15 +37,17 @@ sbt GraalVMNativeImage/packageBin
 ./target/graalvm-native-image/leaderboard -Djna.debug_load=true -u scene:managed -u repo:dummy :leaderboard
 ```
 
-Despite some [bugs](https://github.com/oracle/graal/issues/4282) in NativeImage the applications seems to be completely functional 
-when compiled by `ol8-java17-22.1.0`. Oddly the `ol8-java11-22.1.0` produces broken binaries.
-
-Check other GraalVM images [here](https://github.com/graalvm/container/pkgs/container/graalvm-ce)
-
-Currently, the application does not build with GraalVM `22.2` and `22.3`, this seems to be a [bug](https://github.com/oracle/graal/issues/4797).
+Currently, the application builds with GraalVM `22.3`. Check other GraalVM images [here](https://github.com/graalvm/container/pkgs/container/graalvm-ce)
 
 JNA libraries are just regular Java resources, currently the NI config is generated for x86-64 Linux,
 you'll have to re-generate or manually edit it to run on different operating systems or architectures.
+
+##### Bugs
+
+These bugs still may manifest, but it seems like they aren't blockers anymore:
+
+1. https://github.com/oracle/graal/issues/4797
+2. https://github.com/oracle/graal/issues/4282
 
 ##### Assisted NI configuration generator
 
@@ -53,6 +55,13 @@ See Native Image [docs](https://www.graalvm.org/22.1/reference-manual/native-ima
 
 ```bash
 -agentlib:native-image-agent=access-filter-file=./ni-filter.json,config-output-dir=./src/main/resources/META-INF/native-image/auto
+```
+
+Just the mere presense of ClassGraph in classpath, even it's not effectively reachable, makes Native Image sick.
+Comment out the line which triggers ClassGraph in `GenericLauncher` before running the generator:
+
+```scala
+//PluginConfig.cached(pluginsPackage = "leaderboard.plugins")
 ```
 
 #### Note
