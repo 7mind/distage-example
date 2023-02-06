@@ -8,7 +8,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run tests
-      run: sbt test
+      run: sbt +test
   build-native:
     runs-on: ubuntu-latest
     steps:

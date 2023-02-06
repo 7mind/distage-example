@@ -5,7 +5,6 @@ import izumi.distage.docker.Docker.DockerPort
 import izumi.distage.docker.bundled.PostgresDocker
 import izumi.distage.docker.modules.DockerSupportModule
 import izumi.distage.plugins.PluginDef
-import izumi.functional.bio.{Async2, IO2}
 import leaderboard.config.PostgresPortCfg
 import zio.Task
 

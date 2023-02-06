@@ -49,9 +49,10 @@ val Deps = new {
 
 inThisBuild(
   Seq(
-    scalaVersion := "2.13.10",
-    version      := "1.0.0",
-    organization := "io.7mind",
+    scalaVersion       := "3.2.2",
+    crossScalaVersions := Seq("3.2.2", "2.13.10"),
+    version            := "1.0.0",
+    organization       := "io.7mind",
   )
 )
 
@@ -86,10 +87,29 @@ lazy val leaderboard = project
       Deps.izumiReflect,
       Deps.graalMetadata,
     ),
-    addCompilerPlugin(Deps.kindProjector),
-    scalacOptions += "-Xsource:3",
-    scalacOptions += "-P:kind-projector:underscore-placeholders",
-    scalacOptions += "-Wmacros:after",
+    libraryDependencies ++= {
+      if (scalaVersion.value.startsWith("2")) {
+        Seq(compilerPlugin(Deps.kindProjector))
+      } else {
+        Seq.empty
+      }
+    },
+    scalacOptions -= "-Ykind-projector",
+    scalacOptions ++= {
+      if (scalaVersion.value.startsWith("2")) {
+        Seq(
+          "-Xsource:3",
+          "-P:kind-projector:underscore-placeholders",
+          "-Wmacros:after",
+        )
+      } else {
+        Seq(
+          "-source:3.2",
+          "-Ykind-projector:underscores",
+          "-Yretain-trees",
+        )
+      }
+    },
     scalacOptions ++= Seq(
       s"-Xmacro-settings:product-name=${name.value}",
       s"-Xmacro-settings:product-version=${version.value}",
