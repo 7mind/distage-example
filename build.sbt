@@ -53,6 +53,9 @@ inThisBuild(
   )
 )
 
+// that's just for quick experiments with distage snapshots
+ThisBuild / resolvers ++= Resolver.sonatypeOssRepos("snapshots")
+
 lazy val leaderboard = project
   .in(file("."))
   .settings(
@@ -108,5 +111,3 @@ lazy val leaderboard = project
     run / fork                     := true,
   )
   .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)
-
-ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
