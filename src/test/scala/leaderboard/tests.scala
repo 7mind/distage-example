@@ -10,7 +10,7 @@ import leaderboard.repo.{Ladder, Profiles, Ranks}
 import leaderboard.zioenv.*
 import zio.{IO, ZIO}
 
-abstract class LeaderboardTest extends Spec3[ZIO]()(_root_.distage.DefaultModule3(_root_.distage.DefaultModule3[ZIO]), implicitly, implicitly) with AssertIO3[ZIO] {
+abstract class LeaderboardTest extends Spec3[ZIO] with AssertIO3[ZIO] {
   override def config = super.config.copy(
     pluginConfig = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins")),
     moduleOverrides = super.config.moduleOverrides ++ new ModuleDef {
