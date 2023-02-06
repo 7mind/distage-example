@@ -1,4 +1,4 @@
-package leaderboard.api;
+package leaderboard.api
 
 import io.circe.syntax.*
 import izumi.functional.bio.catz.*
