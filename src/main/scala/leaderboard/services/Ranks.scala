@@ -1,7 +1,8 @@
-package leaderboard.repo
+package leaderboard.services
 
 import izumi.functional.bio.Monad2
 import leaderboard.model.{QueryFailure, RankedProfile, UserId}
+import leaderboard.repo.{Ladder, Profiles}
 
 trait Ranks[F[_, _]] {
   def getRank(userId: UserId): F[QueryFailure, Option[RankedProfile]]

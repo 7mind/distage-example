@@ -6,7 +6,8 @@ import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.plugins.PluginConfig
 import izumi.distage.testkit.scalatest.{AssertIO3, Spec3}
 import leaderboard.model.{QueryFailure, RankedProfile, Score, UserId, UserProfile}
-import leaderboard.repo.{Ladder, Profiles, Ranks}
+import leaderboard.repo.{Ladder, Profiles}
+import leaderboard.services.Ranks
 import leaderboard.zioenv.*
 import zio.{IO, ZIO}
 

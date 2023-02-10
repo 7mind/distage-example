@@ -11,7 +11,8 @@ import izumi.fundamentals.platform.integration.PortCheck
 import leaderboard.api.{HttpApi, LadderApi, ProfileApi}
 import leaderboard.config.{PostgresCfg, PostgresPortCfg}
 import leaderboard.http.HttpServer
-import leaderboard.repo.{Ladder, Profiles, Ranks}
+import leaderboard.repo.{Ladder, Profiles}
+import leaderboard.services.Ranks
 import leaderboard.sql.{SQL, TransactorResource}
 import leaderboard.{LadderRole, LeaderboardRole, ProfileRole}
 import org.http4s.dsl.Http4sDsl
