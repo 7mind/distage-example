@@ -11,8 +11,8 @@
 /local.sbt
 .secrets
 .DS_Store
-config
-default-configs
+/config
+/default-configs
 
 # Compiled class file
 *.class
@@ -126,4 +126,3 @@ hs_err_pid*
 ### Scala template
 *.class
 *.log
-
