@@ -91,6 +91,7 @@ lazy val leaderboard = project
         Seq.empty
       }
     },
+    scalacOptions -= "-Xfatal-warnings",
     scalacOptions -= "-Ykind-projector",
     scalacOptions ++= {
       if (scalaVersion.value.startsWith("2")) {
