@@ -27,7 +27,6 @@ abstract class LeaderboardTest extends Spec3[ZIO] with AssertIO3[ZIO] {
       DIKey[Ladder[IO]],
       DIKey[Profiles[IO]],
     ),
-    configBaseName = "leaderboard-test",
   )
 }
 
