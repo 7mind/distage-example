@@ -1,15 +1,15 @@
 val V = new {
   val distage       = "1.1.0-M20"
   val logstage      = distage
-  val scalatest     = "3.2.15"
+  val scalatest     = "3.2.17"
   val scalacheck    = "1.17.0"
-  val http4s        = "0.23.14"
-  val doobie        = "1.0.0-RC2"
+  val http4s        = "0.23.15"
+  val doobie        = "1.0.0-RC4"
   val catsCore      = "2.9.0"
   val zio           = "1.0.18"
   val zioCats       = "13.0.0.2"
   val kindProjector = "0.13.2"
-  val circeGeneric  = "0.14.5"
+  val circeGeneric  = "0.14.6"
   val graalMetadata = "0.9.21"
 }
 
@@ -48,8 +48,8 @@ val Deps = new {
 inThisBuild(
   Seq(
     scalaVersion := "2.13.12",
-//    scalaVersion       := "3.2.2", // uncomment to use Scala 3 with IDE
-    crossScalaVersions := Seq("3.2.2", "2.13.12"),
+//    scalaVersion       := "3.3.1", // uncomment to use Scala 3 with IDE
+    crossScalaVersions := Seq("3.3.1", "2.13.12"),
     version            := "1.0.0",
     organization       := "io.7mind",
   )
