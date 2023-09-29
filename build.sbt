@@ -3,13 +3,13 @@ val V = new {
   val logstage      = distage
   val scalatest     = "3.2.15"
   val scalacheck    = "1.17.0"
-  val http4s        = "0.23.14"
-  val doobie        = "1.0.0-RC2"
+  val http4s        = "0.23.15"
+  val doobie        = "1.0.0-RC4"
   val catsCore      = "2.10.0"
   val zio           = "1.0.18"
   val zioCats       = "13.0.0.2"
   val kindProjector = "0.13.2"
-  val circeGeneric  = "0.14.5"
+  val circeGeneric  = "0.14.6"
   val graalMetadata = "0.9.21"
 }
 
