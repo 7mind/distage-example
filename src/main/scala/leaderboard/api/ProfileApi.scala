@@ -28,7 +28,7 @@ final class ProfileApi[F[+_, +_]: Async2: Fork2: Primitives2](
       case rq @ POST -> Root / "profile" / UUIDVar(userId) =>
         Ok(for {
           profile <- rq.decodeJson[UserProfile]
-          _       <- log.info(s"Sending $profile")
+          _       <- log.info(s"Saving $profile")
           _       <- profiles.setProfile(userId, profile)
         } yield ())
     }

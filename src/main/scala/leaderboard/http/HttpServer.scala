@@ -2,13 +2,12 @@ package leaderboard.http
 
 import cats.effect.Async
 import cats.implicits.*
-import distage.Id
+import com.comcast.ip4s.Port
+import fs2.io.net.Network
 import izumi.distage.model.definition.Lifecycle
 import leaderboard.api.HttpApi
-import org.http4s.blaze.server.BlazeServerBuilder
+import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.server.Server
-
-import scala.concurrent.ExecutionContext
 
 final case class HttpServer(
   server: Server
@@ -17,19 +16,18 @@ final case class HttpServer(
 object HttpServer {
 
   final class Impl[F[+_, +_]](
-    allHttpApis: Set[HttpApi[F]],
-    cpuPool: ExecutionContext @Id("cpu"),
+    allHttpApis: Set[HttpApi[F]]
   )(implicit
     async: Async[F[Throwable, _]]
   ) extends Lifecycle.Of[F[Throwable, _], HttpServer](
       Lifecycle.fromCats {
         val combinedApis = allHttpApis.map(_.http).toList.foldK
 
-        BlazeServerBuilder[F[Throwable, _]]
-          .withExecutionContext(cpuPool)
+        EmberServerBuilder
+          .default(async, Network.forAsync)
           .withHttpApp(combinedApis.orNotFound)
-          .bindLocal(8080)
-          .resource
+          .withPort(Port.fromInt(8080).get)
+          .build
           .map(HttpServer(_))
       }
     )

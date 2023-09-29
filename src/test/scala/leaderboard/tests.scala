@@ -5,7 +5,7 @@ import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.plugins.PluginConfig
 import izumi.distage.testkit.scalatest.{AssertIO3, Spec3}
-import leaderboard.model.{QueryFailure, RankedProfile, Score, UserId, UserProfile}
+import leaderboard.model.*
 import leaderboard.repo.{Ladder, Profiles}
 import leaderboard.services.Ranks
 import leaderboard.zioenv.*
@@ -86,7 +86,7 @@ abstract class LadderTest extends LeaderboardTest {
             assertIO(user1Rank < user2Rank)
           } else if (score2 > score1) {
             assertIO(user2Rank < user1Rank)
-          } else IO.unit
+          } else ZIO.unit
       } yield ()
     }
 
@@ -100,7 +100,7 @@ abstract class ProfilesTest extends LeaderboardTest {
 
     /** that's what the ZIO signature looks like for ZIO Env injection: */
     "set & get" in {
-      val zioValue: ZIO[ProfilesEnv & RndEnv, QueryFailure, Unit] = for {
+      val zioValue: ZIO[Profiles[IO] & Rnd[IO], QueryFailure, Unit] = for {
         user   <- rnd[UserId]
         name   <- rnd[String]
         desc   <- rnd[String]
@@ -170,7 +170,7 @@ abstract class RanksTest extends LeaderboardTest {
             assertIO(user1Rank < user2Rank)
           } else if (score2 > score1) {
             assertIO(user2Rank < user1Rank)
-          } else IO.unit
+          } else ZIO.unit
       } yield ()
     }
 
