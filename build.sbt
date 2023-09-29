@@ -47,10 +47,11 @@ val Deps = new {
 
 inThisBuild(
   Seq(
-    crossScalaVersions := Seq("3.3.1", "2.13.12"),
-    scalaVersion       := crossScalaVersions.value.head,
-    version            := "1.0.0",
-    organization       := "io.7mind",
+    crossScalaVersions := Seq("2.13.12", "3.3.1"),
+//    crossScalaVersions := Seq("3.3.1", "2.13.12"), // uncomment to use Scala 3 in IDE
+    scalaVersion := crossScalaVersions.value.head,
+    version      := "1.0.0",
+    organization := "io.7mind",
   )
 )
 
