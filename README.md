@@ -95,4 +95,3 @@ It seems like we've managed to build an exhaustive ruleset for `docker-java` so 
 If something is wrong and you need to generate the rules for `docker-java`, run the agent twice in both hot and cold state.
 - Only `PluginConfig.const` works reliably under Native Image. So, ClassGraph analysis is disabled in `ni-filter.json`.
 You can't make dynamic plugin resolution working under Native Image.
-

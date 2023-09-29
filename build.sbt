@@ -3,11 +3,11 @@ val V = new {
   val logstage      = distage
   val scalatest     = "3.2.17"
   val scalacheck    = "1.17.0"
-  val http4s        = "0.23.15"
+  val http4s        = "0.23.23"
   val doobie        = "1.0.0-RC4"
   val catsCore      = "2.10.0"
   val zio           = "2.0.18"
-  val zioCats       = "13.0.0.2"
+  val zioCats       = "23.0.0.8"
   val kindProjector = "0.13.2"
   val circeGeneric  = "0.14.6"
   val graalMetadata = "0.9.27"
@@ -25,8 +25,8 @@ val Deps = new {
   val logstageSlf4j  = "io.7mind.izumi" %% "logstage-adapter-slf4j" % V.logstage
 
   val http4sDsl    = "org.http4s" %% "http4s-dsl" % V.http4s
-  val http4sServer = "org.http4s" %% "http4s-blaze-server" % V.http4s
-  val http4sClient = "org.http4s" %% "http4s-blaze-client" % V.http4s
+  val http4sServer = "org.http4s" %% "http4s-ember-server" % V.http4s
+  val http4sClient = "org.http4s" %% "http4s-ember-client" % V.http4s
   val http4sCirce  = "org.http4s" %% "http4s-circe" % V.http4s
 
   val circeGeneric = "io.circe" %% "circe-generic" % V.circeGeneric
@@ -93,6 +93,7 @@ lazy val leaderboard = project
     },
     scalacOptions -= "-Xfatal-warnings",
     scalacOptions -= "-Ykind-projector",
+    scalacOptions -= "-Wnonunit-statement",
     scalacOptions ++= {
       if (scalaVersion.value.startsWith("2")) {
         Seq(
