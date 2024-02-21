@@ -10,7 +10,7 @@ val V = new {
   val zioCats       = "23.0.0.8"
   val kindProjector = "0.13.2"
   val circeGeneric  = "0.14.6"
-  val graalMetadata = "0.9.28"
+  val graalMetadata = "0.10.1"
 }
 
 val Deps = new {
