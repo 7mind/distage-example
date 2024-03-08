@@ -58,7 +58,7 @@ object LeaderboardPlugin extends PluginDef {
 
       make[Ranks[F]].from[Ranks.Impl[F]]
 
-      make[Http4sDsl[F[Throwable, _]]]
+      makeTrait[Http4sDsl[F[Throwable, _]]]
     }
 
     def repoDummy[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
