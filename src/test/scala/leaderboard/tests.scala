@@ -4,14 +4,14 @@ import distage.{DIKey, ModuleDef, Scene}
 import izumi.distage.model.definition.Activation
 import izumi.distage.model.definition.StandardAxis.Repo
 import izumi.distage.plugins.PluginConfig
-import izumi.distage.testkit.scalatest.{AssertIO3, Spec3}
+import izumi.distage.testkit.scalatest.{AssertZIO, SpecZIO}
 import leaderboard.model.*
 import leaderboard.repo.{Ladder, Profiles}
 import leaderboard.services.Ranks
 import leaderboard.zioenv.*
 import zio.{IO, ZIO}
 
-abstract class LeaderboardTest extends Spec3[ZIO] with AssertIO3[ZIO] {
+abstract class LeaderboardTest extends SpecZIO with AssertZIO {
   override def config = super.config.copy(
     pluginConfig = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins")),
     moduleOverrides = super.config.moduleOverrides ++ new ModuleDef {

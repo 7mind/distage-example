@@ -1,5 +1,5 @@
 val V = new {
-  val distage       = "1.1.0"
+  val distage       = "1.2.6"
   val logstage      = distage
   val scalatest     = "3.2.18"
   val scalacheck    = "1.17.0"
@@ -47,8 +47,8 @@ val Deps = new {
 
 inThisBuild(
   Seq(
-    crossScalaVersions := Seq("2.13.12", "3.3.3"),
-//    crossScalaVersions := Seq("3.3.3", "2.13.12"), // uncomment to use Scala 3 in IDE
+    crossScalaVersions := Seq("2.13.13", "3.4.0"),
+//    crossScalaVersions := Seq("3.4.0", "2.13.13"), // uncomment to use Scala 3 in IDE
     scalaVersion := crossScalaVersions.value.head,
     version      := "1.0.0",
     organization := "io.7mind",

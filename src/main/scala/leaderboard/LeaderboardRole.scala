@@ -292,7 +292,7 @@ object GenericLauncher extends MainBase(Activation(Repo -> Repo.Prod, Scene -> S
 sealed abstract class MainBase(
   activation: Activation,
   requiredRoles: Vector[RawRoleParams],
-) extends RoleAppMain.LauncherBIO2[IO] {
+) extends RoleAppMain.LauncherBIO[IO] {
 
   override def requiredRoles(argv: RoleAppMain.ArgV): Vector[RawRoleParams] = {
     requiredRoles
@@ -313,6 +313,6 @@ sealed abstract class MainBase(
     make[Activation].named("default").fromValue(defaultActivation ++ activation)
   }
 
-  private[this] def defaultActivation = Activation(Scene -> Scene.Provided)
+  private def defaultActivation = Activation(Scene -> Scene.Provided)
 
 }
