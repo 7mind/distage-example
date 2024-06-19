@@ -57,12 +57,11 @@ abstract class LadderTest extends LeaderboardTest {
     "submit & get" in {
       (rnd: Rnd, ladder: Ladder) =>
         for {
-          user   <- rnd[UserId]
-          score  <- rnd[Score]
-          _      <- ladder.submitScore(user, score)
-          scores <- ladder.getScores
-          res     = scores.find(_._1 == user).map(_._2)
-          _      <- assertIO(res contains score)
+          user  <- rnd[UserId]
+          score <- rnd[Score]
+          _     <- ladder.submitScore(user, score)
+          res   <- ladder.getScores.map(_.find(_._1 == user).map(_._2))
+          _     <- assertIO(res contains score)
         } yield ()
     }
 

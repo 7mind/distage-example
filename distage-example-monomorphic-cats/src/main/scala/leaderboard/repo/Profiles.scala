@@ -53,8 +53,8 @@ object Profiles {
                  |  name = excluded.name,
                  |  description = excluded.description
                  |""".stripMargin.update.run
-          }
-      }.void
+          }.void
+      }
 
       override def getProfile(userId: UserId): IO[Option[UserProfile]] = {
         sql.execute("get-profile") {

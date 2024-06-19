@@ -1,7 +1,7 @@
 package leaderboard.services
 
 import cats.MonadThrow
-import cats.implicits.*
+import cats.syntax.all.*
 import leaderboard.model.{RankedProfile, UserId}
 import leaderboard.repo.{Ladder, Profiles}
 
@@ -15,7 +15,7 @@ object Ranks {
     profiles: Profiles[F],
   ) extends Ranks[F] {
 
-    override def getRank(userId: UserId): F[Option[RankedProfile]] =
+    override def getRank(userId: UserId): F[Option[RankedProfile]] = {
       for {
         maybeProfile <- profiles.getProfile(userId)
         scores       <- ladder.getScores
@@ -30,6 +30,8 @@ object Ranks {
           score       = score.getOrElse(0),
         )
       } yield res
+    }
+
   }
 
 }

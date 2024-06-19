@@ -1,7 +1,7 @@
 package leaderboard.http
 
 import cats.effect.IO
-import cats.implicits.*
+import cats.syntax.all.*
 import com.comcast.ip4s.Port
 import izumi.distage.model.definition.Lifecycle
 import leaderboard.api.HttpApi

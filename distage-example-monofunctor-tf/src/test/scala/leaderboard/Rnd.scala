@@ -1,6 +1,6 @@
 package leaderboard
 
-import cats.effect.kernel.Sync
+import cats.effect.Sync
 import org.scalacheck.Gen.Parameters
 import org.scalacheck.{Arbitrary, Prop}
 

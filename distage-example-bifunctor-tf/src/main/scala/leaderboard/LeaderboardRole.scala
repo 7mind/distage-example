@@ -192,9 +192,9 @@ object MainLadderProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Sc
 object MainProfileDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(ProfileRole.id)))
 
 /**
-  * Launch just the `ladder` APIs with postgres repositories and dockerized postgres service
+  * Launch just the `profile` APIs with postgres repositories and dockerized postgres service
   *
-  * Equivalent to:∂
+  * Equivalent to:
   * {{{
   *   ./launcher -u scene:managed :profile
   * }}}

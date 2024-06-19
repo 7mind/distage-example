@@ -2,7 +2,7 @@ package leaderboard.api
 
 import cats.effect.Concurrent
 import io.circe.syntax.*
-import cats.implicits.*
+import cats.syntax.all.*
 import leaderboard.model.UserProfile
 import leaderboard.repo.Profiles
 import leaderboard.services.Ranks
@@ -23,9 +23,7 @@ final class ProfileApi[F[_]: Concurrent](
   override def http: HttpRoutes[F] = {
     HttpRoutes.of {
       case GET -> Root / "profile" / UUIDVar(userId) =>
-        Ok(for {
-          res <- ranks.getRank(userId)
-        } yield res.asJson)
+        Ok(ranks.getRank(userId).map(_.asJson))
 
       case rq @ POST -> Root / "profile" / UUIDVar(userId) =>
         Ok(for {

@@ -22,9 +22,7 @@ final class ProfileApi(
   override def http: HttpRoutes[IO] = {
     HttpRoutes.of {
       case GET -> Root / "profile" / UUIDVar(userId) =>
-        Ok(for {
-          res <- ranks.getRank(userId)
-        } yield res.asJson)
+        Ok(ranks.getRank(userId).map(_.asJson))
 
       case rq @ POST -> Root / "profile" / UUIDVar(userId) =>
         Ok(for {

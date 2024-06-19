@@ -17,14 +17,10 @@ final class LadderApi(
   override def http: HttpRoutes[IO] = {
     HttpRoutes.of {
       case GET -> Root / "ladder" =>
-        Ok(for {
-          res <- ladder.getScores
-        } yield res.asJson)
+        Ok(ladder.getScores.map(_.asJson))
 
       case POST -> Root / "ladder" / UUIDVar(userId) / LongVar(score) =>
-        Ok(for {
-          _ <- ladder.submitScore(userId, score)
-        } yield ())
+        Ok(ladder.submitScore(userId, score))
     }
   }
 }
