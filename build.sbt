@@ -1,16 +1,16 @@
 val V = new {
-  val distage       = "1.2.8"
+  val distage       = "1.2.10"
   val logstage      = distage
   val scalatest     = "3.2.18"
-  val scalacheck    = "1.17.0"
-  val http4s        = "0.23.26"
+  val scalacheck    = "1.17.1"
+  val http4s        = "0.23.27"
   val doobie        = "1.0.0-RC5"
-  val catsCore      = "2.10.0"
-  val zio           = "2.0.21"
+  val catsCore      = "2.12.0"
+  val zio           = "2.0.22"
   val zioCats       = "23.0.0.8"
   val kindProjector = "0.13.3"
-  val circeGeneric  = "0.14.6"
-  val graalMetadata = "0.10.1"
+  val circeGeneric  = "0.14.7"
+  val graalMetadata = "0.10.2"
   val catsEffect    = "3.5.4"
 }
 
@@ -70,8 +70,8 @@ val Deps = new {
 
 inThisBuild(
   Seq(
-    crossScalaVersions := Seq("2.13.13", "3.4.1"),
-//    crossScalaVersions := Seq("3.4.1", "2.13.13"), // uncomment to use Scala 3 in IDE
+    crossScalaVersions := Seq("2.13.14", "3.4.2"),
+//    crossScalaVersions := Seq("3.4.2", "2.13.14"), // uncomment to use Scala 3 in IDE
     scalaVersion := crossScalaVersions.value.head,
     version      := "1.0.0",
     organization := "io.7mind",
