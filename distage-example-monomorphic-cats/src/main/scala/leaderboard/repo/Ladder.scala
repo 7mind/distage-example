@@ -1,15 +1,12 @@
 package leaderboard.repo
 
-import cats.effect.IO
-import cats.implicits.*
+import cats.effect.{IO, Ref}
 import distage.Lifecycle
 import doobie.postgres.implicits.*
 import doobie.syntax.string.*
 import leaderboard.model.{Score, UserId}
 import leaderboard.sql.SQL
 import logstage.LogIO
-
-import scala.collection.concurrent.TrieMap
 
 trait Ladder {
   def submitScore(userId: UserId, score: Score): IO[Unit]
@@ -19,14 +16,14 @@ trait Ladder {
 object Ladder {
   final class Dummy
     extends Lifecycle.LiftF[IO, Ladder](for {
-      state <- IO.pure(TrieMap.empty[UserId, Score])
+      state <- Ref[IO].of(Map.empty[UserId, Score])
     } yield {
       new Ladder {
         override def submitScore(userId: UserId, score: Score): IO[Unit] =
-          IO.pure(state.update(userId, score))
+          state.update(_ + (userId -> score))
 
         override def getScores: IO[List[(UserId, Score)]] =
-          IO.pure(state.toList.sortBy(_._2)(Ordering[Score].reverse))
+          state.get.map(_.toList.sortBy(_._2)(Ordering[Score].reverse))
       }
     })
 

@@ -1,7 +1,8 @@
 package leaderboard.repo
 
-import cats.{Applicative, Monad}
-import cats.implicits.*
+import cats.Monad
+import cats.effect.{Concurrent, Ref}
+import cats.syntax.all.*
 import distage.Lifecycle
 import doobie.postgres.implicits.*
 import doobie.syntax.string.*
@@ -9,24 +10,22 @@ import leaderboard.model.{Score, UserId}
 import leaderboard.sql.SQL
 import logstage.LogIO
 
-import scala.collection.concurrent.TrieMap
-
 trait Ladder[F[_]] {
   def submitScore(userId: UserId, score: Score): F[Unit]
   def getScores: F[List[(UserId, Score)]]
 }
 
 object Ladder {
-  final class Dummy[F[_]: Applicative]
+  final class Dummy[F[_]: Concurrent]
     extends Lifecycle.LiftF[F, Ladder[F]](for {
-      state <- Applicative[F].pure(TrieMap.empty[UserId, Score])
+      state <- Ref.of(Map.empty[UserId, Score])
     } yield {
       new Ladder[F] {
         override def submitScore(userId: UserId, score: Score): F[Unit] =
-          Applicative[F].pure(state.update(userId, score))
+          state.update(_ + (userId -> score))
 
         override def getScores: F[List[(UserId, Score)]] =
-          Applicative[F].pure(state.toList.sortBy(_._2)(Ordering[Score].reverse))
+          state.get.map(_.toList.sortBy(_._2)(Ordering[Score].reverse))
       }
     })
 

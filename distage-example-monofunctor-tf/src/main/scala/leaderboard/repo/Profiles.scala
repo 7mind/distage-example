@@ -1,15 +1,14 @@
 package leaderboard.repo
 
+import cats.Monad
+import cats.effect.{Concurrent, Ref}
+import cats.syntax.all.*
 import distage.Lifecycle
-import cats.{Applicative, Monad}
-import cats.implicits.*
 import doobie.postgres.implicits.*
 import doobie.syntax.string.*
 import leaderboard.model.{UserId, UserProfile}
 import leaderboard.sql.SQL
 import logstage.LogIO
-
-import scala.collection.concurrent.TrieMap
 
 trait Profiles[F[_]] {
   def setProfile(userId: UserId, profile: UserProfile): F[Unit]
@@ -17,16 +16,16 @@ trait Profiles[F[_]] {
 }
 
 object Profiles {
-  final class Dummy[F[_]: Applicative]
+  final class Dummy[F[_]: Concurrent]
     extends Lifecycle.LiftF[F, Profiles[F]](for {
-      state <- Applicative[F].pure(TrieMap.empty[UserId, UserProfile])
+      state <- Ref.of(Map.empty[UserId, UserProfile])
     } yield {
       new Profiles[F] {
         override def setProfile(userId: UserId, profile: UserProfile): F[Unit] =
-          Applicative[F].pure(state.update(userId, profile))
+          state.update(_ + (userId -> profile))
 
         override def getProfile(userId: UserId): F[Option[UserProfile]] =
-          Applicative[F].pure(state.get(userId))
+          state.get.map(_.get(userId))
       }
     })
 
