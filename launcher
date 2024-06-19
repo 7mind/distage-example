@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
 ARGS="$@"
-sbt "runMain leaderboard.GenericLauncher $ARGS"
+
+sbt "project leaderboard-bifunctor-tf; runMain leaderboard.GenericLauncher $ARGS"
