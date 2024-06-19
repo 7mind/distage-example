@@ -1,3 +1,5 @@
+import scala.util.chaining.scalaUtilChainingOps
+
 val V = new {
   val distage       = "1.2.10"
   val logstage      = distage
@@ -78,14 +80,36 @@ inThisBuild(
   )
 )
 
-// that's just for quick experiments with distage snapshots
-ThisBuild / resolvers ++= Resolver.sonatypeOssRepos("snapshots")
+lazy val `leaderboard-bifunctor-tf` = project
+  .in(file("distage-example-bifunctor-tf"))
+  .pipe(sharedSettings(Seq(Deps.zio, Deps.zioCats, Deps.catsCore)))
 
-def makeExampleProject(moduleName: String, dir: String)(deps: Seq[ModuleID]) =
-  Project(moduleName, file(dir))
+lazy val `leaderboard-monofunctor-tf` = project
+  .in(file("distage-example-monofunctor-tf"))
+  .pipe(sharedSettings(Seq(Deps.zio, Deps.zioCats, Deps.catsCore)))
+
+lazy val `leaderboard-monomorphic-cats` = project
+  .in(file("distage-example-monomorphic-cats"))
+  .pipe(sharedSettings(Seq(Deps.catsEffect)))
+
+lazy val `graal-resources` = project
+  .in(file("graal-resources"))
+  .settings(Compile / resourceDirectory := baseDirectory.value)
+
+lazy val root = project
+  .in(file("."))
+  .aggregate(
+    `leaderboard-bifunctor-tf`,
+    `leaderboard-monofunctor-tf`,
+    `leaderboard-monomorphic-cats`,
+    `graal-resources`,
+  )
+  .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)
+
+def sharedSettings(additionalDeps: Seq[ModuleID])(project: Project): Project = {
+  project
     .settings(
-      name := moduleName,
-      libraryDependencies ++= deps,
+      libraryDependencies ++= Deps.CoreDeps ++ additionalDeps,
       libraryDependencies ++= {
         if (scalaVersion.value.startsWith("2")) {
           Seq(compilerPlugin(Deps.kindProjector))
@@ -93,9 +117,7 @@ def makeExampleProject(moduleName: String, dir: String)(deps: Seq[ModuleID]) =
           Seq.empty
         }
       },
-      scalacOptions -= "-Xfatal-warnings",
-      scalacOptions -= "-Ykind-projector",
-      scalacOptions -= "-Wnonunit-statement",
+      scalacOptions --= Seq("-Xfatal-warnings", "-Ykind-projector", "-Wnonunit-statement"),
       scalacOptions ++= {
         if (scalaVersion.value.startsWith("2")) {
           Seq(
@@ -105,7 +127,6 @@ def makeExampleProject(moduleName: String, dir: String)(deps: Seq[ModuleID]) =
           )
         } else {
           Seq(
-            "-source:3.2",
             "-Ykind-projector:underscores",
             "-Yretain-trees",
           )
@@ -137,48 +158,7 @@ def makeExampleProject(moduleName: String, dir: String)(deps: Seq[ModuleID]) =
     )
     .dependsOn(`graal-resources`)
     .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)
+}
 
-lazy val root = project
-  .in(file("."))
-  .aggregate(
-    `graal-resources`,
-    `leaderboard-monofunctor-tf`,
-    `leaderboard-bifunctor-tf`,
-    `leaderboard-monomorphic-cats`,
-  )
-  .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin) // enabled here for CI purposes
-
-lazy val `graal-resources` = project
-  .in(file("graal-resources"))
-  .settings(Compile / resourceDirectory := baseDirectory.value)
-
-lazy val `leaderboard-monofunctor-tf` = makeExampleProject(
-  moduleName = "leaderboard-monofunctor-tf",
-  dir        = "distage-example-monofunctor-tf",
-)(deps =
-  Deps.CoreDeps ++ Seq(
-    Deps.zio,
-    Deps.zioCats,
-    Deps.catsCore,
-  )
-)
-
-lazy val `leaderboard-bifunctor-tf` = makeExampleProject(
-  moduleName = "leaderboard-bifunctor-tf",
-  dir        = "distage-example-bifunctor-tf",
-)(deps =
-  Deps.CoreDeps ++ Seq(
-    Deps.zio,
-    Deps.zioCats,
-    Deps.catsCore,
-  )
-)
-
-lazy val `leaderboard-monomorphic-cats` = makeExampleProject(
-  moduleName = "leaderboard-monomorphic-cats",
-  dir        = "distage-example-monomorphic-cats",
-)(deps =
-  Deps.CoreDeps ++ Seq(
-    Deps.catsEffect
-  )
-)
+// for quick experiments with distage snapshots
+ThisBuild / resolvers ++= Resolver.sonatypeOssRepos("snapshots")
