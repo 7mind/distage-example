@@ -21,6 +21,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build native app
-        run: sbt "project leaderboard-bifunctor-tf; GraalVMNativeImage/packageBin"
+        run: sbt "project bifunctor-tagless; GraalVMNativeImage/packageBin"
       - name: Check native app
-        run: ./distage-example-bifunctor-tf/target/graalvm-native-image/leaderboard-bifunctor-tf :help
+        run: ./bifunctor-tagless/target/graalvm-native-image/bifunctor-tagless :help

@@ -2,4 +2,4 @@
 
 ARGS="$@"
 
-sbt "project leaderboard-bifunctor-tf; runMain leaderboard.GenericLauncher $ARGS"
+sbt "project bifunctor-tagless; runMain leaderboard.GenericLauncher $ARGS"

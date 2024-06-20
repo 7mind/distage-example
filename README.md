@@ -11,12 +11,12 @@ Features [distage](https://izumi.7mind.io/distage/) for dependency injection,
 [ZIO Environment](https://zio.dev) for composing test fixtures,
 and [distage-framework-docker](https://izumi.7mind.io/distage/distage-framework-docker) for setting up test containers.
 
-Code for the main example is in [distage-example-bifunctor-tf](distage-example-bifunctor-tf) directory. It's written in bifunctor tagless final style with [BIO](https://izumi.7mind.io/bio/) typeclasses, uses [ZIO](https://zio.dev) as a runtime and ZIO Environment for composing test fixtures.
+Code for the main example is in [bifunctor-tagless](bifunctor-tagless) directory. It's written in bifunctor tagless final style with [BIO](https://izumi.7mind.io/bio/) typeclasses, uses [ZIO](https://zio.dev) as a runtime and ZIO Environment for composing test fixtures.
 
 There are also two variants of the example project:
 
-- [distage-example-monofunctor-tf](distage-example-monofunctor-tf) – Written in monofunctor tagless final style with [Cats Effect](https://typelevel.org/cats-effect/) typeclasses, and can run using both [Cats IO](https://typelevel.org/cats-effect/) and [ZIO](https://zio.dev) runtimes.
-- [distage-example-monomorphic-cats](distage-example-monomorphic-cats) – A simpler example written without tagless final, uses [Cats IO]() directly everywhere.
+- [monofunctor-tagless](monofunctor-tagless) – Written in monofunctor tagless final style with [Cats Effect](https://typelevel.org/cats-effect/) typeclasses, and can run using both [Cats IO](https://typelevel.org/cats-effect/) and [ZIO](https://zio.dev) runtimes.
+- [monomorphic-cats](monomorphic-cats) – A simpler example written without tagless final, uses [Cats IO]() directly everywhere.
 
 To launch tests that require postgres ensure you have a `docker` daemon running in the background.
 
@@ -63,7 +63,7 @@ Both of them should have `Active: active (running)` status. If your problem isn'
 Use `sbt` to build a native Linux binary with GraalVM NativeImage under Docker:
 
 ```bash
-sbt leaderboard-bifunctor-tf/GraalVMNativeImage/packageBin
+sbt bifunctor-tagless/GraalVMNativeImage/packageBin
 ```
 
 If you want to build the app using local `native-image` executable (e.g. on a Mac), comment out the `graalVMNativeImageGraalVersion` key in `build.sbt` first.
@@ -71,13 +71,13 @@ If you want to build the app using local `native-image` executable (e.g. on a Ma
 To test the native app with dummy repositories run:
 
 ```bash
-./distage-example-bifunctor-tf/target/graalvm-native-image/leaderboard -u scene:managed -u repo:dummy :leaderboard
+./bifunctor-tagless/target/graalvm-native-image/bifunctor-tagless -u scene:managed -u repo:dummy :leaderboard
 ```
 
 To test the native app with production repositories in Docker run:
 
 ```bash
-./distage-example-bifunctor-tf/target/graalvm-native-image/leaderboard -u scene:managed -u repo:prod :leaderboard
+./bifunctor-tagless/target/graalvm-native-image/bifunctor-tagless -u scene:managed -u repo:prod :leaderboard
 ```
 
 Notes:

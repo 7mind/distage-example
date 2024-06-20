@@ -79,16 +79,16 @@ inThisBuild(
   )
 )
 
-lazy val `leaderboard-bifunctor-tf` = project
-  .in(file("distage-example-bifunctor-tf"))
+lazy val `bifunctor-tagless` = project
+  .in(file("bifunctor-tagless"))
   .pipe(sharedSettings(Seq(Deps.zio, Deps.zioCats)))
 
-lazy val `leaderboard-monofunctor-tf` = project
-  .in(file("distage-example-monofunctor-tf"))
+lazy val `monofunctor-tagless` = project
+  .in(file("monofunctor-tagless"))
   .pipe(sharedSettings(Seq(Deps.zio, Deps.zioCats)))
 
-lazy val `leaderboard-monomorphic-cats` = project
-  .in(file("distage-example-monomorphic-cats"))
+lazy val `monomorphic-cats` = project
+  .in(file("monomorphic-cats"))
   .pipe(sharedSettings(Seq()))
 
 lazy val `graal-resources` = project
@@ -98,9 +98,9 @@ lazy val `graal-resources` = project
 lazy val `distage-example` = project
   .in(file("."))
   .aggregate(
-    `leaderboard-bifunctor-tf`,
-    `leaderboard-monofunctor-tf`,
-    `leaderboard-monomorphic-cats`,
+    `bifunctor-tagless`,
+    `monofunctor-tagless`,
+    `monomorphic-cats`,
     `graal-resources`,
   )
   .enablePlugins(GraalVMNativeImagePlugin, UniversalPlugin)
