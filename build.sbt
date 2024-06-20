@@ -45,8 +45,6 @@ val Deps = new {
 
   val catsCore = "org.typelevel" %% "cats-core" % V.catsCore
 
-  val catsEffect = "org.typelevel" %% "cats-effect" % V.catsEffect
-
   val graalMetadata = "org.graalvm.buildtools" % "graalvm-reachability-metadata" % V.graalMetadata
 
   val CoreDeps = Seq(
@@ -66,6 +64,7 @@ val Deps = new {
     doobie,
     doobiePostgres,
     doobieHikari,
+    catsCore,
     graalMetadata,
   )
 }
@@ -82,15 +81,15 @@ inThisBuild(
 
 lazy val `leaderboard-bifunctor-tf` = project
   .in(file("distage-example-bifunctor-tf"))
-  .pipe(sharedSettings(Seq(Deps.zio, Deps.zioCats, Deps.catsCore)))
+  .pipe(sharedSettings(Seq(Deps.zio, Deps.zioCats)))
 
 lazy val `leaderboard-monofunctor-tf` = project
   .in(file("distage-example-monofunctor-tf"))
-  .pipe(sharedSettings(Seq(Deps.zio, Deps.zioCats, Deps.catsCore)))
+  .pipe(sharedSettings(Seq(Deps.zio, Deps.zioCats)))
 
 lazy val `leaderboard-monomorphic-cats` = project
   .in(file("distage-example-monomorphic-cats"))
-  .pipe(sharedSettings(Seq(Deps.catsEffect)))
+  .pipe(sharedSettings(Seq()))
 
 lazy val `graal-resources` = project
   .in(file("graal-resources"))

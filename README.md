@@ -5,12 +5,18 @@
 
 Example `distage` project presented at Functional Scala 2019
 
-Features [distage](https://izumi.7mind.io/distage/),
-and [distage-docker](https://izumi.7mind.io/distage/distage-framework-docker) for setting up test containers.
+Features [distage](https://izumi.7mind.io/distage/) for dependency injection,
+[BIO](https://izumi.7mind.io/bio/) typeclasses for bifunctor tagless final,
+[distage-testkit](https://izumi.7mind.io/distage/distage-testkit) for testing,
+[ZIO Environment](https://zio.dev) for composing test fixtures,
+and [distage-framework-docker](https://izumi.7mind.io/distage/distage-framework-docker) for setting up test containers.
 
-- [distage-example-bifunctor-tf](distage-example-bifunctor-tf). Written in bifunctorial way with [Bifunctor Tagless Final](https://izumi.7mind.io/bio/), using [ZIO 2](https://zio.dev) as a runtime and ZIO Environment with distage-testkit for composing test fixtures.
-- [distage-example-monofunctor-tf](distage-example-monofunctor-tf). Written in monofunctorial way with [Cats Core](https://typelevel.org/cats/), using [ZIO 2](https://zio.dev) as a runtime and ZIO Environment with distage-testkit for composing test fixtures.
-- [distage-example-monomorphic-cats](distage-example-monomorphic-cats). Written in monomorphic way with [Cats Effect 3](https://typelevel.org/cats-effect/) as a runtime with distage-testkit for composing test fixtures.
+Code for the main example is in [distage-example-bifunctor-tf](distage-example-bifunctor-tf) directory. It's written in bifunctor tagless final style with [BIO](https://izumi.7mind.io/bio/) typeclasses, uses [ZIO](https://zio.dev) as a runtime and ZIO Environment for composing test fixtures.
+
+There are also two variants of the example project:
+
+- [distage-example-monofunctor-tf](distage-example-monofunctor-tf) – Written in monofunctor tagless final style with [Cats Effect](https://typelevel.org/cats-effect/) typeclasses, and can run using both [Cats IO](https://typelevel.org/cats-effect/) and [ZIO](https://zio.dev) runtimes.
+- [distage-example-monomorphic-cats](distage-example-monomorphic-cats) – A simpler example written without tagless final, uses [Cats IO]() directly everywhere.
 
 To launch tests that require postgres ensure you have a `docker` daemon running in the background.
 
@@ -19,7 +25,11 @@ Use `sbt test` to launch the tests.
 You can launch the application with the following command.
 
 ```
+# With docker daemon running
 ./launcher -u scene:managed :leaderboard
+
+# Alternatively, with in-memory storage
+./launcher -u repo:dummy :leaderboard
 ```
 
 Afterwards you can call the HTTP methods:
@@ -53,7 +63,7 @@ Both of them should have `Active: active (running)` status. If your problem isn'
 Use `sbt` to build a native Linux binary with GraalVM NativeImage under Docker:
 
 ```bash
-sbt GraalVMNativeImage/packageBin
+sbt leaderboard-bifunctor-tf/GraalVMNativeImage/packageBin
 ```
 
 If you want to build the app using local `native-image` executable (e.g. on a Mac), comment out the `graalVMNativeImageGraalVersion` key in `build.sbt` first.
@@ -61,22 +71,21 @@ If you want to build the app using local `native-image` executable (e.g. on a Ma
 To test the native app with dummy repositories run:
 
 ```bash
-./target/graalvm-native-image/leaderboard -u scene:managed -u repo:dummy :leaderboard
+./distage-example-bifunctor-tf/target/graalvm-native-image/leaderboard -u scene:managed -u repo:dummy :leaderboard
 ```
 
 To test the native app with production repositories in Docker run:
 
 ```bash
-./target/graalvm-native-image/leaderboard -u scene:managed -u repo:prod :leaderboard
+./distage-example-bifunctor-tf/target/graalvm-native-image/leaderboard -u scene:managed -u repo:prod :leaderboard
 ```
-
 
 Notes:
 
 - Currently, the application builds with GraalVM `22.3`. Check other GraalVM images [here](https://github.com/graalvm/container/pkgs/container/graalvm-ce)
 - JNA libraries are just regular Java resources, currently the NI config is generated for x86-64 Linux,
   you'll have to re-generate or manually edit it to run on different operating systems or architectures.
-- These bugs still may manifest, but it seems like they aren't blockers anymore:
+- The following bugs may still manifest, but it seems like they aren't blockers anymore:
     1. https://github.com/oracle/graal/issues/4797
     2. https://github.com/oracle/graal/issues/4282
 - `-Djna.debug_load=true` key added to the native app command line might help to debug JNA-related issues
