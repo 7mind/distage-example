@@ -4,11 +4,10 @@ import distage.StandardAxis.Repo
 import distage.config.ConfigModuleDef
 import distage.{ModuleDef, Scene, TagK}
 import doobie.util.transactor.Transactor
-import izumi.distage.plugins.PluginDef
+import izumi.distage.plugins.{PluginBase, PluginDef}
 import izumi.distage.roles.bundled.BundledRolesModule
 import izumi.distage.roles.model.definition.RoleModuleDef
 import izumi.fundamentals.platform.integration.PortCheck
-import zio.Task
 import leaderboard.api.{HttpApi, LadderApi, ProfileApi}
 import leaderboard.config.{PostgresCfg, PostgresPortCfg}
 import leaderboard.http.HttpServer
@@ -20,13 +19,15 @@ import org.http4s.dsl.Http4sDsl
 
 import scala.concurrent.duration.*
 
-object LeaderboardPlugin extends PluginDef {
-  include(modules.roles[Task])
-  include(modules.api[Task])
-  include(modules.repoDummy[Task])
-  include(modules.repoProd[Task])
-  include(modules.configs)
-  include(modules.prodConfigs)
+object LeaderboardPlugin {
+  def apply[F[_]: TagK]: PluginBase = new PluginDef {
+    include(modules.roles)
+    include(modules.api)
+    include(modules.repoDummy)
+    include(modules.repoProd)
+    include(modules.configs)
+    include(modules.prodConfigs)
+  }
 
   object modules {
     def roles[F[_]: TagK]: RoleModuleDef = new RoleModuleDef {

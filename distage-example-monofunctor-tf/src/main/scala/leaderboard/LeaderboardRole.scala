@@ -1,21 +1,22 @@
 package leaderboard
 
 import cats.Applicative
+import cats.effect.Async
 import distage.StandardAxis.Repo
 import distage.plugins.PluginConfig
 import distage.{Activation, Lifecycle, Module, ModuleDef}
 import izumi.distage.model.definition.StandardAxis.Scene
+import izumi.distage.modules.DefaultModule
 import izumi.distage.roles.RoleAppMain
 import izumi.distage.roles.bundled.{ConfigWriter, Help}
 import izumi.distage.roles.model.{RoleDescriptor, RoleService}
-import izumi.fundamentals.platform.IzPlatform
 import izumi.fundamentals.platform.cli.model.raw.{RawEntrypointParams, RawRoleParams, RawValue}
+import izumi.reflect.TagK
 import logstage.LogIO
 import leaderboard.api.{LadderApi, ProfileApi}
 import leaderboard.http.HttpServer
 import leaderboard.plugins.{LeaderboardPlugin, PostgresDockerPlugin}
 import zio.interop.catz.asyncInstance
-import zio.Task
 
 import scala.annotation.unused
 
@@ -119,7 +120,8 @@ object LeaderboardRole extends RoleDescriptor {
   *   ./launcher -u repo:dummy :leaderboard
   * }}}
   */
-object MainDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(LeaderboardRole.id)))
+object MainDummyCats extends MainBase[cats.effect.IO](Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(LeaderboardRole.id)))
+object MainDummyZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(LeaderboardRole.id)))
 
 /**
   * Launch with production configuration and setup the required postgres DB inside docker.
@@ -131,7 +133,8 @@ object MainDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(RawRole
   *   ./launcher -u scene:managed :leaderboard
   * }}}
   */
-object MainProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(LeaderboardRole.id)))
+object MainProdDockerCats extends MainBase[cats.effect.IO](Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(LeaderboardRole.id)))
+object MainProdDockerZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(LeaderboardRole.id)))
 
 /**
   * Launch with production configuration and external, not dockerized, services.
@@ -148,7 +151,8 @@ object MainProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Sc
   *   ./launcher :leaderboard
   * }}}
   */
-object MainProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LeaderboardRole.id)))
+object MainProdCats extends MainBase[cats.effect.IO](Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LeaderboardRole.id)))
+object MainProdZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LeaderboardRole.id)))
 
 /**
   * Launch just the `ladder` APIs with dummy repositories
@@ -158,7 +162,8 @@ object MainProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Pr
   *   ./launcher -u repo:dummy :ladder
   * }}}
   */
-object MainLadderDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(LadderRole.id)))
+object MainLadderDummyCats extends MainBase[cats.effect.IO](Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(LadderRole.id)))
+object MainLadderDummyZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(LadderRole.id)))
 
 /**
   * Launch just the `ladder` APIs with postgres repositories and dockerized postgres service
@@ -168,7 +173,8 @@ object MainLadderDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(R
   *   ./launcher -u scene:managed :ladder
   * }}}
   */
-object MainLadderProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(LadderRole.id)))
+object MainLadderProdDockerCats extends MainBase[cats.effect.IO](Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(LadderRole.id)))
+object MainLadderProdDockerZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(LadderRole.id)))
 
 /**
   * Launch just the `ladder` APIs with postgres repositories and external postgres service
@@ -180,7 +186,8 @@ object MainLadderProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene
   *   ./launcher :ladder
   * }}}
   */
-object MainLadderProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LadderRole.id)))
+object MainLadderProdCats extends MainBase[cats.effect.IO](Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LadderRole.id)))
+object MainLadderProdZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(LadderRole.id)))
 
 /**
   * Launch just the `profile` APIs with dummy repositories
@@ -190,7 +197,8 @@ object MainLadderProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Sc
   *   ./launcher -u repo:dummy :profile
   * }}}
   */
-object MainProfileDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(ProfileRole.id)))
+object MainProfileDummyCats extends MainBase[cats.effect.IO](Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(ProfileRole.id)))
+object MainProfileDummyZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Dummy), Vector(RawRoleParams(ProfileRole.id)))
 
 /**
   * Launch just the `profile` APIs with postgres repositories and dockerized postgres service
@@ -200,7 +208,8 @@ object MainProfileDummy extends MainBase(Activation(Repo -> Repo.Dummy), Vector(
   *   ./launcher -u scene:managed :profile
   * }}}
   */
-object MainProfileProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(ProfileRole.id)))
+object MainProfileProdDockerCats extends MainBase[cats.effect.IO](Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(ProfileRole.id)))
+object MainProfileProdDockerZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Prod, Scene -> Scene.Managed), Vector(RawRoleParams(ProfileRole.id)))
 
 /**
   * Launch just the `profile` APIs with postgres repositories and external postgres service
@@ -210,7 +219,8 @@ object MainProfileProdDocker extends MainBase(Activation(Repo -> Repo.Prod, Scen
   *   ./launcher :profile
   * }}}
   */
-object MainProfileProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(ProfileRole.id)))
+object MainProfileProdCats extends MainBase[cats.effect.IO](Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(ProfileRole.id)))
+object MainProfileProdZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(ProfileRole.id)))
 
 /**
   * Display help message with all available launcher arguments
@@ -221,7 +231,8 @@ object MainProfileProd extends MainBase(Activation(Repo -> Repo.Prod, Scene -> S
   *   ./launcher :help
   * }}}
   */
-object MainHelp extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(Help.id)))
+object MainHelpCats extends MainBase[cats.effect.IO](Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(Help.id)))
+object MainHelpZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector(RawRoleParams(Help.id)))
 
 /**
   * Write the default configuration files for each role into JSON files in `./config`.
@@ -236,8 +247,10 @@ object MainHelp extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Pr
   *   ./launcher :configwriter
   * }}}
   */
-object MainWriteReferenceConfigs
-  extends MainBase(
+object MainWriteReferenceConfigsCats extends MainWriteReferenceConfigsBase[cats.effect.IO]
+object MainWriteReferenceConfigsZIO extends MainWriteReferenceConfigsBase[zio.Task]
+abstract class MainWriteReferenceConfigsBase[F[_]: TagK: Async: DefaultModule]
+  extends MainBase[F](
     activation = {
       Activation(Repo -> Repo.Prod, Scene -> Scene.Provided)
     },
@@ -288,26 +301,23 @@ object MainWriteReferenceConfigs
   *
   * }}}
   */
-object GenericLauncher extends MainBase(Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector.empty)
+object GenericLauncherCats extends MainBase[cats.effect.IO](Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector.empty)
+object GenericLauncherZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector.empty)
 
-sealed abstract class MainBase(
+sealed abstract class MainBase[F[_]: TagK: Async: DefaultModule](
   activation: Activation,
   requiredRoles: Vector[RawRoleParams],
-) extends RoleAppMain.LauncherCats[Task] {
+) extends RoleAppMain.LauncherCats[F] {
 
   override def requiredRoles(argv: RoleAppMain.ArgV): Vector[RawRoleParams] = {
     requiredRoles
   }
 
-  override def pluginConfig: PluginConfig = {
-    if (IzPlatform.isGraalNativeImage) {
-      // Only this would work reliably for NativeImage
-      PluginConfig.const(List(LeaderboardPlugin, PostgresDockerPlugin))
-    } else {
-      // Runtime discovery with PluginConfig.cached might be convenient for pure jvm projects during active development
-      // Once the project gets to the maintenance stage it's a good idea to switch to PluginConfig.const
-      PluginConfig.cached(pluginsPackage = "leaderboard.plugins")
-    }
+  override val pluginConfig: PluginConfig = {
+    // When our plugins are polymorphic, we can't use runtime discovery,
+    // we must instantiate them manually using PluginConfig.const.
+    // Also, only manual instantiation works reliably with NativeImage.
+    PluginConfig.const(List(LeaderboardPlugin[F], PostgresDockerPlugin[F]))
   }
 
   protected override def roleAppBootOverrides(argv: RoleAppMain.ArgV): Module = super.roleAppBootOverrides(argv) ++ new ModuleDef {
