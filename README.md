@@ -11,10 +11,8 @@ Features [distage](https://izumi.7mind.io/distage/) for dependency injection,
 [ZIO Environment](https://zio.dev) for composing test fixtures,
 and [distage-framework-docker](https://izumi.7mind.io/distage/distage-framework-docker) for setting up test containers.
 
-Code for the main example is in [bifunctor-tagless](bifunctor-tagless) directory. It's written in bifunctor tagless final style with [BIO](https://izumi.7mind.io/bio/) typeclasses, uses [ZIO](https://zio.dev) as a runtime and ZIO Environment for composing test fixtures.
-
-There are also two variants of the example project:
-
+There are three variants of the example project:
+- [bifunctor-tagless][bifunctor-tagless](bifunctor-tagless) – Main example. It's written in bifunctor tagless final style with [BIO](https://izumi.7mind.io/bio/) typeclasses, uses [ZIO](https://zio.dev) as a runtime and ZIO Environment for composing test fixtures.
 - [monofunctor-tagless](monofunctor-tagless) – Written in monofunctor tagless final style with [Cats Effect](https://typelevel.org/cats-effect/) typeclasses, and can run using both [Cats IO](https://typelevel.org/cats-effect/) and [ZIO](https://zio.dev) runtimes.
 - [monomorphic-cats](monomorphic-cats) – A simpler example written without tagless final, uses [Cats IO]() directly everywhere.
 
