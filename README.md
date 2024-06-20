@@ -12,9 +12,9 @@ Features [distage](https://izumi.7mind.io/distage/) for dependency injection,
 and [distage-framework-docker](https://izumi.7mind.io/distage/distage-framework-docker) for setting up test containers.
 
 There are three variants of the example project:
-- [bifunctor-tagless](bifunctor-tagless) – Main example. It's written in bifunctor tagless final style with [BIO](https://izumi.7mind.io/bio/) typeclasses, uses [ZIO](https://zio.dev) as a runtime and ZIO Environment for composing test fixtures.
-- [monofunctor-tagless](monofunctor-tagless) – Written in monofunctor tagless final style with [Cats Effect](https://typelevel.org/cats-effect/) typeclasses, and can run using both [Cats IO](https://typelevel.org/cats-effect/) and [ZIO](https://zio.dev) runtimes.
-- [monomorphic-cats](monomorphic-cats) – A simpler example written without tagless final, uses [Cats IO]() directly everywhere.
+- [bifunctor-tagless](bifunctor-tagless/src) – Main example. It's written in bifunctor tagless final style with [BIO](https://izumi.7mind.io/bio/) typeclasses, uses [ZIO](https://zio.dev) as a runtime and ZIO Environment for composing test fixtures.
+- [monofunctor-tagless](monofunctor-tagless/src) – Written in monofunctor tagless final style with [Cats Effect](https://typelevel.org/cats-effect/) typeclasses, and can run using both [Cats IO](https://typelevel.org/cats-effect/) and [ZIO](https://zio.dev) runtimes.
+- [monomorphic-cats](monomorphic-cats/src) – A simpler example written without tagless final, uses [Cats IO]() directly everywhere.
 
 To launch tests that require postgres ensure you have a `docker` daemon running in the background.
 
