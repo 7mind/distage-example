@@ -96,7 +96,7 @@ lazy val `graal-resources` = project
   .in(file("graal-resources"))
   .settings(Compile / resourceDirectory := baseDirectory.value)
 
-lazy val root = project
+lazy val `distage-example` = project
   .in(file("."))
   .aggregate(
     `leaderboard-bifunctor-tf`,

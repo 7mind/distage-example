@@ -16,7 +16,7 @@ abstract class LeaderboardTest extends Spec1[IO] with AssertCIO {
     moduleOverrides = super.config.moduleOverrides ++ new ModuleDef {
       make[Rnd].from[Rnd.Impl]
     },
-    // For testing, setup a docker container with postgres,
+    // For testing, set up a docker container with postgres,
     // instead of trying to connect to an external database
     activation = Activation(Scene -> Scene.Managed),
     // Instantiate Ladder & Profiles only once per test-run and

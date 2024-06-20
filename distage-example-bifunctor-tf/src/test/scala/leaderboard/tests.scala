@@ -17,7 +17,7 @@ abstract class LeaderboardTest extends SpecZIO with AssertZIO {
     moduleOverrides = super.config.moduleOverrides ++ new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
     },
-    // For testing, setup a docker container with postgres,
+    // For testing, set up a docker container with postgres,
     // instead of trying to connect to an external database
     activation = Activation(Scene -> Scene.Managed),
     // Instantiate Ladder & Profiles only once per test-run and

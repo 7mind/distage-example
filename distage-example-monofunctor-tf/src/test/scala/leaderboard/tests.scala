@@ -108,9 +108,9 @@ abstract class LadderTest[F[_]: Sync: TagK: DefaultModule] extends LeaderboardTe
 
           _ <-
             if (score1 > score2) {
-              assertIO(user1Rank < user2Rank)
+              assertIO(user1Rank < user2Rank).void
             } else if (score2 > score1) {
-              assertIO(user2Rank < user1Rank)
+              assertIO(user2Rank < user1Rank).void
             } else Applicative[F].unit
         } yield ()
     }
@@ -192,9 +192,9 @@ abstract class RanksTest[F[_]: Sync: TagK: DefaultModule] extends LeaderboardTes
 
           _ <-
             if (score1 > score2) {
-              assertIO(user1Rank < user2Rank)
+              assertIO(user1Rank < user2Rank).void
             } else if (score2 > score1) {
-              assertIO(user2Rank < user1Rank)
+              assertIO(user2Rank < user1Rank).void
             } else Applicative[F].unit
         } yield ()
     }
