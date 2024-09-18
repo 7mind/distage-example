@@ -1,7 +1,7 @@
 import scala.util.chaining.scalaUtilChainingOps
 
 val V = new {
-  val distage       = "1.2.11"
+  val distage       = "1.2.13"
   val logstage      = distage
   val scalatest     = "3.2.18"
   val scalacheck    = "1.18.0"
