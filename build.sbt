@@ -1,14 +1,14 @@
 import scala.util.chaining.scalaUtilChainingOps
 
 val V = new {
-  val distage       = "1.2.11"
+  val distage       = "1.2.16"
   val logstage      = distage
   val scalatest     = "3.2.18"
   val scalacheck    = "1.18.0"
   val http4s        = "0.23.27"
   val doobie        = "1.0.0-RC5"
   val catsCore      = "2.12.0"
-  val zio           = "2.1.4"
+  val zio           = "2.1.13"
   val zioCats       = "23.0.0.8"
   val kindProjector = "0.13.3"
   val circeGeneric  = "0.14.8"
@@ -71,8 +71,8 @@ val Deps = new {
 
 inThisBuild(
   Seq(
-    crossScalaVersions := Seq("2.13.14", "3.4.2"),
-//    crossScalaVersions := Seq("3.4.2", "2.13.14"), // uncomment to use Scala 3 in IDE
+    crossScalaVersions := Seq("2.13.15", "3.3.4"),
+//    crossScalaVersions := Seq("3.3.4", "2.13.15"), // uncomment to use Scala 3 in IDE
     scalaVersion := crossScalaVersions.value.head,
     version      := "1.0.0",
     organization := "io.7mind",
