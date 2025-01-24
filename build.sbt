@@ -5,14 +5,14 @@ val V = new {
   val logstage      = distage
   val scalatest     = "3.2.19"
   val scalacheck    = "1.18.1"
-  val http4s        = "0.23.29"
+  val http4s        = "0.23.30"
   val doobie        = "1.0.0-RC5"
-  val catsCore      = "2.12.0"
+  val catsCore      = "2.13.0"
   val zio           = "2.1.13"
   val zioCats       = "23.0.0.8"
   val kindProjector = "0.13.3"
   val circeGeneric  = "0.14.8"
-  val graalMetadata = "0.10.3"
+  val graalMetadata = "0.10.4"
   val catsEffect    = "3.5.4"
 }
 
