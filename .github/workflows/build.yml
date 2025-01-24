@@ -13,12 +13,14 @@ jobs:
   sbt-test:
     runs-on: ubuntu-latest
     steps:
+    - uses: sbt/setup-sbt@v1 # setup sbt
     - uses: actions/checkout@v2
     - name: Run tests
       run: sbt +test
   build-native:
     runs-on: ubuntu-latest
     steps:
+      - uses: sbt/setup-sbt@v1 # setup sbt
       - uses: actions/checkout@v2
       - name: Build native app
         run: sbt "project bifunctor-tagless; GraalVMNativeImage/packageBin"
