@@ -18,7 +18,7 @@ object Ranks {
       for {
         maybeProfile <- profiles.getProfile(userId)
         scores       <- ladder.getScores
-        res = for {
+        res           = for {
           profile <- maybeProfile
           rank     = scores.indexWhere(_._1 == userId) + 1
           score    = scores.find(_._1 == userId).map(_._2)

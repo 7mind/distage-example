@@ -12,7 +12,7 @@ import leaderboard.services.Ranks
 
 abstract class LeaderboardTest extends Spec1[IO] with AssertCIO {
   override def config = super.config.copy(
-    pluginConfig = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins")),
+    pluginConfig    = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins")),
     moduleOverrides = super.config.moduleOverrides ++ new ModuleDef {
       make[Rnd].from[Rnd.Impl]
     },

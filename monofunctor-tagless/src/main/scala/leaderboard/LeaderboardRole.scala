@@ -257,7 +257,7 @@ abstract class MainWriteReferenceConfigsBase[F[_]: TagK: Async: DefaultModule]
     requiredRoles = {
       Vector(
         RawRoleParams(
-          role = ConfigWriter.id,
+          role           = ConfigWriter.id,
           roleParameters = RawEntrypointParams(
             flags = Vector.empty,
             // output configs in "hocon" format, instead of "json"
