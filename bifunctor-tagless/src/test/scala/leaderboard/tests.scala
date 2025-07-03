@@ -13,7 +13,7 @@ import zio.{IO, ZIO}
 
 abstract class LeaderboardTest extends SpecZIO with AssertZIO {
   override def config = super.config.copy(
-    pluginConfig = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins")),
+    pluginConfig    = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins")),
     moduleOverrides = super.config.moduleOverrides ++ new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
     },
