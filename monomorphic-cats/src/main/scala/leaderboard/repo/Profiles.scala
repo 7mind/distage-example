@@ -2,8 +2,8 @@ package leaderboard.repo
 
 import cats.effect.{IO, Ref}
 import distage.Lifecycle
+import doobie.implicits.*
 import doobie.postgres.implicits.*
-import doobie.syntax.string.*
 import leaderboard.model.{UserId, UserProfile}
 import leaderboard.sql.SQL
 import logstage.LogIO

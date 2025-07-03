@@ -5,7 +5,7 @@ import cats.effect.{Concurrent, Ref}
 import cats.syntax.all.*
 import distage.Lifecycle
 import doobie.postgres.implicits.*
-import doobie.syntax.string.*
+import doobie.implicits.*
 import leaderboard.model.{UserId, UserProfile}
 import leaderboard.sql.SQL
 import logstage.LogIO

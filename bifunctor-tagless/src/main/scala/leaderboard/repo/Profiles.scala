@@ -2,7 +2,7 @@ package leaderboard.repo
 
 import distage.Lifecycle
 import doobie.postgres.implicits.*
-import doobie.syntax.string.*
+import doobie.implicits.*
 import izumi.functional.bio.{Applicative2, F, Monad2, Primitives2}
 import leaderboard.model.{QueryFailure, UserId, UserProfile}
 import leaderboard.sql.SQL
