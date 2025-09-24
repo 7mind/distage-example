@@ -8,6 +8,7 @@ import izumi.distage.plugins.PluginDef
 import izumi.distage.roles.bundled.BundledRolesModule
 import izumi.distage.roles.model.definition.RoleModuleDef
 import izumi.fundamentals.platform.integration.PortCheck
+import izumi.fundamentals.platform.versions.Version
 import leaderboard.api.{HttpApi, LadderApi, ProfileApi}
 import leaderboard.config.{PostgresCfg, PostgresPortCfg}
 import leaderboard.http.HttpServer
@@ -40,7 +41,7 @@ object LeaderboardPlugin extends PluginDef {
       makeRole[LeaderboardRole[F]]
 
       // Add bundled roles: `help` & `configwriter`
-      include(BundledRolesModule[F[Throwable, _]](version = "1.0.0"))
+      include(BundledRolesModule[F[Throwable, _]](version = Version.parse("1.0.0")))
     }
 
     def api[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
