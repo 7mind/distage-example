@@ -8,11 +8,11 @@ val V = new {
   val http4s        = "0.23.32"
   val doobie        = "1.0.0-RC10"
   val catsCore      = "2.13.0"
-  val zio           = "2.1.21"
+  val zio           = "2.1.22"
   val zioCats       = "23.0.0.8"
-  val kindProjector = "0.13.3"
-  val circeGeneric  = "0.14.14"
-  val graalMetadata = "0.11.0"
+  val kindProjector = "0.13.4"
+  val circeGeneric  = "0.14.15"
+  val graalMetadata = "0.11.2"
   val catsEffect    = "3.5.4"
 }
 
@@ -71,8 +71,8 @@ val Deps = new {
 
 inThisBuild(
   Seq(
-    crossScalaVersions := Seq("2.13.16", "3.3.6"),
-//    crossScalaVersions := Seq("3.3.6", "2.13.16"), // uncomment to use Scala 3 in IDE
+    crossScalaVersions := Seq("2.13.17", "3.3.7"),
+//    crossScalaVersions := Seq("3.3.7", "2.13.17"), // uncomment to use Scala 3 in IDE
     scalaVersion := crossScalaVersions.value.head,
     version      := "1.0.0",
     organization := "io.7mind",
