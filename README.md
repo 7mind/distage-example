@@ -5,7 +5,7 @@
 
 Example `distage` project.
 
-Features [distage](https://izumi.7mind.io/distage/) for dependency injection,
+Features [distage](https://izumi.7mind.io/distage/) from [Izumi project](https://izumi.7mind.io/distage/) for dependency injection,
 [BIO](https://izumi.7mind.io/bio/) typeclasses for bifunctor tagless final,
 [distage-testkit](https://izumi.7mind.io/distage/distage-testkit) for testing,
 [ZIO Environment](https://zio.dev) for composing test fixtures,
