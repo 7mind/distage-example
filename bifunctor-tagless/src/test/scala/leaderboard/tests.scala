@@ -9,13 +9,26 @@ import leaderboard.model.*
 import leaderboard.repo.{Ladder, Profiles}
 import leaderboard.services.Ranks
 import leaderboard.zioenv.*
-import zio.{IO, ZIO}
+import zio.test.{Annotations, Live, TestClock}
+import zio.{IO, ZIO, ZLayer}
 
 abstract class LeaderboardTest extends SpecZIO with AssertZIO {
   override def config = super.config.copy(
     pluginConfig    = PluginConfig.cached(packagesEnabled = Seq("leaderboard.plugins")),
     moduleOverrides = super.config.moduleOverrides ++ new ModuleDef {
       make[Rnd[IO]].from[Rnd.Impl[IO]]
+
+      make[Live].fromZLayerEnv(zio.test.liveEnvironment >>> Live.default)
+      make[Annotations].fromZLayerEnv(Annotations.live)
+      // construct using Live and Annotations above
+      make[zio.Clock].fromZLayerEnv(TestClock.default)
+
+      // Unfortunately, to override the magical `DefaultServices.currentServices`
+      // it seems the layers have to be defined here, it's not enough to just stick zio.Clock into env,
+      // because ZIO is not using its own env.
+      make[List[ZLayer[Any, Nothing, Any]]].named("zio-runtime-configuration").from {
+        List(zio.test.testEnvironment)
+      }
     },
     // For testing, set up a docker container with postgres,
     // instead of trying to connect to an external database
@@ -51,6 +64,20 @@ final class ProfilesTestPostgres extends ProfilesTest with ProdTest
 final class RanksTestPostgres extends RanksTest with ProdTest
 
 abstract class LadderTest extends LeaderboardTest {
+
+  "ZIOEnv" should {
+    "test" in {
+      for {
+        // this seems to require overriding `make[List[ZLayer[Any, Nothing, Any]]].named("zio-runtime-configuration")` to work
+        clockMagicalFiberRef <- ZIO.clock
+        _                    <- assertIO(clockMagicalFiberRef.isInstanceOf[TestClock])
+
+        // this works with just make[zio.Clock]
+        clockEnv <- ZIO.service[zio.Clock]
+        _        <- assertIO(clockEnv.isInstanceOf[TestClock])
+      } yield ()
+    }
+  }
 
   "Ladder" should {
 

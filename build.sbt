@@ -41,6 +41,7 @@ val Deps = new {
   val kindProjector = "org.typelevel" % "kind-projector" % V.kindProjector cross CrossVersion.full
 
   val zio     = "dev.zio" %% "zio" % V.zio
+  val zioTest = "dev.zio" %% "zio-test" % V.zio
   val zioCats = "dev.zio" %% "zio-interop-cats" % V.zioCats
 
   val catsCore = "org.typelevel" %% "cats-core" % V.catsCore
@@ -66,6 +67,7 @@ val Deps = new {
     doobieHikari,
     catsCore,
     graalMetadata,
+    zioTest,
   )
 }
 
