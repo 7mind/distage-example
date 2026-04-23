@@ -3,7 +3,7 @@ import scala.util.chaining.scalaUtilChainingOps
 val V = new {
   val distage       = "1.2.25"
   val logstage      = distage
-  val scalatest     = "3.2.19"
+  val scalatest     = "3.2.20"
   val scalacheck    = "1.19.0"
   val http4s        = "0.23.34"
   val doobie        = "1.0.0-RC11"
