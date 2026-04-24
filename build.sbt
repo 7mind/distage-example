@@ -1,18 +1,18 @@
 import scala.util.chaining.scalaUtilChainingOps
 
 val V = new {
-  val distage       = "1.2.20"
+  val distage       = "1.2.25"
   val logstage      = distage
-  val scalatest     = "3.2.19"
+  val scalatest     = "3.2.20"
   val scalacheck    = "1.19.0"
-  val http4s        = "0.23.33"
-  val doobie        = "1.0.0-RC11"
+  val http4s        = "0.23.34"
+  val doobie        = "1.0.0-RC12"
   val catsCore      = "2.13.0"
-  val zio           = "2.1.22"
+  val zio           = "2.1.25"
   val zioCats       = "23.0.0.8"
   val kindProjector = "0.13.4"
   val circeGeneric  = "0.14.15"
-  val graalMetadata = "0.11.3"
+  val graalMetadata = "0.11.5"
   val catsEffect    = "3.5.4"
 }
 
