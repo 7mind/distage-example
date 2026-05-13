@@ -9,23 +9,22 @@ import izumi.distage.roles.bundled.BundledRolesModule
 import izumi.distage.roles.model.definition.RoleModuleDef
 import izumi.fundamentals.platform.integration.PortCheck
 import izumi.fundamentals.platform.versions.Version
-import leaderboard.api.{HttpApi, LadderApi, ProfileApi}
 import leaderboard.config.{PostgresCfg, PostgresPortCfg}
 import leaderboard.http.HttpServer
-import leaderboard.repo.{Ladder, Profiles}
-import leaderboard.services.Ranks
+import leaderboard.repo.{Ladder, LadderPostgres, Profiles, ProfilesPostgres}
 import leaderboard.sql.{SQL, TransactorResource}
 import leaderboard.{LadderRole, LeaderboardRole, ProfileRole}
-import org.http4s.dsl.Http4sDsl
 import zio.IO
 
 import scala.concurrent.duration.*
 
 object LeaderboardPlugin extends PluginDef {
   include(modules.roles[IO])
-  include(modules.api[IO])
-  include(modules.repoDummy[IO])
+  // Shared API + dummy repos wiring — same code that runs in the browser.
+  include(LeaderboardCoreModule.api[IO])
+  include(LeaderboardCoreModule.repoDummy[IO])
   include(modules.repoProd[IO])
+  include(modules.server[IO])
   include(modules.configs)
   include(modules.prodConfigs)
 
@@ -44,36 +43,15 @@ object LeaderboardPlugin extends PluginDef {
       include(BundledRolesModule[F[Throwable, _]](version = Version.parse("1.0.0")))
     }
 
-    def api[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
-      // The `ladder` API
-      make[LadderApi[F]]
-      // The `profile` API
-      make[ProfileApi[F]]
-
-      // A set of all APIs
-      many[HttpApi[F]]
-        .weak[LadderApi[F]] // add ladder API as a _weak reference_
-        .weak[ProfileApi[F]] // add profiles API as a _weak reference_
-
+    def server[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
       make[HttpServer].fromResource[HttpServer.Impl[F]]
-
-      make[Ranks[F]].from[Ranks.Impl[F]]
-
-      makeTrait[Http4sDsl[F[Throwable, _]]]
-    }
-
-    def repoDummy[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
-      tag(Repo.Dummy)
-
-      make[Ladder[F]].fromResource[Ladder.Dummy[F]]
-      make[Profiles[F]].fromResource[Profiles.Dummy[F]]
     }
 
     def repoProd[F[+_, +_]: TagKK]: ModuleDef = new ModuleDef {
       tag(Repo.Prod)
 
-      make[Ladder[F]].fromResource[Ladder.Postgres[F]]
-      make[Profiles[F]].fromResource[Profiles.Postgres[F]]
+      make[Ladder[F]].fromResource[LadderPostgres[F]]
+      make[Profiles[F]].fromResource[ProfilesPostgres[F]]
 
       make[SQL[F]].from[SQL.Impl[F]]
 

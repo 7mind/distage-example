@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#
+# Build the Scala.js simulation bundle, drop it into the JVM project's
+# resources/webapp/, and start the leaderboard server in dummy mode (so it
+# needs neither Docker nor postgres). The UI is then reachable at
+# http://localhost:8080/ — the prod/sim toggle in that UI lets you compare
+# the real http4s backend against the in-browser simulation.
+
+set -euo pipefail
+cd "$(dirname "$0")"
+
+sbt "copySimJs; project bifunctor-taglessJVM; runMain leaderboard.GenericLauncher -u repo:dummy :leaderboard"

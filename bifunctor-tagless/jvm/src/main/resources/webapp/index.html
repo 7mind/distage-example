@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>distage-example leaderboard demo</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    body  { margin: 1.5rem; max-width: 60rem; }
+    h1    { margin: 0 0 0.25rem; }
+    p.lead { color: #666; margin: 0 0 1rem; }
+    fieldset { margin-bottom: 1rem; }
+    label { display: inline-block; min-width: 7rem; }
+    input[type=text], input[type=number] { width: 22rem; }
+    button { margin-top: 0.5rem; }
+    pre   { background: #f4f4f4; padding: 0.5rem 1rem; white-space: pre-wrap; word-break: break-word; }
+    .row  { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .row > * { flex: 1 1 24rem; }
+    .mode { padding: 0.5rem 1rem; background: #fffbe6; border: 1px solid #e0d27a; border-radius: 4px; }
+    @media (prefers-color-scheme: dark) {
+      pre  { background: #1e1e1e; }
+      .mode { background: #2a2510; border-color: #6b5a1a; }
+    }
+  </style>
+</head>
+<body>
+  <h1>distage-example leaderboard</h1>
+  <p class="lead">
+    Hit the same endpoints the README's <code>curl</code> snippets call.
+    Toggle between the real HTTP backend and an in-browser
+    Scala.js simulation built from the same distage object graph with
+    <code>Repo&nbsp;→&nbsp;Dummy</code>.
+  </p>
+
+  <fieldset class="mode">
+    <legend>Backend</legend>
+    <label><input type="radio" name="mode" value="prod" checked> Production (HTTP <code>http://localhost:8080</code>)</label>
+    <label><input type="radio" name="mode" value="sim"> Simulation (Scala.js, in-page)</label>
+    <p id="sim-status" style="margin:0.5rem 0 0; color:#888;">simulation: loading…</p>
+  </fieldset>
+
+  <div class="row">
+    <fieldset>
+      <legend>Submit score — <code>POST /ladder/{user}/{score}</code></legend>
+      <div><label>user id</label><input id="ladder-user" type="text" value="50753a00-5e2e-4a2f-94b0-e6721b0a3cc4"></div>
+      <div><label>score</label><input id="ladder-score" type="number" value="100"></div>
+      <button id="btn-submit-score">Submit</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>Get ladder — <code>GET /ladder</code></legend>
+      <button id="btn-get-ladder">Fetch</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>Set profile — <code>POST /profile/{user}</code></legend>
+      <div><label>user id</label><input id="profile-user" type="text" value="50753a00-5e2e-4a2f-94b0-e6721b0a3cc4"></div>
+      <div><label>name</label><input id="profile-name" type="text" value="Kai"></div>
+      <div><label>description</label><input id="profile-desc" type="text" value="S C A L A"></div>
+      <button id="btn-set-profile">Save</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>Get profile — <code>GET /profile/{user}</code></legend>
+      <div><label>user id</label><input id="profile-get-user" type="text" value="50753a00-5e2e-4a2f-94b0-e6721b0a3cc4"></div>
+      <button id="btn-get-profile">Fetch</button>
+    </fieldset>
+  </div>
+
+  <h2>Response</h2>
+  <pre id="output">(no calls yet)</pre>
+
+  <!--
+    The Scala.js bundle is linked with `ModuleKind.NoModule`, so a bare
+    <script src> tag makes `@JSExportTopLevel("LeaderboardSim")` available as
+    a top-level identifier in subsequent <script> blocks. (The name is in the
+    script's lexical scope, not on `globalThis` — that's normal for
+    top-level `let` declarations.) We avoid type="module" because browsers
+    refuse to load ES modules from `file://`, and this page should work both
+    via http://localhost:8080/ and by opening the .html directly from disk.
+  -->
+  <script src="./main.js"></script>
+  <script>
+    // The prod target uses an absolute URL so the same `index.html` works
+    // whether it's served by the http4s server or opened directly from disk
+    // via file://. CORS on the server allows the file:// origin (which is
+    // "null").
+    const PROD_BASE = 'http://localhost:8080';
+
+    const out = document.getElementById('output');
+    const status = document.getElementById('sim-status');
+
+    function currentMode() {
+      return document.querySelector('input[name=mode]:checked').value;
+    }
+
+    function show(label, status, body) {
+      out.textContent = `[${label}] HTTP ${status}\n${body}`;
+    }
+
+    // Issue a request through the currently selected backend. The simulation
+    // and the production server accept exactly the same (method, path, body)
+    // triple, so the only thing that varies here is the transport.
+    async function call(method, path, body) {
+      const mode = currentMode();
+      try {
+        if (mode === 'sim') {
+          if (typeof LeaderboardSim === 'undefined') throw new Error('simulation not ready yet');
+          const r = await LeaderboardSim.call(method, path, body || '');
+          show('sim', r.status, r.body);
+        } else {
+          const r = await fetch(PROD_BASE + path, {
+            method,
+            body: (method === 'GET' || method === 'HEAD') ? undefined : (body || ''),
+          });
+          show('prod', r.status, await r.text());
+        }
+      } catch (e) {
+        show(mode, 'ERR', String(e));
+      }
+    }
+
+    // Poll briefly for the Scala.js module to finish initialising so we can
+    // tell the user the simulation is ready.
+    (async () => {
+      for (let i = 0; i < 50 && typeof LeaderboardSim === 'undefined'; i++) {
+        await new Promise(r => setTimeout(r, 100));
+      }
+      status.textContent = (typeof LeaderboardSim !== 'undefined')
+        ? 'simulation: ready'
+        : 'simulation: failed to load (check /main.js)';
+    })();
+
+    document.getElementById('btn-submit-score').onclick = () => {
+      const u = document.getElementById('ladder-user').value;
+      const s = document.getElementById('ladder-score').value;
+      call('POST', `/ladder/${u}/${s}`, '');
+    };
+    document.getElementById('btn-get-ladder').onclick = () => {
+      call('GET', '/ladder', '');
+    };
+    document.getElementById('btn-set-profile').onclick = () => {
+      const u = document.getElementById('profile-user').value;
+      const name = document.getElementById('profile-name').value;
+      const desc = document.getElementById('profile-desc').value;
+      call('POST', `/profile/${u}`, JSON.stringify({ name, description: desc }));
+    };
+    document.getElementById('btn-get-profile').onclick = () => {
+      const u = document.getElementById('profile-get-user').value;
+      call('GET', `/profile/${u}`, '');
+    };
+  </script>
+</body>
+</html>
