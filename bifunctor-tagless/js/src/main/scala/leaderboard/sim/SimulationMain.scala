@@ -5,6 +5,7 @@ import distage.{Activation, Injector, ModuleDef, Roots}
 import izumi.distage.modules.DefaultModule2
 import izumi.logstage.api.IzLogger
 import izumi.logstage.distage.LogIO2Module
+import izumi.logstage.sink.ConsoleSink
 import leaderboard.dispatch.LocalDispatcher
 import leaderboard.plugins.LeaderboardCoreModule
 import zio.{IO, Promise as ZPromise, Runtime, Unsafe, ZIO}
@@ -50,11 +51,12 @@ object SimulationMain {
     val module = new ModuleDef {
       include(LeaderboardCoreModule.api[IO])
       include(LeaderboardCoreModule.repoDummy[IO])
-      // LogIO2[IO] (needed by ProfileApi) + a default IzLogger that prints to
-      // the browser/Node console. The JVM build wires this up via the
-      // role-app machinery; here we provide it directly.
+      // LogIO2[IO] (needed by ProfileApi) + a console logger. We use
+      // `SimpleConsoleSink` instead of the default `ColoredConsoleSink`
+      // because the latter probes `process.env` for terminal-color detection
+      // on init, which doesn't exist in the browser.
       include(LogIO2Module[IO]())
-      make[IzLogger].fromValue(IzLogger())
+      make[IzLogger].fromValue(IzLogger(sink = ConsoleSink.SimpleConsoleSink))
       // BIO + cats-effect typeclass instances for ZIO. When zio-interop-cats
       // is on the classpath, this resolves to `DefaultModule.forZIOPlusCats`
       // which binds `cats.effect.Async[Task]` etc. — the dispatcher needs it.
