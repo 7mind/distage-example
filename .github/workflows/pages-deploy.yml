@@ -1,0 +1,41 @@
+name: Deploy demo to GitHub Pages
+
+# Publishes the bundled simulation UI (HTML + the linked Scala.js bundle) to
+# GitHub Pages. The page auto-detects that the http4s backend isn't reachable
+# from a static host and flips the backend toggle to "simulation" — so the
+# deployed demo is fully self-contained, no server required.
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: sbt/setup-sbt@v1
+
+      - name: Build & copy the Scala.js bundle
+        run: sbt copySimJs
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: bifunctor-tagless/jvm/src/main/resources/webapp
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

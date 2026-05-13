@@ -33,9 +33,8 @@
 
   <fieldset class="mode">
     <legend>Backend</legend>
-    <label><input type="radio" name="mode" value="prod" checked> Production (HTTP <code>http://localhost:8080</code>)</label>
-    <label><input type="radio" name="mode" value="sim"> Simulation (Scala.js, in-page)</label>
-    <p id="sim-status" style="margin:0.5rem 0 0; color:#888;">simulation: loading…</p>
+    <label><input type="radio" name="mode" value="prod"> Production (HTTP <code id="prod-url">http://localhost:8080</code>) <span id="prod-status" style="color:#888;"></span></label>
+    <label><input type="radio" name="mode" value="sim" checked> Simulation (Scala.js, in-page) <span id="sim-status" style="color:#888;">loading…</span></label>
   </fieldset>
 
   <div class="row">
@@ -80,14 +79,25 @@
   -->
   <script src="./main.js"></script>
   <script>
-    // The prod target uses an absolute URL so the same `index.html` works
-    // whether it's served by the http4s server or opened directly from disk
-    // via file://. CORS on the server allows the file:// origin (which is
-    // "null").
-    const PROD_BASE = 'http://localhost:8080';
+    // When served by the http4s server, `location.origin` IS the server, so
+    // `PROD_BASE` becomes a same-origin URL. When the page is opened from
+    // `file://` or hosted as static content (e.g. GitHub Pages over https),
+    // we fall back to localhost:8080 — the user can still flip to "prod" to
+    // exercise the radio, but the probe below will detect the server isn't
+    // reachable and pre-select "sim".
+    const PROD_BASE =
+      (location.protocol === 'http:' || location.protocol === 'https:')
+        ? location.origin
+        : 'http://localhost:8080';
+
+    document.getElementById('prod-url').textContent = PROD_BASE;
 
     const out = document.getElementById('output');
-    const status = document.getElementById('sim-status');
+    const simStatus = document.getElementById('sim-status');
+    const prodStatus = document.getElementById('prod-status');
+    const radios = document.querySelectorAll('input[name=mode]');
+    const prodRadio = document.querySelector('input[name=mode][value=prod]');
+    const simRadio = document.querySelector('input[name=mode][value=sim]');
 
     function currentMode() {
       return document.querySelector('input[name=mode]:checked').value;
@@ -119,15 +129,40 @@
       }
     }
 
-    // Poll briefly for the Scala.js module to finish initialising so we can
-    // tell the user the simulation is ready.
+    // Probe the prod backend once on load with a short timeout. If it answers,
+    // leave the user in prod mode (default). If it doesn't, auto-flip to sim
+    // — useful when the page is opened from file:// or from a static host
+    // (e.g. GitHub Pages) where the http4s server isn't reachable.
+    async function probeProd() {
+      try {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), 1500);
+        const r = await fetch(PROD_BASE + '/ladder', { signal: ctrl.signal });
+        clearTimeout(t);
+        return r.ok;
+      } catch {
+        return false;
+      }
+    }
+
     (async () => {
+      // Wait briefly for the Scala.js bundle to attach LeaderboardSim.
       for (let i = 0; i < 50 && typeof LeaderboardSim === 'undefined'; i++) {
         await new Promise(r => setTimeout(r, 100));
       }
-      status.textContent = (typeof LeaderboardSim !== 'undefined')
-        ? 'simulation: ready'
-        : 'simulation: failed to load (check /main.js)';
+      simStatus.textContent = (typeof LeaderboardSim !== 'undefined')
+        ? '(ready)'
+        : '(failed to load — check ./main.js)';
+
+      const prodOk = await probeProd();
+      if (prodOk) {
+        prodStatus.textContent = '(reachable)';
+        prodRadio.checked = true;
+      } else {
+        prodStatus.textContent = '(unreachable — start the server with `./launch-sim`)';
+        prodStatus.style.color = '#a44';
+        simRadio.checked = true;
+      }
     })();
 
     document.getElementById('btn-submit-score').onclick = () => {

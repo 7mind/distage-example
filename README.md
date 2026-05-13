@@ -82,12 +82,21 @@ sbt copySimJs                            # build + copy the Scala.js bundle
 ./launcher -u repo:dummy :leaderboard    # start the server
 ```
 
-The "Production" radio talks to `http://localhost:8080`; the "Simulation"
-radio calls `window.LeaderboardSim.call(method, path, body)`, which runs the
-exact same request through the in-browser http4s routes. State only persists
-within each mode — flipping back and forth is itself a useful demonstration
-that the simulation is a clean process that knows nothing about the real
-server's state.
+The "Production" radio talks to the http4s server (auto-detected from
+`location.origin`, falling back to `http://localhost:8080` when the page is
+loaded from `file://`); the "Simulation" radio calls
+`LeaderboardSim.call(method, path, body)`, which runs the exact same request
+through the in-browser http4s routes. On page load, the UI probes the prod
+backend with a short timeout — if no server answers (e.g. the page was
+opened from disk, or hosted as static content), it auto-selects "Simulation"
+so every button works out of the box. State only persists within each mode —
+flipping back and forth is itself a useful demonstration that the simulation
+is a clean process that knows nothing about the real server's state.
+
+The simulation half is also published to GitHub Pages on every push to
+`develop` (see `.github/workflows/pages-deploy.yml`) — useful for sharing a
+live link without anyone having to install sbt. To enable on your fork:
+**Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
 #### Note
 
