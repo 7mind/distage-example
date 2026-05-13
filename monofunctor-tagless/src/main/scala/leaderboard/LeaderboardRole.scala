@@ -1,7 +1,6 @@
 package leaderboard
 
 import cats.Applicative
-import cats.effect.Async
 import distage.StandardAxis.Repo
 import distage.plugins.PluginConfig
 import distage.{Activation, Lifecycle, Module, ModuleDef}
@@ -16,8 +15,6 @@ import logstage.LogIO
 import leaderboard.api.{LadderApi, ProfileApi}
 import leaderboard.http.HttpServer
 import leaderboard.plugins.{LeaderboardPlugin, PostgresDockerPlugin}
-import zio.interop.catz.asyncInstance
-
 import scala.annotation.unused
 
 /**
@@ -249,7 +246,7 @@ object MainHelpZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Prod, Scen
   */
 object MainWriteReferenceConfigsCats extends MainWriteReferenceConfigsBase[cats.effect.IO]
 object MainWriteReferenceConfigsZIO extends MainWriteReferenceConfigsBase[zio.Task]
-abstract class MainWriteReferenceConfigsBase[F[_]: TagK: Async: DefaultModule]
+abstract class MainWriteReferenceConfigsBase[F[_]: TagK: DefaultModule]
   extends MainBase[F](
     activation = {
       Activation(Repo -> Repo.Prod, Scene -> Scene.Provided)
@@ -305,10 +302,10 @@ abstract class MainWriteReferenceConfigsBase[F[_]: TagK: Async: DefaultModule]
 object GenericLauncherCats extends MainBase[cats.effect.IO](Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector.empty)
 object GenericLauncherZIO extends MainBase[zio.Task](Activation(Repo -> Repo.Prod, Scene -> Scene.Provided), Vector.empty)
 
-sealed abstract class MainBase[F[_]: TagK: Async: DefaultModule](
+sealed abstract class MainBase[F[_]: TagK: DefaultModule](
   activation: Activation,
   requiredRoles: Vector[RoleArgs],
-) extends RoleAppMain.LauncherCats[F] {
+) extends RoleAppMain.Launcher1[F] {
 
   override def requiredRoles(argv: RoleAppMain.ArgV): Vector[RoleArgs] = {
     requiredRoles

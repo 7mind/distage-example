@@ -293,7 +293,7 @@ object GenericLauncher extends MainBase(Activation(Repo -> Repo.Prod, Scene -> S
 sealed abstract class MainBase(
   activation: Activation,
   requiredRoles: Vector[model.RoleArgs],
-) extends RoleAppMain.LauncherCats[IO] {
+) extends RoleAppMain.Launcher1[IO] {
 
   override def requiredRoles(argv: RoleAppMain.ArgV): Vector[model.RoleArgs] = {
     requiredRoles

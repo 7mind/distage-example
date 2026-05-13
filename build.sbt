@@ -4,9 +4,8 @@ import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 import scala.util.chaining.scalaUtilChainingOps
 
 val V = new {
-  val distage       = "1.2.25"
+  val distage       = "1.3.0-M1"
   val logstage      = distage
-  val scalatest     = "3.2.20"
   val scalacheck    = "1.19.0"
   val http4s        = "0.23.34"
   val doobie        = "1.0.0-RC12"
@@ -20,7 +19,6 @@ val V = new {
 }
 
 val Deps = new {
-  val scalatest  = "org.scalatest" %% "scalatest" % V.scalatest
   val scalacheck = "org.scalacheck" %% "scalacheck" % V.scalacheck
 
   val distageCore    = "io.7mind.izumi" %% "distage-core" % V.distage
@@ -59,7 +57,6 @@ val Deps = new {
     logstageSlf4j,
     distageDocker,
     distageTestkit % Test,
-    scalatest % Test,
     scalacheck % Test,
     http4sDsl,
     http4sServer,
@@ -76,8 +73,8 @@ val Deps = new {
 
 inThisBuild(
   Seq(
-    crossScalaVersions := Seq("2.13.18", "3.3.7"),
-//    crossScalaVersions := Seq("3.3.7", "2.13.18"), // uncomment to use Scala 3 in IDE
+    crossScalaVersions := Seq("2.13.18", "3.8.4-RC2"),
+//    crossScalaVersions := Seq("3.8.4-RC2", "2.13.18"), // uncomment to use Scala 3 in IDE
     scalaVersion := crossScalaVersions.value.head,
     version      := "1.0.0",
     organization := "io.7mind",
@@ -197,8 +194,18 @@ def sharedScalaSettings: Seq[Setting[_]] = Seq(
       )
     } else {
       Seq(
-        "-Ykind-projector:underscores",
+        "-Xkind-projector:underscores",
         "-Yretain-trees",
+        // Scala 3.7+ warns when implicit arguments to a second parameter list
+        // are passed without the `using` keyword. The cross-built modules
+        // share source with Scala 2.13.18, which doesn't accept `using`, so
+        // we keep the implicit-style call sites and silence the warning.
+        "-Wconf:msg=Implicit parameters should be provided with a `using` clause:s",
+        // sbt-tpolecat 0.5.3 sets `-Ykind-projector` (no argument); we override
+        // with `-Xkind-projector:underscores`. Scala 3.7+ logs "Option was
+        // updated" on the override, which `-Werror` would otherwise treat as a
+        // fatal warning.
+        "-Wconf:msg=Option .* was updated:s",
       )
     }
   },
@@ -254,3 +261,8 @@ def sharedSettings(additionalDeps: Seq[ModuleID])(project: Project): Project =
 
 // for quick experiments with distage snapshots
 ThisBuild / resolvers += Resolver.sonatypeCentralSnapshots
+
+// JGit does not handle git worktrees (where .git is a file pointer, not a directory).
+// Overriding git.gitUncommittedChanges prevents the NoWorkTreeException crash during
+// project loading when running sbt from a git worktree.
+ThisBuild / git.gitUncommittedChanges := false
