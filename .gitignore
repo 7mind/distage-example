@@ -130,6 +130,9 @@ hs_err_pid*
 # Project-local sbt/coursier/ivy caches used by the containerised dev loop.
 .cache/
 
+# direnv-materialised devShell
+.direnv/
+
 # Scala.js bundle copied here by the `copySimJs` sbt task — regenerated on
 # demand from bifunctor-tagless-js. Not checked in.
 bifunctor-tagless/jvm/src/main/resources/webapp/main.js

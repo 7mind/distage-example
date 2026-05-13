@@ -41,6 +41,16 @@ curl -X GET http://localhost:8080/ladder
 curl -X GET http://localhost:8080/profile/50753a00-5e2e-4a2f-94b0-e6721b0a3cc4
 ```
 
+### Reproducible toolchain via Nix (optional)
+
+A `flake.nix` is included. With Nix flakes enabled you can drop into a shell
+that has the exact JDK, sbt, Scala 3 and Node versions used by this project:
+
+```bash
+nix develop                  # one-off shell
+direnv allow                 # automatic — uses the bundled .envrc
+```
+
 ### Perfect simulation in the browser (`bifunctor-tagless` only)
 
 The `bifunctor-tagless` variant is cross-built for the JVM and Scala.js. The
