@@ -131,6 +131,7 @@ lazy val `bifunctor-tagless` = crossProject(JVMPlatform, JSPlatform)
     // `file://` (the simulation page is meant to be usable both via the
     // http4s server and by opening index.html directly from disk).
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.NoModule) },
+    Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.NoModule) },
   )
 
 // sbt-scalajs-crossproject derives the per-platform project IDs from the
@@ -145,16 +146,35 @@ lazy val `bifunctor-taglessJS`  = `bifunctor-tagless`.js
 lazy val copySimJs = taskKey[Seq[File]]("Link the simulation JS and copy it into the JVM resources/webapp/ directory.")
 
 copySimJs := {
-  val _      = (`bifunctor-taglessJS` / Compile / fullLinkJS).value
-  val srcDir = (`bifunctor-taglessJS` / Compile / fullLinkJS / scalaJSLinkerOutputDirectory).value
   val outDir = (`bifunctor-taglessJVM` / baseDirectory).value / "src" / "main" / "resources" / "webapp"
   IO.createDirectory(outDir)
-  val srcs = (srcDir ** "*.js").get ++ (srcDir ** "*.js.map").get
-  srcs.map { f =>
+
+  // Compile bundle -> main.js
+  val _              = (`bifunctor-taglessJS` / Compile / fullLinkJS).value
+  val compileSrcDir  = (`bifunctor-taglessJS` / Compile / fullLinkJS / scalaJSLinkerOutputDirectory).value
+  val compileSrcs    = (compileSrcDir ** "*.js").get ++ (compileSrcDir ** "*.js.map").get
+  val compileCopied  = compileSrcs.map { f =>
     val dst = outDir / f.getName
     IO.copyFile(f, dst, preserveLastModified = true)
     dst
   }
+
+  // Test bundle -> test-main.js (rename main.js -> test-main.js)
+  val __             = (`bifunctor-taglessJS` / Test / fullLinkJS).value
+  val testSrcDir     = (`bifunctor-taglessJS` / Test / fullLinkJS / scalaJSLinkerOutputDirectory).value
+  val testSrcs       = (testSrcDir ** "*.js").get ++ (testSrcDir ** "*.js.map").get
+  val testCopied     = testSrcs.map { f =>
+    val renamed = f.getName match {
+      case "main.js"     => "test-main.js"
+      case "main.js.map" => "test-main.js.map"
+      case other         => other
+    }
+    val dst = outDir / renamed
+    IO.copyFile(f, dst, preserveLastModified = true)
+    dst
+  }
+
+  compileCopied ++ testCopied
 }
 
 lazy val `monofunctor-tagless` = project
