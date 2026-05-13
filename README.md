@@ -1,4 +1,5 @@
 [![Build Status](https://github.com/7mind/distage-example/workflows/Build/badge.svg)](https://github.com/7mind/distage-example/actions/workflows/build.yml)
+[![Live demo](https://img.shields.io/badge/live%20demo-7mind.github.io%2Fdistage--example-blue?logo=github)](https://7mind.github.io/distage-example/)
 [![License](https://img.shields.io/github/license/7mind/distage-example.svg)](https://github.com/7mind/distage-example/blob/develop/LICENSE)
 
 # distage example
