@@ -41,6 +41,44 @@ curl -X GET http://localhost:8080/ladder
 curl -X GET http://localhost:8080/profile/50753a00-5e2e-4a2f-94b0-e6721b0a3cc4
 ```
 
+### Perfect simulation in the browser (`bifunctor-tagless` only)
+
+The `bifunctor-tagless` variant is cross-built for the JVM and Scala.js. The
+same `LadderApi`/`ProfileApi` http4s routes that the JVM server exposes are
+also assembled in the browser into an in-process `LocalDispatcher`, which a
+`@JSExportTopLevel("LeaderboardSim")` object surfaces to JavaScript. The JS
+graph is configured with `Repo -> Dummy`, so it uses the same in-memory
+repositories that the JVM tests use — no network, no postgres, no docker.
+
+A small demo UI in `bifunctor-tagless/jvm/src/main/resources/webapp/` lets you
+call each endpoint with a radio toggle between **production** (real HTTP) and
+**simulation** (the in-page Scala.js build).
+
+To use it, run the single convenience script — it builds the Scala.js bundle,
+copies it next to the UI, and starts the server in dummy mode:
+
+```bash
+./launch-sim
+```
+
+Then open <http://localhost:8080/>. You can also open
+`bifunctor-tagless/jvm/src/main/resources/webapp/index.html` directly via
+`file://` (CORS on the server allows the `null` origin used by `file://`).
+
+If you prefer the steps separately:
+
+```bash
+sbt copySimJs                            # build + copy the Scala.js bundle
+./launcher -u repo:dummy :leaderboard    # start the server
+```
+
+The "Production" radio talks to `http://localhost:8080`; the "Simulation"
+radio calls `window.LeaderboardSim.call(method, path, body)`, which runs the
+exact same request through the in-browser http4s routes. State only persists
+within each mode — flipping back and forth is itself a useful demonstration
+that the simulation is a clean process that knows nothing about the real
+server's state.
+
 #### Note
 
 If `./launcher` command fails for you with some cryptic stack trace, there's most likely an issue with your Docker. First of all, check that you have `docker` and `contrainerd` daemons running. If you're using something else than Ubuntu, please stick to the relevant [installation page](https://docs.docker.com/engine/install/):
@@ -61,7 +99,7 @@ Both of them should have `Active: active (running)` status. If your problem isn'
 Use `sbt` to build a native Linux binary with GraalVM NativeImage under Docker:
 
 ```bash
-sbt bifunctor-tagless/GraalVMNativeImage/packageBin
+sbt bifunctor-taglessJVM/GraalVMNativeImage/packageBin
 ```
 
 If you want to build the app using local `native-image` executable (e.g. on a Mac), comment out the `graalVMNativeImageGraalVersion` key in `build.sbt` first.
@@ -69,13 +107,13 @@ If you want to build the app using local `native-image` executable (e.g. on a Ma
 To test the native app with dummy repositories run:
 
 ```bash
-./bifunctor-tagless/target/graalvm-native-image/bifunctor-tagless -u scene:managed -u repo:dummy :leaderboard
+./bifunctor-tagless/jvm/target/graalvm-native-image/bifunctor-tagless -u scene:managed -u repo:dummy :leaderboard
 ```
 
 To test the native app with production repositories in Docker run:
 
 ```bash
-./bifunctor-tagless/target/graalvm-native-image/bifunctor-tagless -u scene:managed -u repo:prod :leaderboard
+./bifunctor-tagless/jvm/target/graalvm-native-image/bifunctor-tagless -u scene:managed -u repo:prod :leaderboard
 ```
 
 Notes:
