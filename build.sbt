@@ -101,6 +101,7 @@ lazy val `bifunctor-tagless` = crossProject(JVMPlatform, JSPlatform)
     sharedScalaSettings,
     libraryDependencies ++= Seq(
       "io.7mind.izumi" %%% "distage-core"               % V.distage,
+      "io.7mind.izumi" %%% "distage-framework"          % V.distage,
       "io.7mind.izumi" %%% "distage-extension-plugins"  % V.distage,
       "io.7mind.izumi" %%% "distage-extension-logstage" % V.distage,
       "io.7mind.izumi" %%% "logstage-core"              % V.logstage,
