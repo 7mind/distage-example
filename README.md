@@ -54,7 +54,17 @@ direnv allow                 # automatic — uses the bundled .envrc
 
 ### Perfect simulation in the browser
 
-[![Live demo](https://img.shields.io/badge/live%20demo-7mind.github.io%2Fdistage--example-blue?logo=github)](https://7mind.github.io/distage-example/)
+<p align="center">
+  <a href="https://7mind.github.io/distage-example/">
+    <img src="https://img.shields.io/badge/%F0%9F%91%89%20TRY%20ME-click%20here-ff5722?style=for-the-badge&labelColor=222" alt="TRY ME — click here" height="56" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://7mind.github.io/distage-example/">
+    <img src="https://img.shields.io/badge/%E2%96%B6%20Live%20demo-7mind.github.io%2Fdistage--example-blue?style=for-the-badge&logo=github&logoColor=white" alt="Live demo: 7mind.github.io/distage-example" />
+  </a>
+</p>
 
 `distage-example` cross-builds to Scala.js, so the same
 `LadderApi`/`ProfileApi` http4s routes also run entirely in the browser via
