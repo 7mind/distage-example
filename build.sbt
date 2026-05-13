@@ -115,6 +115,11 @@ lazy val `bifunctor-tagless` = crossProject(JVMPlatform, JSPlatform)
       // referenced classes, so we must pull the artifact in explicitly.
       "dev.zio"        %%% "zio-managed"                % V.zio,
       "dev.zio"        %%% "zio-interop-cats"           % V.zioCats,
+      // Test-only cross-platform deps: testkit and scalacheck.
+      // The JVM half also gets distageTestkit + scalacheck via CoreDeps
+      // (jvmSharedSettings); listing them here too is harmless — sbt deduplicates.
+      "io.7mind.izumi" %%% "distage-testkit-scalatest" % V.distage    % Test,
+      "org.scalacheck" %%% "scalacheck"                % V.scalacheck % Test,
     ),
   )
   .jvmConfigure(_.pipe(jvmSharedSettings(Seq(Deps.zio, Deps.zioCats))))
