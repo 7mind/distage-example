@@ -52,52 +52,41 @@ nix develop                  # one-off shell
 direnv allow                 # automatic — uses the bundled .envrc
 ```
 
-### Perfect simulation in the browser (`bifunctor-tagless` only)
+### Perfect simulation in the browser
 
-The `bifunctor-tagless` variant is cross-built for the JVM and Scala.js. The
-same `LadderApi`/`ProfileApi` http4s routes that the JVM server exposes are
-also assembled in the browser into an in-process `LocalDispatcher`, which a
-`@JSExportTopLevel("LeaderboardSim")` object surfaces to JavaScript. The JS
-graph is configured with `Repo -> Dummy`, so it uses the same in-memory
-repositories that the JVM tests use — no network, no postgres, no docker.
+[![Live demo](https://img.shields.io/badge/live%20demo-7mind.github.io%2Fdistage--example-blue?logo=github)](https://7mind.github.io/distage-example/)
 
-A small demo UI in `bifunctor-tagless/jvm/src/main/resources/webapp/` lets you
-call each endpoint with a radio toggle between **production** (real HTTP) and
-**simulation** (the in-page Scala.js build).
+`distage-example` cross-builds to Scala.js, so the same
+`LadderApi`/`ProfileApi` http4s routes also run entirely in the browser via
+an in-process `LocalDispatcher` configured with `Repo -> Dummy` — no network,
+no postgres, no docker. The demo UI in
+`bifunctor-tagless/jvm/src/main/resources/webapp/` toggles each call between
+**production** (real HTTP) and **simulation** (the in-page Scala.js build),
+auto-selecting simulation when no production server answers.
 
-To use it, run the single convenience script — it builds the Scala.js bundle,
-copies it next to the UI, and starts the server in dummy mode:
+Try the live deployment via the badge above (published to GitHub Pages on
+every push to `develop`), or run it locally:
 
 ```bash
 ./launch-sim
 ```
 
-Then open <http://localhost:8080/>. You can also open
-`bifunctor-tagless/jvm/src/main/resources/webapp/index.html` directly via
-`file://` (CORS on the server allows the `null` origin used by `file://`).
+Then open <http://localhost:8080/>. To enable Pages on your fork:
+**Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
-If you prefer the steps separately:
+#### Running the server and webpage separately
+
+`./launch-sim` is just a wrapper. To run the steps yourself:
 
 ```bash
 sbt copySimJs                            # build + copy the Scala.js bundle
 ./launcher -u repo:dummy :leaderboard    # start the server
 ```
 
-The "Production" radio talks to the http4s server (auto-detected from
-`location.origin`, falling back to `http://localhost:8080` when the page is
-loaded from `file://`); the "Simulation" radio calls
-`LeaderboardSim.call(method, path, body)`, which runs the exact same request
-through the in-browser http4s routes. On page load, the UI probes the prod
-backend with a short timeout — if no server answers (e.g. the page was
-opened from disk, or hosted as static content), it auto-selects "Simulation"
-so every button works out of the box. State only persists within each mode —
-flipping back and forth is itself a useful demonstration that the simulation
-is a clean process that knows nothing about the real server's state.
-
-The simulation half is also published to GitHub Pages on every push to
-`develop` (see `.github/workflows/pages-deploy.yml`) — useful for sharing a
-live link without anyone having to install sbt. To enable on your fork:
-**Settings → Pages → Build and deployment → Source: GitHub Actions**.
+The webpage can also be opened directly from disk via `file://` — the UI
+auto-detects the backend at `http://localhost:8080`, and with no backend
+reachable, falls back to the in-page simulation so the static page works on
+its own.
 
 #### Note
 

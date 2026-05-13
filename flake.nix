@@ -28,7 +28,6 @@
             sbt
             scala_3
             nodejs_22
-            git
           ];
 
           # sbt sometimes needs more heap when assembling the cross-built
