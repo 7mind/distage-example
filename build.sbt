@@ -217,13 +217,18 @@ def sharedScalaSettings: Seq[Setting[_]] = Seq(
 )
 
 // JVM-only project settings (the http4s ember server, doobie, GraalVM native
-// image, etc). Applied to monomorphic-cats, monofunctor-tagless, and the JVM
-// half of bifunctor-tagless.
+// image, etc). Applied to the JVM half of `bifunctor-tagless` and — via
+// `sharedSettings` below — to the plain JVM-only projects.
+//
+// Intentionally does NOT include `sharedScalaSettings`: the cross-built
+// bifunctor-tagless applies those once on the cross project so they reach
+// both halves, and applying them a second time here would set scalacOptions
+// like `-Yretain-trees` twice and trip sbt-tpolecat's "set repeatedly"
+// guard.
 def jvmSharedSettings(additionalDeps: Seq[ModuleID])(project: Project): Project = {
   project
     .settings(
       libraryDependencies ++= Deps.CoreDeps ++ additionalDeps,
-      sharedScalaSettings,
       GraalVMNativeImage / mainClass := Some("leaderboard.GenericLauncher"),
       graalVMNativeImageOptions ++= Seq(
         "--no-fallback",
@@ -241,8 +246,11 @@ def jvmSharedSettings(additionalDeps: Seq[ModuleID])(project: Project): Project 
 }
 
 // Plain (non-cross) Scala project — used by `monomorphic-cats` and
-// `monofunctor-tagless`, which stay JVM-only.
-def sharedSettings(additionalDeps: Seq[ModuleID])(project: Project): Project = jvmSharedSettings(additionalDeps)(project)
+// `monofunctor-tagless`, which stay JVM-only. These need both
+// `sharedScalaSettings` (scalac flags + macro settings) and the JVM-only
+// extras above.
+def sharedSettings(additionalDeps: Seq[ModuleID])(project: Project): Project =
+  jvmSharedSettings(additionalDeps)(project).settings(sharedScalaSettings)
 
 // for quick experiments with distage snapshots
 ThisBuild / resolvers += Resolver.sonatypeCentralSnapshots

@@ -40,9 +40,12 @@ if (!fs.existsSync(BUNDLE)) {
 }
 
 const bundle = fs.readFileSync(BUNDLE, 'utf8');
+// Deliberately omit `process` from the context so this smoke test fails the
+// same way a browser would if the bundle accidentally probes Node.js APIs at
+// init. The Scala.js bundle must run without a `process` global.
 const ctx = {
   setTimeout, setInterval, clearTimeout, clearInterval, console,
-  queueMicrotask, Promise, process,
+  queueMicrotask, Promise,
 };
 vm.createContext(ctx);
 vm.runInContext(bundle + '\nthis.LeaderboardSim = LeaderboardSim;', ctx);
