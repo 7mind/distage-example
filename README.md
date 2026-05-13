@@ -56,12 +56,6 @@ direnv allow                 # automatic — uses the bundled .envrc
 
 <p align="center">
   <a href="https://7mind.github.io/distage-example/">
-    <img src="https://img.shields.io/badge/%F0%9F%91%89%20TRY%20ME-click%20here-ff5722?style=for-the-badge&labelColor=222" alt="TRY ME — click here" height="56" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://7mind.github.io/distage-example/">
     <img src="https://img.shields.io/badge/%E2%96%B6%20Live%20demo-7mind.github.io%2Fdistage--example-blue?style=for-the-badge&logo=github&logoColor=white" alt="Live demo: 7mind.github.io/distage-example" />
   </a>
 </p>
