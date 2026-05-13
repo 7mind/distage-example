@@ -3,6 +3,7 @@ package leaderboard.sim
 import distage.StandardAxis.Repo
 import distage.{Activation, Injector, ModuleDef, Roots}
 import izumi.distage.modules.DefaultModule2
+import izumi.logstage.api.IzLogger
 import izumi.logstage.distage.LogIO2Module
 import leaderboard.dispatch.LocalDispatcher
 import leaderboard.plugins.LeaderboardCoreModule
@@ -49,10 +50,14 @@ object SimulationMain {
     val module = new ModuleDef {
       include(LeaderboardCoreModule.api[IO])
       include(LeaderboardCoreModule.repoDummy[IO])
-      // LogIO2[IO] needed by ProfileApi.
+      // LogIO2[IO] (needed by ProfileApi) + a default IzLogger that prints to
+      // the browser/Node console. The JVM build wires this up via the
+      // role-app machinery; here we provide it directly.
       include(LogIO2Module[IO]())
-      // BIO typeclass instances (IO2, Async2, Primitives2, ...) used by the
-      // dummy repos and the dispatcher.
+      make[IzLogger].fromValue(IzLogger())
+      // BIO + cats-effect typeclass instances for ZIO. When zio-interop-cats
+      // is on the classpath, this resolves to `DefaultModule.forZIOPlusCats`
+      // which binds `cats.effect.Async[Task]` etc. — the dispatcher needs it.
       include(DefaultModule2[IO])
     }
 
@@ -61,7 +66,13 @@ object SimulationMain {
     // long as the JS module is loaded.
     val program: G[Nothing] =
       Injector.NoProxies[G]()
-        .produce(module, Roots.target[LocalDispatcher[IO]], Activation(Repo -> Repo.Dummy))
+        // `Roots.Everything` instead of `Roots.target[LocalDispatcher]` because
+        // `LeaderboardCoreModule.api` adds `LadderApi`/`ProfileApi` to the
+        // `Set[HttpApi[F]]` as *weak* references — they only join the set if
+        // they're independently reachable through the plan. The JVM app pulls
+        // them in via roles; here we have no roles, so we ask the planner to
+        // include every binding that's not pinned out by the activation.
+        .produce(module, Roots.Everything, Activation(Repo -> Repo.Dummy))
         .use {
           locator =>
             dispatcherReady.succeed(locator.get[LocalDispatcher[IO]]) *> ZIO.never

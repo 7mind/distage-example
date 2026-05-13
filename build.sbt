@@ -112,20 +112,22 @@ lazy val `bifunctor-tagless` = crossProject(JVMPlatform, JSPlatform)
       "io.circe"       %%% "circe-generic"              % V.circeGeneric,
       "org.typelevel"  %%% "cats-core"                  % V.catsCore,
       "dev.zio"        %%% "zio"                        % V.zio,
-      // Intentionally NOT depending on zio-interop-cats here — its
-      // `ZManagedMonadError` references zio 1.x types that no longer link
-      // under scala.js. The bifunctor-tagless code uses
-      // `izumi.functional.bio.catz` for its cats-effect bridge instead. The
-      // JVM half still pulls in zio-interop-cats via distage-testkit /
-      // monofunctor-tagless transitively if needed.
+      // `zio-managed` is required transitively by `zio-interop-cats`'s
+      // ZManaged bridge classes; under scala.js the linker validates all
+      // referenced classes, so we must pull the artifact in explicitly.
+      "dev.zio"        %%% "zio-managed"                % V.zio,
+      "dev.zio"        %%% "zio-interop-cats"           % V.zioCats,
     ),
   )
   .jvmConfigure(_.pipe(jvmSharedSettings(Seq(Deps.zio, Deps.zioCats))))
   .jsSettings(
     scalaJSUseMainModuleInitializer := false,
-    // Emit ES module output so the front-end can import it via
-    // <script type="module">.
-    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
+    // NoModule output: the linker emits a plain script that publishes
+    // `@JSExportTopLevel` bindings on the global scope. We deliberately do
+    // NOT use ESModule here because browsers refuse to load ES modules from
+    // `file://` (the simulation page is meant to be usable both via the
+    // http4s server and by opening index.html directly from disk).
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.NoModule) },
   )
 
 // sbt-scalajs-crossproject derives the per-platform project IDs from the
@@ -243,4 +245,4 @@ def jvmSharedSettings(additionalDeps: Seq[ModuleID])(project: Project): Project 
 def sharedSettings(additionalDeps: Seq[ModuleID])(project: Project): Project = jvmSharedSettings(additionalDeps)(project)
 
 // for quick experiments with distage snapshots
-ThisBuild / resolvers ++= Resolver.sonatypeOssRepos("snapshots")
+ThisBuild / resolvers += Resolver.sonatypeCentralSnapshots

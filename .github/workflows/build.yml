@@ -17,12 +17,26 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run tests
       run: sbt +test
+
+  sim-smoke:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: sbt/setup-sbt@v1
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Link Scala.js bundle into JVM resources
+      run: sbt copySimJs
+    - name: Smoke-test the simulation bundle via node
+      run: node bifunctor-tagless/js/sim-smoke.js
+
   build-native:
     runs-on: ubuntu-latest
     steps:
       - uses: sbt/setup-sbt@v1 # setup sbt
       - uses: actions/checkout@v2
       - name: Build native app
-        run: sbt "project bifunctor-tagless; GraalVMNativeImage/packageBin"
+        run: sbt "project bifunctor-taglessJVM; GraalVMNativeImage/packageBin"
       - name: Check native app
-        run: ./bifunctor-tagless/target/graalvm-native-image/bifunctor-tagless :help
+        run: ./bifunctor-tagless/jvm/target/graalvm-native-image/bifunctor-tagless :help

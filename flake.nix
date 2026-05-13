@@ -10,9 +10,12 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        # Pin JDK 17 to match the GraalVM Native Image build (graalvm-ce 22.3
-        # is JDK 17-based) and the sbtscala/scala-sbt image used in CI/dev.
-        jdk = pkgs.temurin-bin-17;
+        # GraalVM CE — used as a regular JDK for `sbt compile/test/run` and
+        # additionally provides the `native-image` binary so the local
+        # native-image workflow described in the README works without Docker.
+        # (The Docker-based `graalVMNativeImageGraalVersion` path in build.sbt
+        # still pulls its own image and doesn't depend on this JDK.)
+        jdk = pkgs.graalvmPackages.graalvm-ce;
       in {
         devShells.default = pkgs.mkShell {
           name = "distage-example";

@@ -69,13 +69,17 @@
   <h2>Response</h2>
   <pre id="output">(no calls yet)</pre>
 
-  <script type="module">
-    // `main.js` is an ES module. `@JSExportTopLevel("LeaderboardSim")` in
-    // ESModule mode emits a named export, so we import it and attach it to
-    // globalThis to keep the rest of this page's plain script simple.
-    import { LeaderboardSim } from './main.js';
-    globalThis.LeaderboardSim = LeaderboardSim;
-
+  <!--
+    The Scala.js bundle is linked with `ModuleKind.NoModule`, so a bare
+    <script src> tag makes `@JSExportTopLevel("LeaderboardSim")` available as
+    a top-level identifier in subsequent <script> blocks. (The name is in the
+    script's lexical scope, not on `globalThis` — that's normal for
+    top-level `let` declarations.) We avoid type="module" because browsers
+    refuse to load ES modules from `file://`, and this page should work both
+    via http://localhost:8080/ and by opening the .html directly from disk.
+  -->
+  <script src="./main.js"></script>
+  <script>
     // The prod target uses an absolute URL so the same `index.html` works
     // whether it's served by the http4s server or opened directly from disk
     // via file://. CORS on the server allows the file:// origin (which is
@@ -100,8 +104,8 @@
       const mode = currentMode();
       try {
         if (mode === 'sim') {
-          if (!globalThis.LeaderboardSim) throw new Error('simulation not ready yet');
-          const r = await globalThis.LeaderboardSim.call(method, path, body || '');
+          if (typeof LeaderboardSim === 'undefined') throw new Error('simulation not ready yet');
+          const r = await LeaderboardSim.call(method, path, body || '');
           show('sim', r.status, r.body);
         } else {
           const r = await fetch(PROD_BASE + path, {
@@ -118,10 +122,10 @@
     // Poll briefly for the Scala.js module to finish initialising so we can
     // tell the user the simulation is ready.
     (async () => {
-      for (let i = 0; i < 50 && !globalThis.LeaderboardSim; i++) {
+      for (let i = 0; i < 50 && typeof LeaderboardSim === 'undefined'; i++) {
         await new Promise(r => setTimeout(r, 100));
       }
-      status.textContent = globalThis.LeaderboardSim
+      status.textContent = (typeof LeaderboardSim !== 'undefined')
         ? 'simulation: ready'
         : 'simulation: failed to load (check /main.js)';
     })();
