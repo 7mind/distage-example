@@ -16,9 +16,17 @@
     .row  { display: flex; gap: 1.5rem; flex-wrap: wrap; }
     .row > * { flex: 1 1 24rem; }
     .mode { padding: 0.5rem 1rem; background: #fffbe6; border: 1px solid #e0d27a; border-radius: 4px; }
+    #tests-out { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    #tests-out th, #tests-out td { padding: 0.25rem 0.5rem; border-bottom: 1px solid #ddd; text-align: left; vertical-align: top; }
+    #tests-out tr.passed   td:first-child { color: #2a7a2a; }
+    #tests-out tr.failed   td:first-child { color: #b22222; font-weight: bold; }
+    #tests-out tr.cancelled td:first-child { color: #888; }
+    #tests-out tr.pending  td:first-child { color: #888; font-style: italic; }
+    #tests-summary { margin-top: 0.5rem; font-weight: bold; }
     @media (prefers-color-scheme: dark) {
       pre  { background: #1e1e1e; }
       .mode { background: #2a2510; border-color: #6b5a1a; }
+      #tests-out th, #tests-out td { border-bottom-color: #444; }
     }
   </style>
 </head>
@@ -69,16 +77,30 @@
   <h2>Response</h2>
   <pre id="output">(no calls yet)</pre>
 
+  <fieldset>
+    <legend>Testkit suite — runs the same <code>LadderTestDummy</code>/<code>ProfilesTestDummy</code>/<code>RanksTestDummy</code> tests the JVM build runs, in-page via Scala.js</legend>
+    <button id="btn-run-tests">Run dummy testkit suite in-page</button>
+    <p id="tests-summary">(not run yet)</p>
+    <table id="tests-out"><thead><tr><th>status</th><th>suite</th><th>test</th><th>duration (ms)</th></tr></thead><tbody></tbody></table>
+  </fieldset>
+
   <!--
-    The Scala.js bundle is linked with `ModuleKind.NoModule`, so a bare
-    <script src> tag makes `@JSExportTopLevel("LeaderboardSim")` available as
-    a top-level identifier in subsequent <script> blocks. (The name is in the
-    script's lexical scope, not on `globalThis` — that's normal for
+    The Scala.js bundles are linked with `ModuleKind.NoModule`, so a bare
+    <script src> tag makes the `@JSExportTopLevel` bindings available as
+    top-level identifiers in subsequent <script> blocks. (Names are in
+    the script's lexical scope, not on `globalThis` — that's normal for
     top-level `let` declarations.) We avoid type="module" because browsers
     refuse to load ES modules from `file://`, and this page should work both
     via http://localhost:8080/ and by opening the .html directly from disk.
+
+    `test-main.js` is the `Test/fullLinkJS` bundle. It pulls in
+    `org.scalajs.testing.bridge.JSRPC` which calls `scalajsCom.init(...)` at
+    init time — we provide a no-op stub here so the bundle loads cleanly in
+    a normal browser context.
   -->
+  <script>window.scalajsCom = { init: function () {} };</script>
   <script src="./main.js"></script>
+  <script src="./test-main.js"></script>
   <script>
     // The prod target uses an absolute URL so the same `index.html` works
     // whether it's served by the http4s server or opened directly from disk
@@ -147,6 +169,35 @@
     document.getElementById('btn-get-profile').onclick = () => {
       const u = document.getElementById('profile-get-user').value;
       call('GET', `/profile/${u}`, '');
+    };
+
+    document.getElementById('btn-run-tests').onclick = async () => {
+      const summary = document.getElementById('tests-summary');
+      const tbody = document.querySelector('#tests-out tbody');
+      tbody.innerHTML = '';
+      summary.textContent = 'running…';
+      if (typeof LeaderboardTestRunner === 'undefined') {
+        summary.textContent = 'testkit bundle failed to load (check /test-main.js)';
+        return;
+      }
+      try {
+        const events = await LeaderboardTestRunner.run();
+        let passed = 0, failed = 0, other = 0;
+        for (const ev of events) {
+          const tr = document.createElement('tr');
+          tr.className = ev.kind;
+          const duration = (typeof ev.duration === 'number' && !isNaN(ev.duration)) ? ev.duration : '';
+          tr.innerHTML = `<td>${ev.kind}</td><td>${ev.suite}</td><td>${ev.test}</td><td>${duration}</td>`;
+          if (ev.message) tr.appendChild(Object.assign(document.createElement('td'), { textContent: ev.message }));
+          tbody.appendChild(tr);
+          if (ev.kind === 'passed') passed++;
+          else if (ev.kind === 'failed') failed++;
+          else other++;
+        }
+        summary.textContent = `${events.length} events: ${passed} passed, ${failed} failed${other ? ', ' + other + ' other' : ''}`;
+      } catch (e) {
+        summary.textContent = 'run failed: ' + String(e);
+      }
     };
   </script>
 </body>

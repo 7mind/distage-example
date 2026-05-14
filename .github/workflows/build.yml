@@ -26,10 +26,12 @@ jobs:
     - uses: actions/setup-node@v5
       with:
         node-version: '24'
-    - name: Link Scala.js bundle into JVM resources
+    - name: Link Scala.js bundles into JVM resources
       run: sbt copySimJs
     - name: Smoke-test the simulation bundle via node
       run: node bifunctor-tagless/js/sim-smoke.js
+    - name: Smoke-test the testkit bundle via node
+      run: node bifunctor-tagless/js/test-smoke.js
 
   build-native:
     runs-on: ubuntu-latest

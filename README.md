@@ -89,6 +89,15 @@ within each mode — flipping back and forth is itself a useful demonstration
 that the simulation is a clean process that knows nothing about the real
 server's state.
 
+The same page also has a **"Run dummy testkit suite in-page"** button. It
+links the cross-compiled `LadderTestDummy`/`ProfilesTestDummy`/`RanksTestDummy`
+suites (the same ones `sbt +test` runs on the JVM) into a second Scala.js
+bundle, `test-main.js`, and exposes a
+`@JSExportTopLevel("LeaderboardTestRunner")` entrypoint that drives them
+via scalatest's `Reporter` and surfaces pass/fail status to the page.
+Equivalent node-side smoke test: `node bifunctor-tagless/js/test-smoke.js`
+(also runs in CI).
+
 #### Note
 
 If `./launcher` command fails for you with some cryptic stack trace, there's most likely an issue with your Docker. First of all, check that you have `docker` and `contrainerd` daemons running. If you're using something else than Ubuntu, please stick to the relevant [installation page](https://docs.docker.com/engine/install/):
