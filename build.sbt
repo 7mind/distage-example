@@ -4,7 +4,7 @@ import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 import scala.util.chaining.scalaUtilChainingOps
 
 val V = new {
-  val distage       = "1.3.0-M1"
+  val distage       = "1.3.0-M2"
   val logstage      = distage
   val scalacheck    = "1.19.0"
   val http4s        = "0.23.34"
