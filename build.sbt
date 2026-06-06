@@ -11,11 +11,11 @@ val V = new {
   val http4s        = "0.23.34"
   val doobie        = "1.0.0-RC12"
   val catsCore      = "2.13.0"
-  val zio           = "2.1.25"
+  val zio           = "2.1.26"
   val zioCats       = "23.1.0.13"
   val kindProjector = "0.13.4"
   val circeGeneric  = "0.14.15"
-  val graalMetadata = "0.11.5"
+  val graalMetadata = "1.1.1"
   val catsEffect    = "3.5.4"
 }
 
@@ -103,20 +103,20 @@ lazy val `bifunctor-tagless` = crossProject(JVMPlatform, JSPlatform)
   .settings(
     sharedScalaSettings,
     libraryDependencies ++= Seq(
-      "io.7mind.izumi" %%% "distage-core"               % V.distage,
-      "io.7mind.izumi" %%% "distage-extension-plugins"  % V.distage,
+      "io.7mind.izumi" %%% "distage-core" % V.distage,
+      "io.7mind.izumi" %%% "distage-extension-plugins" % V.distage,
       "io.7mind.izumi" %%% "distage-extension-logstage" % V.distage,
-      "io.7mind.izumi" %%% "logstage-core"              % V.logstage,
-      "org.http4s"     %%% "http4s-dsl"                 % V.http4s,
-      "org.http4s"     %%% "http4s-circe"               % V.http4s,
-      "io.circe"       %%% "circe-generic"              % V.circeGeneric,
-      "org.typelevel"  %%% "cats-core"                  % V.catsCore,
-      "dev.zio"        %%% "zio"                        % V.zio,
+      "io.7mind.izumi" %%% "logstage-core" % V.logstage,
+      "org.http4s" %%% "http4s-dsl" % V.http4s,
+      "org.http4s" %%% "http4s-circe" % V.http4s,
+      "io.circe" %%% "circe-generic" % V.circeGeneric,
+      "org.typelevel" %%% "cats-core" % V.catsCore,
+      "dev.zio" %%% "zio" % V.zio,
       // `zio-managed` is required transitively by `zio-interop-cats`'s
       // ZManaged bridge classes; under scala.js the linker validates all
       // referenced classes, so we must pull the artifact in explicitly.
-      "dev.zio"        %%% "zio-managed"                % V.zio,
-      "dev.zio"        %%% "zio-interop-cats"           % V.zioCats,
+      "dev.zio" %%% "zio-managed" % V.zio,
+      "dev.zio" %%% "zio-interop-cats" % V.zioCats,
     ),
   )
   .jvmConfigure(_.pipe(jvmSharedSettings(Seq(Deps.zio, Deps.zioCats))))
@@ -147,10 +147,11 @@ copySimJs := {
   val outDir = (`bifunctor-taglessJVM` / baseDirectory).value / "src" / "main" / "resources" / "webapp"
   IO.createDirectory(outDir)
   val srcs = (srcDir ** "*.js").get ++ (srcDir ** "*.js.map").get
-  srcs.map { f =>
-    val dst = outDir / f.getName
-    IO.copyFile(f, dst, preserveLastModified = true)
-    dst
+  srcs.map {
+    f =>
+      val dst = outDir / f.getName
+      IO.copyFile(f, dst, preserveLastModified = true)
+      dst
   }
 }
 
