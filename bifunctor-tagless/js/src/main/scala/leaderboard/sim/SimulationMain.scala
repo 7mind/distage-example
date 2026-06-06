@@ -67,7 +67,8 @@ object SimulationMain {
     // the page. We never finalize — the in-memory dummy state should live as
     // long as the JS module is loaded.
     val program: G[Nothing] =
-      Injector.NoProxies[G]()
+      Injector
+        .NoProxies[G]()
         // `Roots.Everything` instead of `Roots.target[LocalDispatcher]` because
         // `LeaderboardCoreModule.api` adds `LadderApi`/`ProfileApi` to the
         // `Set[HttpApi[F]]` as *weak* references — they only join the set if

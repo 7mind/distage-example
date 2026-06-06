@@ -37,8 +37,9 @@ object LocalDispatcher {
         method = Method.fromString(method).getOrElse(Method.GET),
         uri    = Uri.unsafeFromString(path),
       ).withEntity(body)
-      httpApp.run(req).flatMap { resp =>
-        resp.as[String].map(text => Response(resp.status.code, text))
+      httpApp.run(req).flatMap {
+        resp =>
+          resp.as[String].map(text => Response(resp.status.code, text))
       }
     }
   }
