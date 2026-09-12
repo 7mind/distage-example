@@ -1,7 +1,7 @@
 package leaderboard.sql
 
-import doobie.free.connection.ConnectionIO
-import doobie.util.transactor.Transactor
+import org.typelevel.doobie.free.connection.ConnectionIO
+import org.typelevel.doobie.util.transactor.Transactor
 import izumi.functional.bio.Panic2
 import izumi.functional.bio.catz.*
 import leaderboard.model.QueryFailure
