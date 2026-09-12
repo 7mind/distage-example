@@ -38,7 +38,7 @@ val Deps = new {
   val circeGeneric = "io.circe" %% "circe-generic" % V.circeGeneric
 
   val doobie         = "org.typelevel" %% "doobie-core" % V.doobie
-  val doobiePostgres = "org.tpolecat" %% "doobie-postgres" % V.doobie
+  val doobiePostgres = "org.typelevel" %% "doobie-postgres" % V.doobie
   val doobieHikari   = "org.typelevel" %% "doobie-hikari" % V.doobie
 
   val kindProjector = "org.typelevel" % "kind-projector" % V.kindProjector cross CrossVersion.full
