@@ -2,8 +2,8 @@ package leaderboard.sql
 
 import cats.effect.Async
 import cats.syntax.applicativeError.*
-import doobie.free.connection.ConnectionIO
-import doobie.util.transactor.Transactor
+import org.typelevel.doobie.free.connection.ConnectionIO
+import org.typelevel.doobie.util.transactor.Transactor
 import leaderboard.model.QueryFailure
 
 trait SQL[F[_]] {

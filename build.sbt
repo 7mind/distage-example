@@ -7,15 +7,15 @@ val V = new {
   val distage       = "1.2.25"
   val logstage      = distage
   val scalatest     = "3.2.20"
-  val scalacheck    = "1.19.0"
-  val http4s        = "0.23.34"
-  val doobie        = "1.0.0-RC12"
+  val scalacheck    = "1.20.0"
+  val http4s        = "0.23.37"
+  val doobie        = "1.0.0-RC13"
   val catsCore      = "2.13.0"
   val zio           = "2.1.26"
   val zioCats       = "23.1.0.13"
   val kindProjector = "0.13.4"
-  val circeGeneric  = "0.14.15"
-  val graalMetadata = "1.1.1"
+  val circeGeneric  = "0.14.16"
+  val graalMetadata = "1.1.12"
   val catsEffect    = "3.5.4"
 }
 
@@ -37,9 +37,9 @@ val Deps = new {
 
   val circeGeneric = "io.circe" %% "circe-generic" % V.circeGeneric
 
-  val doobie         = "org.tpolecat" %% "doobie-core" % V.doobie
-  val doobiePostgres = "org.tpolecat" %% "doobie-postgres" % V.doobie
-  val doobieHikari   = "org.tpolecat" %% "doobie-hikari" % V.doobie
+  val doobie         = "org.typelevel" %% "doobie-core" % V.doobie
+  val doobiePostgres = "org.typelevel" %% "doobie-postgres" % V.doobie
+  val doobieHikari   = "org.typelevel" %% "doobie-hikari" % V.doobie
 
   val kindProjector = "org.typelevel" % "kind-projector" % V.kindProjector cross CrossVersion.full
 
@@ -76,8 +76,8 @@ val Deps = new {
 
 inThisBuild(
   Seq(
-    crossScalaVersions := Seq("2.13.18", "3.3.7"),
-//    crossScalaVersions := Seq("3.3.7", "2.13.18"), // uncomment to use Scala 3 in IDE
+    crossScalaVersions := Seq("3.9.0", "3.3.8"),
+//    crossScalaVersions := Seq("3.3.8", "3.9.0"), // uncomment to use Scala 3 in IDE
     scalaVersion := crossScalaVersions.value.head,
     version      := "1.0.0",
     organization := "io.7mind",

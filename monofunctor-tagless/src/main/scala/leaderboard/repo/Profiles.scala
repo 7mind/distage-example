@@ -4,8 +4,8 @@ import cats.Monad
 import cats.effect.{Concurrent, Ref}
 import cats.syntax.all.*
 import distage.Lifecycle
-import doobie.postgres.implicits.*
-import doobie.implicits.*
+import org.typelevel.doobie.postgres.implicits.*
+import org.typelevel.doobie.implicits.*
 import leaderboard.model.{UserId, UserProfile}
 import leaderboard.sql.SQL
 import logstage.LogIO

@@ -1,8 +1,8 @@
 package leaderboard.sql
 
 import cats.effect.IO
-import doobie.free.connection.ConnectionIO
-import doobie.util.transactor.Transactor
+import org.typelevel.doobie.free.connection.ConnectionIO
+import org.typelevel.doobie.util.transactor.Transactor
 import leaderboard.model.QueryFailure
 
 trait SQL {

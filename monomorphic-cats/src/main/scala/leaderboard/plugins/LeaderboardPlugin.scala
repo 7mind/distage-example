@@ -4,7 +4,7 @@ import cats.effect.IO
 import distage.StandardAxis.Repo
 import distage.config.ConfigModuleDef
 import distage.{ModuleDef, Scene}
-import doobie.util.transactor.Transactor
+import org.typelevel.doobie.util.transactor.Transactor
 import izumi.distage.plugins.PluginDef
 import izumi.distage.roles.bundled.BundledRolesModule
 import izumi.distage.roles.model.definition.RoleModuleDef
