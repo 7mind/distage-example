@@ -39,7 +39,7 @@ val Deps = new {
 
   val doobie         = "org.typelevel" %% "doobie-core" % V.doobie
   val doobiePostgres = "org.tpolecat" %% "doobie-postgres" % V.doobie
-  val doobieHikari   = "org.tpolecat" %% "doobie-hikari" % V.doobie
+  val doobieHikari   = "org.typelevel" %% "doobie-hikari" % V.doobie
 
   val kindProjector = "org.typelevel" % "kind-projector" % V.kindProjector cross CrossVersion.full
 
