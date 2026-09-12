@@ -9,7 +9,7 @@ val V = new {
   val scalatest     = "3.2.20"
   val scalacheck    = "1.20.0"
   val http4s        = "0.23.37"
-  val doobie        = "1.0.0-RC12"
+  val doobie        = "1.0.0-RC13"
   val catsCore      = "2.13.0"
   val zio           = "2.1.26"
   val zioCats       = "23.1.0.13"
@@ -37,7 +37,7 @@ val Deps = new {
 
   val circeGeneric = "io.circe" %% "circe-generic" % V.circeGeneric
 
-  val doobie         = "org.tpolecat" %% "doobie-core" % V.doobie
+  val doobie         = "org.typelevel" %% "doobie-core" % V.doobie
   val doobiePostgres = "org.tpolecat" %% "doobie-postgres" % V.doobie
   val doobieHikari   = "org.tpolecat" %% "doobie-hikari" % V.doobie
 
